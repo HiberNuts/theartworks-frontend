@@ -9,6 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import logo from "../assets/logo.png";
 import "./Navbar.css";
 import { PagesContext } from "../context/Context";
+import { Link, Navigate } from "react-router-dom";
 
 export default function Navbar() {
   const { Dao, setDao } = React.useContext(PagesContext);
@@ -21,20 +22,24 @@ export default function Navbar() {
         position="static"
       >
         <Toolbar className="toolbar" sx={{ display: "flex", justifyContent: "space-between" }}>
-          <img style={{ width: "200px" }} src={logo} onClick={() => setDao(false)} />
+          <Link style={{ textDecoration: "none" }} to="/">
+            <img style={{ width: "200px" }} src={logo} onClick={() => setDao(false)} />
+          </Link>
           <div style={{ display: "flex" }}>
-            <Button
-              sx={{
-                backgroundColor: "black",
-                color: "white",
-                marginRight: "40px",
-                "&:hover": { backgroundColor: "black" },
-              }}
-              className="button"
-              onClick={() => setDao(true)}
-            >
-              DAO votes
-            </Button>
+            <Link style={{ textDecoration: "none" }} to="/dao">
+              <Button
+                sx={{
+                  backgroundColor: "black",
+                  color: "white",
+                  marginRight: "40px",
+                  "&:hover": { backgroundColor: "black" },
+                }}
+                className="button"
+                onClick={() => setDao(true)}
+              >
+                DAO votes
+              </Button>
+            </Link>
             <Button
               sx={{
                 backgroundColor: "black",

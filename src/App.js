@@ -7,16 +7,16 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { PagesContext } from "./context/Context";
 import DaoVotes from "./pages/DaoVotes";
+import PersonalData from "./components/PersonalData";
 function App() {
-  const { Dao, setDao } = useContext(PagesContext);
-
   return (
     <div className="App">
       <BrowserRouter>
         <Navbar />
         <Routes>
-          {Dao ? <Route path="/" element={<DaoVotes />}></Route> : <Route path="/" element={<Home />}></Route>}
           <Route path="/" element={<Home />}></Route>
+          <Route path="/personalData" element={<PersonalData />}></Route>
+          <Route path="/dao" element={<DaoVotes />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
