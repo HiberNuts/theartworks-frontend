@@ -9,6 +9,11 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import CancelIcon from "@mui/icons-material/Cancel";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const DUMMY = [
   {
@@ -36,6 +41,11 @@ const DUMMY = [
 ];
 
 const DaoVotes = () => {
+  const [age, setAge] = React.useState(10);
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
   return (
     // <Card className="card" sx={{ padding: "30px", margin: "30px", borderRadius: "20px" }}>
     //   <Avatar
@@ -67,55 +77,77 @@ const DaoVotes = () => {
     //   </div>
     // </Card>
 
-    DUMMY.map((data) => (
-      <Card className="card" sx={{ padding: "30px", margin: "30px", borderRadius: "20px" }}>
-        <Avatar sx={{ width: "150px", height: "150px" }} alt="Remy Sharp" src={data.image} />
-        <div className="details">
-          <div className="row1 row">
-            <h4>
-              DAO member Candidacy --{" "}
-              {data.candidacy == "true" ? (
-                <VerifiedIcon style={{ color: "blue" }} />
-              ) : data.candidacy == "false" ? (
-                <NotInterestedIcon style={{ color: "red" }} />
-              ) : (
-                data.candidacy
-              )}
-            </h4>
-            {data.chip == "Active" ? (
-              <Chip label="Active" color="success" sx={{ padding: "10px" }} />
-            ) : (
-              <Chip label="Closed" color="primary" sx={{ padding: "10px" }} />
-            )}
-          </div>
-          <div className="row2 row">
-            <h4>
-              {data.name} - {data.position}
-            </h4>
-          </div>
-          <div className="row3 row">
-            <p>{data.desc}</p>
-          </div>
-          <div className="row4 row">
-            <h4>Sponsored By</h4>
-            <Chip
-              label={data.spon}
-              variant="outlined"
-              sx={{ padding: "10px" }}
-              icon={
-                data.sponLabel == "approved" ? (
-                  <TaskAltIcon style={{ color: "green" }} />
-                ) : data.sponLabel == "progress" ? (
-                  <RotateRightIcon style={{ color: "orange" }} />
+    <div>
+      <Box sx={{ width: "300px", margin: "20px" }}>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={age}
+            label="All Votes"
+            onChange={handleChange}
+          >
+            <MenuItem defaultChecked={true} value={10}>
+              All Votes
+            </MenuItem>
+            <MenuItem value={20}>Active Votes</MenuItem>
+            <MenuItem value={30}>Closed Votes</MenuItem>
+            <MenuItem value={30}>DAO Members</MenuItem>
+            <MenuItem value={30}>Refused Members</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      {DUMMY.map((data) => (
+        <Card className="card" sx={{ padding: "30px", margin: "30px", borderRadius: "20px" }}>
+          <Avatar sx={{ width: "150px", height: "150px" }} alt="Remy Sharp" src={data.image} />
+          <div className="details">
+            <div className="row1 row">
+              <h4>
+                DAO member Candidacy --{" "}
+                {data.candidacy == "true" ? (
+                  <VerifiedIcon style={{ color: "blue" }} />
+                ) : data.candidacy == "false" ? (
+                  <NotInterestedIcon style={{ color: "red" }} />
                 ) : (
-                  <CancelIcon style={{ color: "red" }} />
-                )
-              }
-            />
+                  data.candidacy
+                )}
+              </h4>
+              {data.chip == "Active" ? (
+                <Chip label="Active" color="success" sx={{ padding: "10px" }} />
+              ) : (
+                <Chip label="Closed" color="primary" sx={{ padding: "10px" }} />
+              )}
+            </div>
+            <div className="row2 row">
+              <h4>
+                {data.name} - {data.position}
+              </h4>
+            </div>
+            <div className="row3 row">
+              <p>{data.desc}</p>
+            </div>
+            <div className="row4 row">
+              <h4>Sponsored By</h4>
+              <Chip
+                label={data.spon}
+                variant="outlined"
+                sx={{ padding: "10px" }}
+                icon={
+                  data.sponLabel == "approved" ? (
+                    <TaskAltIcon style={{ color: "green" }} />
+                  ) : data.sponLabel == "progress" ? (
+                    <RotateRightIcon style={{ color: "orange" }} />
+                  ) : (
+                    <CancelIcon style={{ color: "red" }} />
+                  )
+                }
+              />
+            </div>
           </div>
-        </div>
-      </Card>
-    ))
+        </Card>
+      ))}
+    </div>
   );
 };
 
