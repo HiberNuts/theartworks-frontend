@@ -41,14 +41,29 @@ const DUMMY = [
     sponLabel: "approved",
     phone: "123456789",
   },
+  {
+    image:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fHByb2ZpbGV8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
+    candidacy: "false",
+    chip: "Closed",
+    name: "Raghav Jindal",
+    position: "Artist",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eu sem integer vitae justo eget magna fermentum iaculis eu. Porttitor leo a diam sollicitudin. Risus sed vulputate odio ut enim blandit volutpat. Pellentesque id nibh vestibulum lectus mauris ultrices eros.",
+    spon: "Marta Ivanov",
+    sponLabel: "not approved",
+    phone: "123456789",
+  },
 ];
 
 const DaoVotes = () => {
-  const [filter, setfilter] = React.useState("all");
+  const [dummy, setdummy] = React.useState(DUMMY);
+  const [filter, setfilter] = React.useState("Active");
 
   const handleChange = (event) => {
     setfilter(event.target.value);
   };
+
+  console.log(dummy);
   return (
     // <Card className="card" sx={{ padding: "30px", margin: "30px", borderRadius: "20px" }}>
     //   <Avatar
@@ -91,15 +106,15 @@ const DaoVotes = () => {
             label="All Votes"
             onChange={handleChange}
           >
-            <MenuItem value={"all"}>All votes</MenuItem>
-            <MenuItem value={"active"}>Active Votes</MenuItem>
-            <MenuItem value={"closed"}>Closed Votes</MenuItem>
+            <MenuItem value={"All"}>All votes</MenuItem>
+            <MenuItem value={"Active"}>Active Votes</MenuItem>
+            <MenuItem value={"Closed"}>Closed Votes</MenuItem>
             <MenuItem value={"daomem"}>DAO Members</MenuItem>
             <MenuItem value={"refmem"}>Refused Members</MenuItem>
           </Select>
         </FormControl>
       </Box>
-      {DUMMY.map((data) => (
+      {dummy.map((data) => (
         <Link style={{ textDecoration: "none" }} to="/personalData" state={{ data }}>
           <Card className="card" sx={{ padding: "30px", margin: "30px", borderRadius: "20px" }}>
             <Avatar sx={{ width: "150px", height: "150px" }} alt="Remy Sharp" src={data.image} />
