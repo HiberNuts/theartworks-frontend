@@ -83,101 +83,91 @@ const Profile = () => {
         <h1>My Profile</h1>
       </div>
       <div className="data">
-        <label htmlFor="upload-button" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-          {image.preview ? (
-            <img
-              style={{
-                border: "2px solid black",
-                height: "250px",
-                width: "250px",
-                borderRadius: "50%",
-                objectFit: "cover",
-              }}
-              src={image.preview}
-              alt="dummy"
-              width="300"
-              height="300"
-            />
-          ) : (
-            <h5
-              className="text-center"
-              style={{
-                border: "2px solid black",
-                height: "250px",
-                width: "250px",
-                borderRadius: "50%",
-                objectFit: "cover",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              Upload your photo
-            </h5>
-          )}
-        </label>
         <form className="profile-form">
-          <input type="file" id="upload-button" style={{ display: "none" }} onChange={handleChange} />
           <div className="p-row1">
-            <input
-              className="profile-input"
-              placeholder="Name"
-              required
-              type="text"
-              
-              label="Name"
-              variant="outlined"
-            />
-            <input
-              className="profile-input"
-              required
-              type="text"
-              
-              placeholder="Company Name"
-              label="Company Name"
-              variant="outlined"
-            />
+            <label htmlFor="upload-button" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              {image.preview ? (
+                <img
+                  style={{
+                    border: "2px solid black",
+                    height: "250px",
+                    width: "250px",
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                    cursor: "pointer",
+                  }}
+                  src={image.preview}
+                  alt="dummy"
+                  width="300"
+                  height="300"
+                />
+              ) : (
+                <h5
+                  className="text-center"
+                  style={{
+                    border: "2px solid black",
+                    height: "250px",
+                    width: "250px",
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                  }}
+                >
+                  Upload your photo
+                </h5>
+              )}
+            </label>
+            <div>
+              <input type="file" id="upload-button" style={{ display: "none" }} onChange={handleChange} />
+              <input
+                className="profile-input"
+                placeholder="Name"
+                required
+                type="text"
+                label="Name"
+                variant="outlined"
+              />
+              <input
+                className="profile-input"
+                required
+                type="text"
+                placeholder="Company Name"
+                label="Company Name"
+                variant="outlined"
+              />
+              <div>
+                <input
+                  className="profile-input"
+                  required
+                  type="email"
+                  placeholder="Email"
+                  label="Email"
+                  variant="outlined"
+                />
+                <input
+                  className="profile-input"
+                  required
+                  type="text"
+                  label="Web Link"
+                  placeholder="Web Link"
+                  variant="outlined"
+                />
+              </div>
+            </div>
           </div>
-          <div className="p-row2">
-            <input
-              className="profile-input"
-              required
-              type="email"
-              
-              placeholder="Email"
-              label="Email"
-              variant="outlined"
-            />
-            <input
-              className="profile-input"
-              required
-              type="text"
-              
-              label="Web Link"
-              placeholder="Web Link"
-              variant="outlined"
-            />
-          </div>
-
+          <div className="p-row2"></div>
           <textarea
             className="profile-input"
-            sx={{ width: "500px", height: "55px" }}
+            sx={{ width: "300px", height: "55px" }}
             required
             type="text"
             placeholder="Describe your motivation to become DAO member"
-            
-            
             variant="outlined"
           />
-          <input
-            id="address"
-            className="profile-input"
-            required
-            type="text"
-             
-            placeholder="Postal Address"
-            variant="outlined"
-          />
+
           {/* <label>
             Sponsor list
             <select value={value} onChange={handleValueChange}>
@@ -221,7 +211,7 @@ const Profile = () => {
             sx={{
               backgroundColor: "black",
               color: "white",
-              marginRight: "40px",
+              marginTop:"30px",
               "&:hover": { backgroundColor: "black" },
             }}
             className="button"

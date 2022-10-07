@@ -171,6 +171,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Login from "../pages/Login";
 import { shortenAddress } from "../utils/shortenAddress";
 import { MenuItem, Select } from "@mui/material";
+import MyWallet from "../pages/MyWallet";
 
 export default function Navbar() {
   const { Dao, setDao, account } = React.useContext(PagesContext);
@@ -239,9 +240,8 @@ export default function Navbar() {
                     {shortenAddress(account)}
                   </Button>
                 </MenuItem>
-                <MenuItem value={"MyWallet"}>
-                  {" "}
-                  <Button
+                <MenuItem>
+                  {/* <Button
                     sx={{
                       backgroundColor: "black",
                       color: "white",
@@ -249,10 +249,9 @@ export default function Navbar() {
                       "&:hover": { backgroundColor: "black" },
                     }}
                     className="button"
-                    // onClick={}
-                  >
-                    My Wallet
-                  </Button>
+                  > */}
+                  <MyWallet />
+                  {/* </Button> */}
                 </MenuItem>
                 <MenuItem value={"Dao Votes"}>
                   <Link style={{ textDecoration: "none" }} to="/dao">

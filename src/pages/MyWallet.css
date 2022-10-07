@@ -1,0 +1,27 @@
+.m-row1{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.avatar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.m-text{
+    margin-left: 5px;
+}
+
+.score{
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+.score>p{
+    font-size: 30px;
+    margin-top: -10px;
+}
