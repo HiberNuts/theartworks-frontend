@@ -173,10 +173,16 @@ import { shortenAddress } from "../utils/shortenAddress";
 import { MenuItem, Select } from "@mui/material";
 import MyWallet from "../pages/MyWallet";
 
+import { WagmiConfig, createClient, useAccount, useConnect, useDisconnect, useEnsAvatar, useEnsName } from "wagmi";
+import { ConnectKitProvider, ConnectKitButton, getDefaultClient } from "connectkit";
+
 export default function Navbar() {
+  const { address, connector, isConnected } = useAccount();
   const { Dao, setDao, account } = React.useContext(PagesContext);
   const navigate = useNavigate();
   const [dropdown, setdropdown] = React.useState("account");
+  const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
+  const { disconnect } = useDisconnect();
 
   const handleDropChange = (e) => {
     setdropdown(e.target.value);
@@ -197,6 +203,7 @@ export default function Navbar() {
           <Link style={{ textDecoration: "none" }} to="/">
             <img style={{ width: "200px" }} src={logo} onClick={() => setDao(false)} />
           </Link>
+
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
             <Link style={{ textDecoration: "none" }} to="/dao">
               <Button
@@ -211,11 +218,11 @@ export default function Navbar() {
                 DAO votes
               </Button>
             </Link>
-            {account ? (
+            {isConnected ? (
               <Select
                 sx={{
                   m: "10px",
-                  height: "45px",
+                  height: "70px",
                   borderWidth: "0",
                   color: "white",
                 }}
@@ -237,7 +244,9 @@ export default function Navbar() {
                     className="button"
                     // onClick={}
                   >
-                    {shortenAddress(account)}
+                    {/* {shortenAddress(address)} */}
+                    {/* <ConnectKit /> */}
+                    <ConnectKitButton />
                   </Button>
                 </MenuItem>
                 <MenuItem>
@@ -294,13 +303,15 @@ export default function Navbar() {
                       "&:hover": { backgroundColor: "black" },
                     }}
                     className="button"
+                    onClick={disconnect}
                   >
                     logout
                   </Button>
                 </MenuItem>
               </Select>
             ) : (
-              <Login />
+              // <Login />
+              <ConnectKitButton />
             )}
           </div>
         </Toolbar>
