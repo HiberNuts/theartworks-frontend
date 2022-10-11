@@ -15,6 +15,14 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Navigate, Link } from "react-router-dom";
+import {
+  paginatedIndexesConfig,
+  useContractInfiniteReads,
+  useContractRead,
+  useContractWrite,
+  usePrepareContractWrite,
+} from "wagmi";
+import abi from "../utils/abi.json";
 
 const DUMMY = [
   {
@@ -58,12 +66,97 @@ const DUMMY = [
 const DaoVotes = () => {
   const [dummy, setdummy] = React.useState(DUMMY);
   const [filter, setfilter] = React.useState("Active");
+  const [allAddress, setallAddress] = React.useState([]);
+
+  const [allCandidacyData, setallCandidacyData] = React.useState([{}]);
 
   const handleChange = (event) => {
     setfilter(event.target.value);
   };
 
-  console.log(dummy);
+  const {
+    data: candidacyAddress,
+    isError,
+    isLoading,
+  } = useContractRead({
+    addressOrName: "0xaAFb63aB01c8ae76B563E2379a8E650458430d56",
+    contractInterface: abi,
+    functionName: "getCandidacyAddress",
+    onSuccess(data) {
+      setallAddress(data);
+    },
+  });
+  console.log(allAddress);
+  // setallAddress(candidacyAddress[0]);
+
+  // if (candidacyAddress) {
+  //   setallAddress(candidacyAddress[0]);
+  // }
+
+  // const GetData = () => {};
+
+  // const { data: candidacyData } = useContractRead({
+  //   addressOrName: "0xaAFb63aB01c8ae76B563E2379a8E650458430d56",
+  //   contractInterface: abi,
+  //   functionName: "candidacyData",
+  //   args: [allAddress],
+  // });
+
+  // console.log(candidacyData);
+
+  // const { config } = usePrepareContractWrite({
+  //   addressOrName: "0xaAFb63aB01c8ae76B563E2379a8E650458430d56",
+  //   contractInterface: abi,
+  //   functionName: "candidacyData",
+  //   args: ["0xe5cb3b7a6d374f8053c2ccf9d473850f2a4bc51e"],
+  // });
+  // const { write } = useContractWrite({
+  //   ...config,
+  //   onSuccess(data) {
+  //     console.log("Success", data);
+  //   },
+  // });
+
+  const contractConfig = {
+    addressOrName: "0xaAFb63aB01c8ae76B563E2379a8E650458430d56",
+    contractInterface: abi,
+  };
+  const length = allAddress.length;
+
+  // const GetData = () => {
+  //   const { data, fetchNextPage } = useContractInfiniteReads({
+  //     cacheKey: "mlootAttributes",
+  //     ...paginatedIndexesConfig(
+  //       (index) => ({
+  //         ...contractConfig,
+  //         functionName: "candidacyData",
+  //         args: [allAddress[index]],
+  //       }),
+  //       { start: 0, perPage: allAddress.length > 0 ? allAddress.length : 0, direction: "increment" }
+  //     ),
+  //   });
+  //   React.useEffect(() => {
+  //     if (data) {
+  //       data.pages[0].forEach((d) => {
+  //         setallCandidacyData([
+  //           ...allCandidacyData,
+  //           {
+  //             name: d[0],
+  //             companyName: d[1],
+  //             job: d[2],
+  //             address: d[3],
+  //             Number: d[4],
+  //             email: d[5],
+  //             website: d[6],
+  //             desc: d[7],
+  //           },
+  //         ]);
+  //       });
+  //       console.log(allCandidacyData);
+  //     }
+  //   }, []);
+  // };
+
   return (
     // <Card className="card" sx={{ padding: "30px", margin: "30px", borderRadius: "20px" }}>
     //   <Avatar
@@ -97,6 +190,7 @@ const DaoVotes = () => {
 
     <div>
       <Box sx={{ width: "300px", margin: "20px" }}>
+        {/* {allAddress.length > 0 ? <GetData /> : <div></div>} */}
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Filter</InputLabel>
           <Select

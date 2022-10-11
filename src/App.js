@@ -9,14 +9,14 @@ import { PagesContext } from "./context/Context";
 import DaoVotes from "./pages/DaoVotes";
 import PersonalData from "./components/PersonalData";
 import Profile from "./pages/Profile";
+import toast, { Toaster } from "react-hot-toast";
+import { WagmiConfig, createClient, chain } from "wagmi";
 
-import { WagmiConfig, createClient, chain, defaultChains, configureChains } from "wagmi";
-
-import { ConnectKitProvider, ConnectKitButton, getDefaultClient } from "connectkit";
+import { ConnectKitProvider, getDefaultClient } from "connectkit";
 
 function App() {
   const alchemyId = process.env.ALCHEMY_ID;
-  const chains = [chain.mainnet, chain.goerli, chain.polygon, chain.optimism, chain.arbitrum];
+  const chains = [chain.polygonMumbai];
 
   const client = createClient(
     getDefaultClient({
@@ -32,6 +32,7 @@ function App() {
       <WagmiConfig client={client}>
         <ConnectKitProvider>
           <BrowserRouter>
+            <Toaster position="top-center" />
             <Navbar />
             <Routes>
               <Route path="/" element={<Home />}></Route>

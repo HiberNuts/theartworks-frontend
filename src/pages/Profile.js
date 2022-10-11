@@ -9,6 +9,9 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 
 import Chip from "@mui/material/Chip";
+import { usePrepareContractWrite, useContractWrite, useWaitForTransaction, useContractRead, useAccount } from "wagmi";
+import abi from "../utils/abi.json";
+import { ethers } from "ethers";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -43,9 +46,21 @@ function getStyles(name, personName, theme) {
 
 const Profile = () => {
   const [image, setImage] = useState({ preview: "", raw: "" });
-
+  const [formData, setformData] = useState({
+    name: "",
+    companyName: "",
+    email: "",
+    website: "",
+    desc: "",
+    job: "",
+    address: "",
+    number: "",
+  });
+  console.log(formData.name);
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
+
+  const { address, isConnecting, isDisconnected } = useAccount();
 
   const handlePersonChange = (event) => {
     const {
@@ -53,6 +68,27 @@ const Profile = () => {
     } = event;
     setPersonName(typeof value === "string" ? value.split(",") : value);
   };
+
+  // const { config } = usePrepareContractWrite({
+  //   addressOrName: "0xaAFb63aB01c8ae76B563E2379a8E650458430d56",
+  //   contractInterface: abi,
+  //   functionName: "SubmitToDao",
+  //   args: [
+  //     formData.name,
+  //     formData.website,
+  //     formData.website,
+  //     formData.desc,
+  //     formData.email,
+  //     formData.companyName,
+  //     formData.name,
+  //     formData.name,
+  //   ],
+  // });
+  // const { write } = useContractWrite(config);
+
+  // // write?.({
+  // //   overrides: { gasLimit: 1e7 },
+  // // });
 
   const handleChange = (e) => {
     if (e.target.files.length) {
@@ -63,19 +99,61 @@ const Profile = () => {
     }
   };
 
-  // const handleUpload = async (e) => {
-  //   e.preventDefault();
-  //   const formData = new FormData();
-  //   formData.append("image", image.raw);
+  const CONTRACT_ADDRESS = "0xaAFb63aB01c8ae76B563E2379a8E650458430d56";
 
-  //   await fetch("YOUR_URL", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "multipart/form-data",
-  //     },
-  //     body: formData,
-  //   });
-  // };
+  const askContractToMintNft = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        console.log(ethereum);
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+
+        console.log("Going to pop wallet now to pay gas...");
+        let nftTxn = await connectedContract.SubmitToDao(
+          formData.name,
+          formData.website,
+          formData.job,
+          formData.desc,
+          formData.email,
+          formData.companyName,
+          formData.address,
+          formData.number,
+          { gasLimit: 1000000 }
+        );
+
+        console.log("Mining...please wait.");
+        await nftTxn.wait();
+
+        console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const { data, isError, isLoading } = useContractRead({
+    addressOrName: "0xaAFb63aB01c8ae76B563E2379a8E650458430d56",
+    contractInterface: abi,
+    functionName: "candidacyData",
+    args: [address],
+    onSuccess(data) {
+      console.log("Success", data);
+      setformData({
+        ...formData,
+        name: data.name,
+        email: data.email,
+        companyName: data.companyName,
+        job: data.job,
+        number: data.number,
+        address: data.postaladdress,
+        website: data.weblink,
+        desc:data.description
+      });
+    },
+  });
 
   return (
     <div className="profile-container">
@@ -125,18 +203,22 @@ const Profile = () => {
               <input
                 className="profile-input"
                 placeholder="Name"
+                value={formData.name}
                 required
                 type="text"
                 label="Name"
                 variant="outlined"
+                onChange={(e) => setformData({ ...formData, name: e.target.value })}
               />
               <input
                 className="profile-input"
                 required
                 type="text"
+                value={formData.companyName}
                 placeholder="Company Name"
                 label="Company Name"
                 variant="outlined"
+                onChange={(e) => setformData({ ...formData, companyName: e.target.value })}
               />
               <div>
                 <input
@@ -145,7 +227,19 @@ const Profile = () => {
                   type="email"
                   placeholder="Email"
                   label="Email"
+                  value={formData.email}
                   variant="outlined"
+                  onChange={(e) => setformData({ ...formData, email: e.target.value })}
+                />
+                <input
+                  className="profile-input"
+                  required
+                  type="text"
+                  placeholder="job"
+                  label="job"
+                  value={formData.job}
+                  variant="outlined"
+                  onChange={(e) => setformData({ ...formData, job: e.target.value })}
                 />
                 <input
                   className="profile-input"
@@ -154,11 +248,33 @@ const Profile = () => {
                   label="Web Link"
                   placeholder="Web Link"
                   variant="outlined"
+                  value={formData.website}
+                  onChange={(e) => setformData({ ...formData, website: e.target.value })}
                 />
               </div>
             </div>
           </div>
           <div className="p-row2"></div>
+          <input
+            className="profile-input"
+            required
+            type="text"
+            label="address"
+            placeholder="address"
+            variant="outlined"
+            value={formData.address}
+            onChange={(e) => setformData({ ...formData, address: e.target.value })}
+          />
+          <input
+            className="profile-input"
+            required
+            type="text"
+            label="number"
+            placeholder="number"
+            variant="outlined"
+            value={formData.number}
+            onChange={(e) => setformData({ ...formData, number: e.target.value })}
+          />
           <textarea
             className="profile-input"
             sx={{ width: "300px", height: "55px" }}
@@ -166,6 +282,8 @@ const Profile = () => {
             type="text"
             placeholder="Describe your motivation to become DAO member"
             variant="outlined"
+            value={formData.desc}
+            onChange={(e) => setformData({ ...formData, desc: e.target.value })}
           />
 
           {/* <label>
@@ -211,11 +329,12 @@ const Profile = () => {
             sx={{
               backgroundColor: "black",
               color: "white",
-              marginTop:"30px",
+              marginTop: "30px",
               "&:hover": { backgroundColor: "black" },
             }}
             className="button"
             type="submit"
+            onClick={askContractToMintNft}
           >
             Submit to Dao
           </Button>
@@ -225,3 +344,17 @@ const Profile = () => {
   );
 };
 export default Profile;
+
+// const handleUpload = async (e) => {
+//   e.preventDefault();
+//   const formData = new FormData();
+//   formData.append("image", image.raw);
+
+//   await fetch("YOUR_URL", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "multipart/form-data",
+//     },
+//     body: formData,
+//   });
+// };
