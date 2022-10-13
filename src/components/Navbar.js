@@ -21,7 +21,7 @@ import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from
 export default function Navbar() {
   //wagmi connecting contract
 
-  const { address,  isConnected } = useAccount();
+  const { address, isConnected } = useAccount();
   const { Dao, setDao, account } = React.useContext(PagesContext);
   const navigate = useNavigate();
   const [dropdown, setdropdown] = React.useState("account");
@@ -82,36 +82,46 @@ export default function Navbar() {
             </Link>
             {isConnected ? (
               <Select
+                // sx={{
+
+                //   m: "10px",
+                //   height: "70px",
+                //   borderWidth: "0",
+                //   color: "white",
+                // }}
                 sx={{
-                  m: "10px",
-                  height: "70px",
-                  borderWidth: "0",
+                  
                   color: "white",
+                  height: "70px",
+                  m: "10px",
+                 
+                  "&:hover": { backgroundColor: "black" },
                 }}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={dropdown}
                 onChange={(e) => handleChange(e)}
               >
-                <MenuItem value={"account"}>
-                  {" "}
-                  <Button
-                    sx={{
-                      backgroundColor: "black",
-                      color: "white",
-                      marginRight: "40px",
+                <MenuItem
+                  sx={{
+                    backgroundColor: "black",
+                    color: "white",
 
-                      "&:hover": { backgroundColor: "black" },
-                    }}
-                    className="button"
-                    // onClick={}
-                  >
-                    {/* {shortenAddress(address)} */}
-                    {/* <ConnectKit /> */}
-                    <ConnectKitButton />
-                  </Button>
+                    "&:hover": { backgroundColor: "black" },
+                  }}
+                  value={"account"}
+                >
+                  {" "}
+                  <ConnectKitButton />
                 </MenuItem>
-                <MenuItem>
+                <MenuItem
+                  sx={{
+                    backgroundColor: "black",
+                    color: "white",
+
+                    "&:hover": { backgroundColor: "black" },
+                  }}
+                >
                   {/* <Button
                     sx={{
                       backgroundColor: "black",
@@ -124,7 +134,15 @@ export default function Navbar() {
                   <MyWallet />
                   {/* </Button> */}
                 </MenuItem>
-                <MenuItem value={"Dao Votes"}>
+                <MenuItem
+                  sx={{
+                    backgroundColor: "black",
+                    color: "white",
+
+                    "&:hover": { backgroundColor: "black" },
+                  }}
+                  value={"Dao Votes"}
+                >
                   <Link style={{ textDecoration: "none" }} to="/dao">
                     {" "}
                     <Button
@@ -141,7 +159,15 @@ export default function Navbar() {
                     </Button>
                   </Link>
                 </MenuItem>
-                <MenuItem value={"My Profile"}>
+                <MenuItem
+                  sx={{
+                    backgroundColor: "black",
+                    color: "white",
+
+                    "&:hover": { backgroundColor: "black" },
+                  }}
+                  value={"My Profile"}
+                >
                   <Link style={{ textDecoration: "none" }} to="/profile">
                     <Button
                       sx={{
@@ -156,7 +182,15 @@ export default function Navbar() {
                     </Button>
                   </Link>
                 </MenuItem>
-                <MenuItem value={"logout"}>
+                <MenuItem
+                  sx={{
+                    backgroundColor: "black",
+                    color: "white",
+
+                    "&:hover": { backgroundColor: "black" },
+                  }}
+                  value={"logout"}
+                >
                   <Button
                     sx={{
                       backgroundColor: "black",

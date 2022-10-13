@@ -12,6 +12,7 @@ import Chip from "@mui/material/Chip";
 import { usePrepareContractWrite, useContractWrite, useWaitForTransaction, useContractRead, useAccount } from "wagmi";
 import abi from "../utils/abi.json";
 import { ethers } from "ethers";
+import toast from "react-hot-toast";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -56,7 +57,7 @@ const Profile = () => {
     address: "",
     number: "",
   });
-  console.log(formData.name);
+
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
 
@@ -99,14 +100,13 @@ const Profile = () => {
     }
   };
 
-  const CONTRACT_ADDRESS = "0xaAFb63aB01c8ae76B563E2379a8E650458430d56";
+  const CONTRACT_ADDRESS = "0xC34852A0A206Ad66919952FD564CbF7feAd69C78";
 
   const askContractToMintNft = async () => {
     try {
       const { ethereum } = window;
 
       if (ethereum) {
-        console.log(ethereum);
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
@@ -126,8 +126,7 @@ const Profile = () => {
 
         console.log("Mining...please wait.");
         await nftTxn.wait();
-
-        console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
+        toast.success("Profile Updted");
       }
     } catch (error) {
       console.log(error);
@@ -135,9 +134,9 @@ const Profile = () => {
   };
 
   const { data, isError, isLoading } = useContractRead({
-    addressOrName: "0xaAFb63aB01c8ae76B563E2379a8E650458430d56",
+    addressOrName: "0xC34852A0A206Ad66919952FD564CbF7feAd69C78",
     contractInterface: abi,
-    functionName: "candidacyData",
+    functionName: "candidacyAllData",
     args: [address],
     onSuccess(data) {
       console.log("Success", data);
@@ -150,7 +149,7 @@ const Profile = () => {
         number: data.number,
         address: data.postaladdress,
         website: data.weblink,
-        desc:data.description
+        desc: data.description,
       });
     },
   });

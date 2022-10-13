@@ -24,6 +24,8 @@ import {
 } from "wagmi";
 import abi from "../utils/abi.json";
 
+import { ethers } from "ethers";
+
 const DUMMY = [
   {
     image:
@@ -65,13 +67,21 @@ const DUMMY = [
 
 const DaoVotes = () => {
   const [dummy, setdummy] = React.useState(DUMMY);
-  const [filter, setfilter] = React.useState("Active");
+  const [filter, setfilter] = React.useState("All");
   const [allAddress, setallAddress] = React.useState([]);
 
-  const [allCandidacyData, setallCandidacyData] = React.useState([{}]);
+  const [allCandidacyData, setallCandidacyData] = React.useState([]);
 
   const handleChange = (event) => {
     setfilter(event.target.value);
+    // if (filter == "Closed") {
+    //   var newArrayy = allCandidacyData.filter(function (data) {
+    //     return data.chip.includes("Closed");
+    //   });
+    //   setallCandidacyData(newArrayy);
+    //   console.log(newArrayy);
+    // } else if (filter == "All") {
+    // }
   };
 
   const {
@@ -79,14 +89,14 @@ const DaoVotes = () => {
     isError,
     isLoading,
   } = useContractRead({
-    addressOrName: "0xaAFb63aB01c8ae76B563E2379a8E650458430d56",
+    addressOrName: "0xC34852A0A206Ad66919952FD564CbF7feAd69C78",
     contractInterface: abi,
     functionName: "getCandidacyAddress",
     onSuccess(data) {
       setallAddress(data);
     },
   });
-  console.log(allAddress);
+  // console.log(allAddress);
   // setallAddress(candidacyAddress[0]);
 
   // if (candidacyAddress) {
@@ -96,7 +106,7 @@ const DaoVotes = () => {
   // const GetData = () => {};
 
   // const { data: candidacyData } = useContractRead({
-  //   addressOrName: "0xaAFb63aB01c8ae76B563E2379a8E650458430d56",
+  //   addressOrName: "0xC34852A0A206Ad66919952FD564CbF7feAd69C78",
   //   contractInterface: abi,
   //   functionName: "candidacyData",
   //   args: [allAddress],
@@ -105,7 +115,7 @@ const DaoVotes = () => {
   // console.log(candidacyData);
 
   // const { config } = usePrepareContractWrite({
-  //   addressOrName: "0xaAFb63aB01c8ae76B563E2379a8E650458430d56",
+  //   addressOrName: "0xC34852A0A206Ad66919952FD564CbF7feAd69C78",
   //   contractInterface: abi,
   //   functionName: "candidacyData",
   //   args: ["0xe5cb3b7a6d374f8053c2ccf9d473850f2a4bc51e"],
@@ -118,7 +128,7 @@ const DaoVotes = () => {
   // });
 
   const contractConfig = {
-    addressOrName: "0xaAFb63aB01c8ae76B563E2379a8E650458430d56",
+    addressOrName: "0xC34852A0A206Ad66919952FD564CbF7feAd69C78",
     contractInterface: abi,
   };
   const length = allAddress.length;
@@ -156,6 +166,66 @@ const DaoVotes = () => {
   //     }
   //   }, []);
   // };
+  const CONTRACT_ADDRESS = "0xC34852A0A206Ad66919952FD564CbF7feAd69C78";
+
+  const askContractToMintNft = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        console.log(ethereum);
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
+
+        let data = [];
+        let canidacyData = [];
+        var i = 0;
+        for (i = 0; i < allAddress.length; i++) {
+          console.log("asasf");
+          let Txn = await connectedContract.candidacyAllData(allAddress[i]);
+          data.push({ Txn });
+        }
+
+        data.forEach((d) => {
+          const date = new Date();
+
+          console.log(date.getTime() / 1000);
+          console.log(d.Txn);
+          canidacyData.push({
+            candidacy:
+              date.getTime() / 1000 <= d.Txn.timeEnd.toNumber()
+                ? "Time Left"
+                : d.Txn.forVotes.toNumber() > d.Txn.forVotes.toNumber()
+                ? "true"
+                : "false",
+            address: d.Txn.candidate,
+            name: d.Txn.name,
+            companyName: d.Txn.companyName,
+            email: d.Txn.email,
+            postalAddress: d.Txn.postaladdress,
+            website: d.Txn.weblink,
+            desc: d.Txn.description,
+            job: d.Txn.job,
+            number: d.Txn.number,
+            timeStart: d.Txn.timeStart.toNumber(),
+            timeEnd: d.Txn.timeEnd.toNumber(),
+            forVotes: d.Txn.forVotes.toNumber(),
+            againstVotes: d.Txn.forVotes.toNumber(),
+            chip: date.getTime() / 1000 <= d.Txn.timeEnd.toNumber() ? "Active" : "Closed",
+          });
+        });
+        setallCandidacyData(canidacyData);
+        // console.log(allCandidacyData);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  React.useEffect(() => {
+    askContractToMintNft();
+    // getDaoMembers();
+  }, [allAddress, 2]);
 
   return (
     // <Card className="card" sx={{ padding: "30px", margin: "30px", borderRadius: "20px" }}>
@@ -190,7 +260,6 @@ const DaoVotes = () => {
 
     <div>
       <Box sx={{ width: "300px", margin: "20px" }}>
-        {/* {allAddress.length > 0 ? <GetData /> : <div></div>} */}
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Filter</InputLabel>
           <Select
@@ -208,10 +277,10 @@ const DaoVotes = () => {
           </Select>
         </FormControl>
       </Box>
-      {dummy.map((data) => (
+      {allCandidacyData.map((data) => (
         <Link style={{ textDecoration: "none" }} to="/personalData" state={{ data }}>
           <Card className="card" sx={{ padding: "30px", margin: "30px", borderRadius: "20px" }}>
-            <Avatar sx={{ width: "150px", height: "150px" }} alt="Remy Sharp" src={data.image} />
+            <Avatar sx={{ width: "150px", height: "150px" }} alt="Remy Sharp" src={"https://picsum.photos/200/300"} />
             <div className="details">
               <div className="row1 row">
                 <h4>
@@ -232,7 +301,7 @@ const DaoVotes = () => {
               </div>
               <div className="row2 row">
                 <h4>
-                  {data.name} - {data.position}
+                  {data.name} - {data.job}
                 </h4>
               </div>
               <div className="row3 row">
