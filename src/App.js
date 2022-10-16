@@ -25,7 +25,9 @@ import {
 import { Sanityclient } from "./client.js";
 
 import { ConnectKitProvider, getDefaultClient } from "connectkit";
+import storage from "./utils/firebaseConfig";
 
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 function App() {
   const ADDRESS = "0xB38f8183Ad0110b40F054046B322E04da200E0B2";
 
@@ -36,6 +38,7 @@ function App() {
 
   const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
   const { disconnect } = useDisconnect();
+  const [image, setimage] = React.useState("");
 
   const client = createClient(
     getDefaultClient({
@@ -69,12 +72,8 @@ function App() {
       logout();
     }
 
-    const query = '*[_type == "userdata" && address=="asfafafsa"]';
-    Sanityclient.fetch(query).then((data) => {
-      console.log(data);
-    });
+    
   }, [address]);
-
 
   return (
     <div className="App">
@@ -82,6 +81,7 @@ function App() {
         <BrowserRouter>
           <Toaster position="top-center" />
           <Navbar />
+
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/dao" element={<DaoVotes />}></Route>

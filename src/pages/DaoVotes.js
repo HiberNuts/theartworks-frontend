@@ -31,6 +31,8 @@ import accepted from "../assets/accepted.png";
 import refused from "../assets/refused.png";
 import tick from "../assets/tick.png";
 import inprogress from "../assets/inprogress.png";
+import { getDownloadURL, ref } from "firebase/storage";
+import storage from "../utils/firebaseConfig";
 const DUMMY = [
   {
     image:
@@ -266,6 +268,20 @@ const DaoVotes = () => {
     }
   };
 
+  const getImage = async (userAddress) => {
+    try {
+      const storageRef = ref(storage, "files/" + `${userAddress}.jpeg`);
+
+      let image = await getDownloadURL(storageRef);
+      if (image) {
+        return image;
+      }
+      return "";
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const askContractToMintNft = async () => {
     try {
       const { ethereum } = window;
@@ -299,6 +315,8 @@ const DaoVotes = () => {
           const sponsor1App = await getSponsorsApproved(sponsor[0], data[i].Txn.candidate);
           const sponsor2App = await getSponsorsApproved(sponsor[1], data[i].Txn.candidate);
           const blacklisted = await getBlackListed(data[i].Txn.candidate);
+          const dataimage = await getImage(data[i].Txn.candidate);
+          console.log("data Image", dataimage);
 
           canidacyData.push({
             // candidacy:
@@ -314,6 +332,7 @@ const DaoVotes = () => {
               : ` ${Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600)} Hours Left`,
 
             address: data[i].Txn.candidate,
+            image: dataimage,
             name: data[i].Txn.name,
             companyName: data[i].Txn.companyName,
             email: data[i].Txn.email,
@@ -381,10 +400,10 @@ const DaoVotes = () => {
           <CircularProgress />
         </Box>
       )}
-      {filterAllData.map((data) => (
-        <Link style={{ textDecoration: "none" }} to="/personalData" state={{ data }}>
+      {filterAllData.map((data, index) => (
+        <Link key={index} style={{ textDecoration: "none" }} to="/personalData" state={{ data }}>
           <Card className="card" sx={{ padding: "30px", margin: "30px", borderRadius: "20px" }}>
-            <Avatar sx={{ width: "150px", height: "150px" }} alt="Remy Sharp" src={"https://picsum.photos/200/300"} />
+            <Avatar sx={{ width: "150px", height: "150px" }} alt="Remy Sharp" src={data.image} />
             <div className="details">
               <div className="row1 row">
                 <h4>

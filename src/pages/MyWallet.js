@@ -43,7 +43,7 @@ export default function MyWallet() {
     args: [address],
     onSuccess(data) {
       setuserName(data.name);
-      console.log(userName);
+      
     },
   });
   const { data: Score } = useContractRead({
@@ -53,10 +53,10 @@ export default function MyWallet() {
     args: [address],
     onSuccess(data) {
       setscore(data.toString());
-      console.log(data.toString());
+      // console.log(data.toString());
     },
   });
-  console.log(userName);
+  // console.log(userName);
 
   const lists = (anchor) => (
     <Box

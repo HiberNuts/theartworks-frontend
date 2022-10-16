@@ -2,7 +2,8 @@ import { Button, MenuItem, Select } from "@mui/material";
 import React, { useState } from "react";
 
 import "./Profile.css";
-
+import storage from "../utils/firebaseConfig";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -29,7 +30,16 @@ const MenuProps = {
 const ADDRESS = "0xB38f8183Ad0110b40F054046B322E04da200E0B2";
 
 const Profile = () => {
-  const [image, setImage] = useState({ preview: "", raw: "" });
+  const { address, isConnecting, isDisconnected } = useAccount();
+  const getImage = async (userAddress) => {
+    const storageRef = ref(storage, "files/" + `${userAddress}.jpeg`);
+
+    let image = await getDownloadURL(storageRef);
+    return image;
+  };
+
+  const [image, setImage] = useState({ preview: getImage(address), raw: "" });
+
   const [formData, setformData] = useState({
     name: "",
     companyName: "",
@@ -47,12 +57,14 @@ const Profile = () => {
   const [daoMembersData, setdaoMembersData] = React.useState([]);
   const [sponsorAddress, setsponsorAddress] = useState([{}]);
 
-  const { address, isConnecting, isDisconnected } = useAccount();
-
   const file = new File(["foo"], "foo.txt", { type: "text/plain" });
 
   const handleRoleChange = (event) => {
     const { value } = event.target;
+    if (value.length > 2) {
+      value.pop();
+    }
+
     setPersonName(value);
   };
 
@@ -62,15 +74,26 @@ const Profile = () => {
         preview: URL.createObjectURL(e.target.files[0]),
         raw: e.target.files[0],
       });
-      Sanityclient.assets
-        .upload("file", file)
-        .then((document) => {
-          console.log("The file was uploaded!", document);
-        })
-        .catch((error) => {
-          console.error("Upload failed:", error.message);
-        });
-        
+
+      const storageRef = ref(storage, `files/${address}.jpeg`);
+      const uploadTask = uploadBytesResumable(storageRef, e.target.files[0]);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const percent = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+
+          // update progress
+          // setPercent(percent);
+        },
+        (err) => console.log(err),
+        () => {
+          // download url
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            console.log(url);
+          });
+        }
+      );
     }
   };
 
@@ -135,7 +158,6 @@ const Profile = () => {
     contractInterface: abi,
     functionName: "getDaoMembersAddress",
     onSuccess(data) {
-      console.log("Success Dao members", data);
       setdaoMembersAddress(data);
       getDaoMembersData();
     },
@@ -156,7 +178,6 @@ const Profile = () => {
           let Txn = await connectedContract.candidacyAllData(daoMembersAddress[i]);
           data.push({ Txn });
         }
-        console.log(data);
 
         data.forEach((d) => {
           if (d.Txn.candidate == "0x0000000000000000000000000000000000000000") {
@@ -171,7 +192,7 @@ const Profile = () => {
           }
         });
         setdaoMembersData(canidacyData);
-        console.log(daoMembersData);
+        // console.log(daoMembersData);
       }
     } catch (error) {
       console.log(error);
@@ -179,8 +200,13 @@ const Profile = () => {
   };
 
   React.useEffect(() => {
-    getDaoMembersData();
-  });
+    // getDaoMembersData();
+    const gettingImage = async () => {
+      let mage = await getImage(address);
+      setImage({ ...image, preview: mage });
+    };
+    gettingImage();
+  }, []);
 
   return (
     <div className="profile-container">
