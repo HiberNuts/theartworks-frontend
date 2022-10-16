@@ -24,13 +24,25 @@
 }
 .row4{
     display:flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     margin-top: 5px;
     width: 300px;
 
 }
 
+.row1>h4{
+    display: flex;
+    align-items: center;
+  
+    justify-content: center;
+}
+
 .row3{
     align-content: flex-start;
+}
+
+.icon{
+    width: 25px;
+    height: 25px;
 }

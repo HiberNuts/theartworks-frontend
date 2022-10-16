@@ -3,11 +3,16 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_sponsors",
+				"name": "_sponsor1",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_sponsor2",
 				"type": "address"
 			}
 		],
-		"name": "addSponsors",
+		"name": "addSponsor",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -226,6 +231,16 @@
 				"internalType": "string",
 				"name": "_number",
 				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "_sponsor1",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_sponsor2",
+				"type": "address"
 			}
 		],
 		"name": "SubmitToDao",
@@ -574,25 +589,6 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			}
-		],
-		"name": "getSponsorsOfProposal",
-		"outputs": [
-			{
-				"internalType": "address[]",
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "name",
 		"outputs": [
@@ -630,6 +626,11 @@
 				"internalType": "address",
 				"name": "",
 				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"name": "SponsorsApproved",
@@ -659,6 +660,19 @@
 	{
 		"inputs": [],
 		"name": "totalSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalVotes",
 		"outputs": [
 			{
 				"internalType": "uint256",

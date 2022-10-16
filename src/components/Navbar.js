@@ -21,6 +21,8 @@ import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from
 export default function Navbar() {
   //wagmi connecting contract
 
+  const ADDRESS = "0xB38f8183Ad0110b40F054046B322E04da200E0B2";
+
   const { address, isConnected } = useAccount();
   const { Dao, setDao, account } = React.useContext(PagesContext);
   const navigate = useNavigate();
@@ -37,7 +39,7 @@ export default function Navbar() {
   };
 
   const { config, isError } = usePrepareContractWrite({
-    addressOrName: "0xaAFb63aB01c8ae76B563E2379a8E650458430d56",
+    addressOrName: ADDRESS,
     contractInterface: abi,
     functionName: "blacklisted",
     args: [address],
@@ -73,7 +75,6 @@ export default function Navbar() {
                   backgroundColor: "black",
                   color: "white",
                   marginRight: "40px",
-                  "&:hover": { backgroundColor: "black" },
                 }}
                 className="button"
               >
@@ -82,75 +83,30 @@ export default function Navbar() {
             </Link>
             {isConnected ? (
               <Select
-                // sx={{
-
-                //   m: "10px",
-                //   height: "70px",
-                //   borderWidth: "0",
-                //   color: "white",
-                // }}
                 sx={{
-                  
                   color: "white",
                   height: "70px",
                   m: "10px",
-                 
-                  "&:hover": { backgroundColor: "black" },
                 }}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={dropdown}
                 onChange={(e) => handleChange(e)}
               >
-                <MenuItem
-                  sx={{
-                    backgroundColor: "black",
-                    color: "white",
-
-                    "&:hover": { backgroundColor: "black" },
-                  }}
-                  value={"account"}
-                >
+                <MenuItem sx={{ color: "black" }} value={"account"}>
                   {" "}
                   <ConnectKitButton />
                 </MenuItem>
-                <MenuItem
-                  sx={{
-                    backgroundColor: "black",
-                    color: "white",
-
-                    "&:hover": { backgroundColor: "black" },
-                  }}
-                >
-                  {/* <Button
-                    sx={{
-                      backgroundColor: "black",
-                      color: "white",
-                      marginRight: "40px",
-                      "&:hover": { backgroundColor: "black" },
-                    }}
-                    className="button"
-                  > */}
+                <MenuItem sx={{ color: "black" }}>
                   <MyWallet />
-                  {/* </Button> */}
                 </MenuItem>
-                <MenuItem
-                  sx={{
-                    backgroundColor: "black",
-                    color: "white",
-
-                    "&:hover": { backgroundColor: "black" },
-                  }}
-                  value={"Dao Votes"}
-                >
-                  <Link style={{ textDecoration: "none" }} to="/dao">
+                <MenuItem sx={{ color: "black" }} value={"Dao Votes"}>
+                  <Link style={{ textDecoration: "none", color: "black" }} to="/dao">
                     {" "}
                     <Button
                       sx={{
-                        backgroundColor: "black",
-                        color: "white",
+                        color: "black",
                         marginRight: "40px",
-                        "&:hover": { backgroundColor: "black" },
                       }}
                       className="button"
                       // onClick={}
@@ -159,22 +115,12 @@ export default function Navbar() {
                     </Button>
                   </Link>
                 </MenuItem>
-                <MenuItem
-                  sx={{
-                    backgroundColor: "black",
-                    color: "white",
-
-                    "&:hover": { backgroundColor: "black" },
-                  }}
-                  value={"My Profile"}
-                >
+                <MenuItem sx={{}} value={"My Profile"}>
                   <Link style={{ textDecoration: "none" }} to="/profile">
                     <Button
                       sx={{
-                        backgroundColor: "black",
-                        color: "white",
+                        color: "black",
                         marginRight: "40px",
-                        "&:hover": { backgroundColor: "black" },
                       }}
                       className="button"
                     >
@@ -184,23 +130,11 @@ export default function Navbar() {
                 </MenuItem>
                 <MenuItem
                   sx={{
-                    backgroundColor: "black",
-                    color: "white",
-
-                    "&:hover": { backgroundColor: "black" },
+                    color: "black",
                   }}
                   value={"logout"}
                 >
-                  <Button
-                    sx={{
-                      backgroundColor: "black",
-                      color: "white",
-                      marginRight: "40px",
-                      "&:hover": { backgroundColor: "black" },
-                    }}
-                    className="button"
-                    onClick={disconnect}
-                  >
+                  <Button sx={{ color: "black" }} className="button" onClick={disconnect}>
                     logout
                   </Button>
                 </MenuItem>
@@ -222,7 +156,7 @@ export default function Navbar() {
                 backgroundColor: "black",
                 color: "white",
                 borderRadius: "20px",
-                "&:hover": { backgroundColor: "black" },
+               
                 padding: "10px",
               }}
               className="button"
@@ -253,7 +187,7 @@ export default function Navbar() {
 //           color: "white",
 //           marginRight: "40px",
 
-//           "&:hover": { backgroundColor: "black" },
+//
 //         }}
 //         className="button"
 //         // onClick={}
@@ -268,7 +202,7 @@ export default function Navbar() {
 //           backgroundColor: "black",
 //           color: "white",
 //           marginRight: "40px",
-//           "&:hover": { backgroundColor: "black" },
+//
 //         }}
 //         className="button"
 //         // onClick={}
@@ -283,7 +217,7 @@ export default function Navbar() {
 //           backgroundColor: "black",
 //           color: "white",
 //           marginRight: "40px",
-//           "&:hover": { backgroundColor: "black" },
+//
 //         }}
 //         className="button"
 //         // onClick={}
@@ -297,7 +231,7 @@ export default function Navbar() {
 //           backgroundColor: "black",
 //           color: "white",
 //           marginRight: "40px",
-//           "&:hover": { backgroundColor: "black" },
+//
 //         }}
 //         className="button"
 //         // onClick={navigate("/profile")}
@@ -311,7 +245,7 @@ export default function Navbar() {
 //           backgroundColor: "black",
 //           color: "white",
 //           marginRight: "40px",
-//           "&:hover": { backgroundColor: "black" },
+//
 //         }}
 //         className="button"
 //       > */}

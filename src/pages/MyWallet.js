@@ -8,13 +8,21 @@ import { PagesContext } from "../context/Context";
 import { Avatar, Card, CardContent, CardHeader, Divider, IconButton, Typography } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
 import "./MyWallet.css";
+import { useAccount, useContractRead } from "wagmi";
+import abi from "../utils/abi.json";
 
 export default function MyWallet() {
+  const ADDRESS = "0xB38f8183Ad0110b40F054046B322E04da200E0B2";
+  const { address, isConnecting, isDisconnected } = useAccount();
+
   const { checkIfWalletConnected, account, connectWallet } = useContext(PagesContext);
+
   // const navigate = useNavigate();
   const [state, setState] = React.useState({
     right: false,
   });
+  const [userName, setuserName] = React.useState("");
+  const [score, setscore] = React.useState("");
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (event && event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
@@ -23,6 +31,32 @@ export default function MyWallet() {
 
     setState({ ...state, [anchor]: open });
   };
+
+  const {
+    data: User,
+    isError,
+    isLoading,
+  } = useContractRead({
+    addressOrName: ADDRESS,
+    contractInterface: abi,
+    functionName: "candidacyAllData",
+    args: [address],
+    onSuccess(data) {
+      setuserName(data.name);
+      console.log(userName);
+    },
+  });
+  const { data: Score } = useContractRead({
+    addressOrName: ADDRESS,
+    contractInterface: abi,
+    functionName: "score",
+    args: [address],
+    onSuccess(data) {
+      setscore(data.toString());
+      console.log(data.toString());
+    },
+  });
+  console.log(userName);
 
   const lists = (anchor) => (
     <Box
@@ -43,7 +77,7 @@ export default function MyWallet() {
         <div className="m-row1">
           <div className="avatar">
             <Avatar />
-            <p className="m-text">Name</p>
+            <p className="m-text">{userName}</p>
           </div>
           <IconButton>
             <CachedIcon />
@@ -61,7 +95,7 @@ export default function MyWallet() {
         <Divider sx={{ background: "black" }} />
         <div className="score">
           <h2 className="score-h">Score</h2>
-          <p>0</p>
+          <p> {score.toString()}</p>
           <h2 className="score-h">Governance Token</h2>
           <p>0</p>
         </div>
@@ -87,10 +121,7 @@ export default function MyWallet() {
       <React.Fragment key={"right"}>
         <Button
           sx={{
-            backgroundColor: "black",
-            color: "white",
-            borderRadius: "5px",
-            "&:hover": { backgroundColor: "black" },
+            color: "black",
             height: "30px",
           }}
           onClick={toggleDrawer("right", true)}

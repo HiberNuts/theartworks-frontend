@@ -1,7 +1,7 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
 
-import { Avatar } from "@mui/material";
+import { Avatar, Button, CircularProgress } from "@mui/material";
 import Chip from "@mui/material/Chip";
 import "./DaoVotes.css";
 import RotateRightIcon from "@mui/icons-material/RotateRight";
@@ -17,6 +17,7 @@ import Select from "@mui/material/Select";
 import { Navigate, Link } from "react-router-dom";
 import {
   paginatedIndexesConfig,
+  useAccount,
   useContractInfiniteReads,
   useContractRead,
   useContractWrite,
@@ -25,7 +26,11 @@ import {
 import abi from "../utils/abi.json";
 
 import { ethers } from "ethers";
-
+import { CalendarViewDayOutlined } from "@mui/icons-material";
+import accepted from "../assets/accepted.png";
+import refused from "../assets/refused.png";
+import tick from "../assets/tick.png";
+import inprogress from "../assets/inprogress.png";
 const DUMMY = [
   {
     image:
@@ -65,23 +70,42 @@ const DUMMY = [
   },
 ];
 
+const ADDRESS = "0xB38f8183Ad0110b40F054046B322E04da200E0B2";
+
 const DaoVotes = () => {
   const [dummy, setdummy] = React.useState(DUMMY);
   const [filter, setfilter] = React.useState("All");
   const [allAddress, setallAddress] = React.useState([]);
+  const [allSponsorAddress, setallSponsorAddress] = React.useState([]);
 
   const [allCandidacyData, setallCandidacyData] = React.useState([]);
+  const [filterAllData, setfilterAllData] = React.useState(allCandidacyData);
+  const [loading, setloading] = React.useState(false);
+
+  const { address } = useAccount();
 
   const handleChange = (event) => {
     setfilter(event.target.value);
-    // if (filter == "Closed") {
-    //   var newArrayy = allCandidacyData.filter(function (data) {
-    //     return data.chip.includes("Closed");
+    console.log(event.target.value == "All");
+    // if (event.target.value == "All") {
+    //   console.log("filetr");
+    //   console.log("here", allCandidacyData);
+    //   setfilterAllData(allCandidacyData);
+    //   console.log("here2sasfasf", filterAllData);
+    // } else if (event.target.value == "Active") {
+    //   let newArray = allCandidacyData.filter((item, index) => {
+    //     return item.chip == event.target.value;
     //   });
-    //   setallCandidacyData(newArrayy);
-    //   console.log(newArrayy);
-    // } else if (filter == "All") {
+    //   setfilterAllData(newArray);
+    //   console.log(newArray);
+    // } else if (event.target.value == "Closed") {
+    //   let newArray = allCandidacyData.filter((item, index) => {
+    //     return item.chip == event.target.value;
+    //   });
+    //   setfilterAllData(newArray);
+    //   console.log(newArray);
     // }
+    handleFilterData(event.target.value);
   };
 
   const {
@@ -89,46 +113,16 @@ const DaoVotes = () => {
     isError,
     isLoading,
   } = useContractRead({
-    addressOrName: "0xC34852A0A206Ad66919952FD564CbF7feAd69C78",
+    addressOrName: ADDRESS,
     contractInterface: abi,
     functionName: "getCandidacyAddress",
     onSuccess(data) {
       setallAddress(data);
     },
   });
-  // console.log(allAddress);
-  // setallAddress(candidacyAddress[0]);
-
-  // if (candidacyAddress) {
-  //   setallAddress(candidacyAddress[0]);
-  // }
-
-  // const GetData = () => {};
-
-  // const { data: candidacyData } = useContractRead({
-  //   addressOrName: "0xC34852A0A206Ad66919952FD564CbF7feAd69C78",
-  //   contractInterface: abi,
-  //   functionName: "candidacyData",
-  //   args: [allAddress],
-  // });
-
-  // console.log(candidacyData);
-
-  // const { config } = usePrepareContractWrite({
-  //   addressOrName: "0xC34852A0A206Ad66919952FD564CbF7feAd69C78",
-  //   contractInterface: abi,
-  //   functionName: "candidacyData",
-  //   args: ["0xe5cb3b7a6d374f8053c2ccf9d473850f2a4bc51e"],
-  // });
-  // const { write } = useContractWrite({
-  //   ...config,
-  //   onSuccess(data) {
-  //     console.log("Success", data);
-  //   },
-  // });
 
   const contractConfig = {
-    addressOrName: "0xC34852A0A206Ad66919952FD564CbF7feAd69C78",
+    addressOrName: ADDRESS,
     contractInterface: abi,
   };
   const length = allAddress.length;
@@ -166,11 +160,116 @@ const DaoVotes = () => {
   //     }
   //   }, []);
   // };
-  const CONTRACT_ADDRESS = "0xC34852A0A206Ad66919952FD564CbF7feAd69C78";
+  const CONTRACT_ADDRESS = ADDRESS;
+
+  const getSponsorName = async (address) => {
+    try {
+      const { ethereum } = window;
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
+      let Txn = await connectedContract.candidacyAllData(address);
+      return Txn;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleFilterData = (sample) => {
+    if (sample == "All") {
+      console.log("filetr");
+      console.log("here", allCandidacyData);
+      let samplearray = allCandidacyData;
+      return setfilterAllData(samplearray);
+      console.log("here2sasfasf", filterAllData);
+    } else if (sample == "Active") {
+      let newArray = allCandidacyData.filter((item, index) => {
+        return item.chip == sample;
+      });
+      setfilterAllData(newArray);
+      console.log(newArray);
+    } else if (sample == "Closed") {
+      let newArray = allCandidacyData.filter((item, index) => {
+        return item.chip == sample;
+      });
+      setfilterAllData(newArray);
+      console.log(newArray);
+    }
+    console.log("nice", sample, allCandidacyData, filterAllData);
+  };
+
+  const search = async (e) => {
+    // console.log("Hello", filter, e.target.value);
+    // // handleChange(filter);
+    // handleFilterData(filter);
+    // console.log("yes", filterAllData)
+    let sample = filter;
+    let newArray = [];
+    if (sample == "All") {
+      console.log("filetr");
+      console.log("here", allCandidacyData);
+      newArray = allCandidacyData;
+      // setfilterAllData(samplearray);
+      console.log("here2sasfasf", filterAllData);
+    } else if (sample == "Active") {
+      newArray = allCandidacyData.filter((item, index) => {
+        return item.chip == sample;
+      });
+      // setfilterAllData(newArray);
+      console.log(newArray);
+    } else if (sample == "Closed") {
+      newArray = allCandidacyData.filter((item, index) => {
+        return item.chip == sample;
+      });
+      // setfilterAllData(newArray);
+      console.log(newArray);
+    }
+    const blahArray = newArray.filter((item) => {
+      return item.name.toString().toLowerCase().includes(e.target.value.toLowerCase());
+    });
+    console.log("chekkk", sample, blahArray);
+    setfilterAllData(blahArray);
+  };
+
+  const getDaoMembersAddress = async (address) => {
+    try {
+      const { ethereum } = window;
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
+      let Txn = await connectedContract.getDaoMembersAddress();
+      return Txn;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getSponsorsApproved = async (sponsorAddress, userAddress) => {
+    try {
+      const { ethereum } = window;
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
+      let Txn = await connectedContract.SponsorsApproved(sponsorAddress, userAddress);
+      return Txn;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getBlackListed = async (userAddress) => {
+    try {
+      const { ethereum } = window;
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
+      let Txn = await connectedContract.blacklisted(userAddress);
+      return Txn;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const askContractToMintNft = async () => {
     try {
       const { ethereum } = window;
+      setloading(true);
 
       if (ethereum) {
         console.log(ethereum);
@@ -186,36 +285,64 @@ const DaoVotes = () => {
           data.push({ Txn });
         }
 
-        data.forEach((d) => {
-          const date = new Date();
+        const date = new Date();
 
-          console.log(date.getTime() / 1000);
-          console.log(d.Txn);
+        for (let i = 0; i < data.length; i++) {
+          let sponsor = [];
+          sponsor = await connectedContract.getSponsors(data[i].Txn.candidate);
+
+          const sponsor1Name = await getSponsorName(sponsor[0]);
+          const sponsor2Name = await getSponsorName(sponsor[1]);
+
+          const daoMemberAddress = await getDaoMembersAddress();
+
+          const sponsor1App = await getSponsorsApproved(sponsor[0], data[i].Txn.candidate);
+          const sponsor2App = await getSponsorsApproved(sponsor[1], data[i].Txn.candidate);
+          const blacklisted = await getBlackListed(data[i].Txn.candidate);
+
           canidacyData.push({
-            candidacy:
-              date.getTime() / 1000 <= d.Txn.timeEnd.toNumber()
-                ? "Time Left"
-                : d.Txn.forVotes.toNumber() > d.Txn.forVotes.toNumber()
-                ? "true"
-                : "false",
-            address: d.Txn.candidate,
-            name: d.Txn.name,
-            companyName: d.Txn.companyName,
-            email: d.Txn.email,
-            postalAddress: d.Txn.postaladdress,
-            website: d.Txn.weblink,
-            desc: d.Txn.description,
-            job: d.Txn.job,
-            number: d.Txn.number,
-            timeStart: d.Txn.timeStart.toNumber(),
-            timeEnd: d.Txn.timeEnd.toNumber(),
-            forVotes: d.Txn.forVotes.toNumber(),
-            againstVotes: d.Txn.forVotes.toNumber(),
-            chip: date.getTime() / 1000 <= d.Txn.timeEnd.toNumber() ? "Active" : "Closed",
+            // candidacy:
+            //   date.getTime() / 1000 <= data[i].Txn.timeEnd.toNumber()
+            //     ? ` ${Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600)} Hours Left`
+            //     : data[i].Txn.forVotes.toNumber() > data[i].Txn.forVotes.toNumber()
+            //     ? "true"
+            //     : "false",
+            candidacy: daoMemberAddress.includes(data[i].Txn.candidate)
+              ? "true"
+              : blacklisted
+              ? "false"
+              : ` ${Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600)} Hours Left`,
+
+            address: data[i].Txn.candidate,
+            name: data[i].Txn.name,
+            companyName: data[i].Txn.companyName,
+            email: data[i].Txn.email,
+            postalAddress: data[i].Txn.postaladdress,
+            website: data[i].Txn.weblink,
+            desc: data[i].Txn.description,
+            job: data[i].Txn.job,
+            number: data[i].Txn.number,
+            timeStart: data[i].Txn.timeStart.toNumber(),
+            timeEnd: data[i].Txn.timeEnd.toNumber(),
+            forVotes: data[i].Txn.forVotes.toNumber(),
+            againstVotes: data[i].Txn.againstVotes.toNumber(),
+            // chip: date.getTime() / 1000 <= data[i].Txn.timeEnd.toNumber() ? "Active" : "Closed",
+            chip: daoMemberAddress.includes(data[i].Txn.candidate) || blacklisted ? "Closed" : "Active",
+            sponsor1: sponsor[0],
+            sponsor2: sponsor[1],
+            sponsor1Name: sponsor1Name,
+            sponsor2Name: sponsor2Name,
+            sponsor1App: sponsor1App,
+            sponsor2App: sponsor2App,
+            blacklisted: blacklisted,
           });
-        });
+        }
+
         setallCandidacyData(canidacyData);
-        // console.log(allCandidacyData);
+        setfilterAllData(canidacyData);
+
+        console.log(allCandidacyData);
+        setloading(false);
       }
     } catch (error) {
       console.log(error);
@@ -224,42 +351,12 @@ const DaoVotes = () => {
 
   React.useEffect(() => {
     askContractToMintNft();
-    // getDaoMembers();
-  }, [allAddress, 2]);
+    setfilterAllData(allCandidacyData);
+  }, [allAddress]);
 
   return (
-    // <Card className="card" sx={{ padding: "30px", margin: "30px", borderRadius: "20px" }}>
-    //   <Avatar
-    //     sx={{ width: "150px", height: "150px" }}
-    //     alt="Remy Sharp"
-    //     src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fHByb2ZpbGV8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
-    //   />
-    //   <div className="details">
-    //     <div className="row1 row">
-    //       <h4>DAO member Candidacy</h4>
-    //       <Chip label="Active" color="success" sx={{ padding: "10px" }} />
-    //     </div>
-    //     <div className="row2 row">
-    //       <h4>John Smith - Curator</h4>
-    //     </div>
-    //     <div className="row3 row">
-    //       <p>
-    //         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-    //         dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-    //         ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-    //         nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-    //         anim id est laborum.
-    //       </p>
-    //     </div>
-    //     <div className="row4 row">
-    //       <h4>Sponsored By</h4>
-    //       <Chip label="Theodore Curve" variant="outlined" sx={{ padding: "10px" }} icon={<RotateRightIcon />} />
-    //     </div>
-    //   </div>
-    // </Card>
-
     <div>
-      <Box sx={{ width: "300px", margin: "20px" }}>
+      <Box sx={{ width: "60%", margin: "20px", display: "flex", justifyContent: "space-evenly", alignItems: "center" }}>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Filter</InputLabel>
           <Select
@@ -276,8 +373,15 @@ const DaoVotes = () => {
             <MenuItem value={"refmem"}>Refused Members</MenuItem>
           </Select>
         </FormControl>
+        <input style={{ width: "400px" }} placeholder="Search Members" type="text" onChange={search} />
       </Box>
-      {allCandidacyData.map((data) => (
+
+      {loading && (
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <CircularProgress />
+        </Box>
+      )}
+      {filterAllData.map((data) => (
         <Link style={{ textDecoration: "none" }} to="/personalData" state={{ data }}>
           <Card className="card" sx={{ padding: "30px", margin: "30px", borderRadius: "20px" }}>
             <Avatar sx={{ width: "150px", height: "150px" }} alt="Remy Sharp" src={"https://picsum.photos/200/300"} />
@@ -286,9 +390,9 @@ const DaoVotes = () => {
                 <h4>
                   DAO member Candidacy --{" "}
                   {data.candidacy == "true" ? (
-                    <VerifiedIcon style={{ color: "blue" }} />
+                    <img className="icon" src={accepted} />
                   ) : data.candidacy == "false" ? (
-                    <NotInterestedIcon style={{ color: "red" }} />
+                    <img className="icon" src={refused} />
                   ) : (
                     data.candidacy
                   )}
@@ -308,21 +412,45 @@ const DaoVotes = () => {
                 <p>{data.desc}</p>
               </div>
               <div className="row4 row">
-                <h4>Sponsored By</h4>
-                <Chip
-                  label={data.spon}
-                  variant="outlined"
-                  sx={{ padding: "10px" }}
-                  icon={
-                    data.sponLabel == "approved" ? (
-                      <TaskAltIcon style={{ color: "green" }} />
-                    ) : data.sponLabel == "progress" ? (
-                      <RotateRightIcon style={{ color: "orange" }} />
-                    ) : (
-                      <CancelIcon style={{ color: "red" }} />
-                    )
-                  }
-                />
+                <h4 style={{ marginRight: "10px" }}>Sponsored By</h4>
+                {data.sponsor1Name.name || data.sponsor2Name.name ? (
+                  <div style={{}} className="row4">
+                    {data.sponsor1Name.name && (
+                      <Chip
+                        label={data.sponsor1Name.name}
+                        variant="outlined"
+                        sx={{ padding: "10px", margin: "10px" }}
+                        icon={
+                          data.sponsor1App == true ? (
+                            <img className="icon" src={tick} />
+                          ) : data.sponsor1App == false ? (
+                            <img className="icon" src={inprogress} />
+                          ) : (
+                            <CancelIcon style={{ color: "red" }} />
+                          )
+                        }
+                      />
+                    )}
+                    {data.sponsor2Name.name && (
+                      <Chip
+                        label={data.sponsor2Name.name}
+                        variant="outlined"
+                        sx={{ padding: "10px", margin: "10px" }}
+                        icon={
+                          data.sponsor2App == true ? (
+                            <img className="icon" src={tick} />
+                          ) : data.sponsor2App == false ? (
+                            <img className="icon" src={inprogress} />
+                          ) : (
+                            <CancelIcon style={{ color: "red" }} />
+                          )
+                        }
+                      />
+                    )}
+                  </div>
+                ) : (
+                  "No one"
+                )}
               </div>
             </div>
           </Card>

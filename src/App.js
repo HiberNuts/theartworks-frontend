@@ -1,3 +1,4 @@
+import React from "react";
 import "./App.css";
 import { useContext, useEffect } from "react";
 import ReactDOM from "react-dom";
@@ -10,13 +11,31 @@ import DaoVotes from "./pages/DaoVotes";
 import PersonalData from "./components/PersonalData";
 import Profile from "./pages/Profile";
 import toast, { Toaster } from "react-hot-toast";
-import { WagmiConfig, createClient, chain } from "wagmi";
+import abi from "./utils/abi.json";
+import {
+  WagmiConfig,
+  createClient,
+  chain,
+  usePrepareContractWrite,
+  useContractRead,
+  useDisconnect,
+  useConnect,
+  useAccount,
+} from "wagmi";
+import { Sanityclient } from "./client.js";
 
 import { ConnectKitProvider, getDefaultClient } from "connectkit";
 
 function App() {
+  const ADDRESS = "0xB38f8183Ad0110b40F054046B322E04da200E0B2";
+
   const alchemyId = process.env.ALCHEMY_ID;
   const chains = [chain.polygonMumbai];
+
+  const { address } = useAccount();
+
+  const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
+  const { disconnect } = useDisconnect();
 
   const client = createClient(
     getDefaultClient({
@@ -27,23 +46,51 @@ function App() {
   );
   const { checkIfWalletIsConnect, account, checkNetwork } = useContext(PagesContext);
 
+  // const { config, isError } = usePrepareContract({
+  //   addressOrName: ADDRESS,
+  //   contractInterface: abi,
+  //   functionName: "blacklisted",
+  //   args: [address],
+  // });
+
+  const { data } = useContractRead({
+    address: ADDRESS,
+    abi: abi,
+    functionName: "blacklisted",
+    args: [address],
+  });
+
+  const logout = () => {
+    disconnect();
+  };
+  React.useEffect(() => {
+    if (data) {
+      toast.error("Your address is blacklisted you cannot login");
+      logout();
+    }
+
+    const query = '*[_type == "userdata" && address=="asfafafsa"]';
+    Sanityclient.fetch(query).then((data) => {
+      console.log(data);
+    });
+  }, [address]);
+
+
   return (
     <div className="App">
-      <WagmiConfig client={client}>
-        <ConnectKitProvider>
-          <BrowserRouter>
-            <Toaster position="top-center" />
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />}></Route>
-              <Route path="/dao" element={<DaoVotes />}></Route>
-              <Route path="/login" element={<Login />}></Route>
-              <Route path="/profile" element={<Profile />}></Route>
-              <Route path="/personalData" element={<PersonalData />}></Route>
-            </Routes>
-          </BrowserRouter>
-        </ConnectKitProvider>
-      </WagmiConfig>
+      <ConnectKitProvider theme="minimal">
+        <BrowserRouter>
+          <Toaster position="top-center" />
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/dao" element={<DaoVotes />}></Route>
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="/profile" element={<Profile />}></Route>
+            <Route path="/personalData" element={<PersonalData />}></Route>
+          </Routes>
+        </BrowserRouter>
+      </ConnectKitProvider>
     </div>
   );
 }

@@ -11,6 +11,14 @@ import { useNavigate } from "react-router-dom";
 import "./PersonalData.css";
 import LinearProgress from "@mui/material/LinearProgress";
 import { Stack } from "@mui/system";
+import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
+import abi from "../utils/abi.json";
+import { ethers } from "ethers";
+import toast, { Toaster } from "react-hot-toast";
+import accepted from "../assets/accepted.png";
+import refused from "../assets/refused.png";
+import tick from "../assets/tick.png";
+import inprogress from "../assets/inprogress.png";
 
 function LinearProgressWithLabel(props) {
   return (
@@ -29,36 +37,78 @@ const PersonalData = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { data } = location.state;
+  console.log(data);
   const [flag1, setFlag1] = React.useState();
   const [flag2, setFlag2] = React.useState();
+  const [voteValue, setvoteValue] = React.useState();
+
+  const ADDRESS = "0xB38f8183Ad0110b40F054046B322E04da200E0B2";
+  const { address, isConnecting, isDisconnected } = useAccount();
 
   var timeSart = new Date(data.timeStart * 1000);
   var timeEnd = new Date(data.timeEnd * 1000);
 
   const [progress, setProgress] = useState(0);
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((oldProgress) => {
-        if (oldProgress === 100) {
-          return 0;
-        }
-        const diff = Math.random() * 10;
-        return Math.min(oldProgress + diff, 100);
-      });
-    }, 500);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
 
   const handleForButtonClick = () => {
     setFlag1(!flag1);
     setFlag2(false);
+    setvoteValue(true);
   };
   const handleAgainstButtonClick = () => {
     setFlag2(!flag2);
     setFlag1(false);
+    setvoteValue(false);
+  };
+
+  // console.log(data.address);
+
+  const voteToDao = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const connectedContract = new ethers.Contract(ADDRESS, abi, signer);
+
+        console.log("Going to pop wallet now to pay gas...");
+        let Txn = await connectedContract.VoteForCandidacyProposal(data.address, voteValue, { gasLimit: 1000000 });
+
+        console.log("Mining...please wait.");
+        await Txn.wait();
+        console.log(Txn);
+        toast.success("Your vote have been noted Thank you");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleVote = () => {
+    voteToDao();
+  };
+
+  const addSponsor = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const connectedContract = new ethers.Contract(ADDRESS, abi, signer);
+
+        console.log("Going to pop wallet now to pay gas...");
+        let Txn = await connectedContract.signSponsorship(data.address);
+
+        console.log("Mining...please wait.");
+        await Txn.wait();
+        console.log(Txn);
+        toast.success("Sponsor has been approved");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -94,81 +144,129 @@ const PersonalData = () => {
                 sx={{ padding: "10px" }}
               />
             )}
-            <Chip
-              className="chip2"
-              label={data.spon}
-              variant="outlined"
-              sx={{ padding: "10px" }}
-              icon={
-                data.sponLabel == "approved" ? (
-                  <TaskAltIcon style={{ color: "green" }} />
-                ) : data.sponLabel == "progress" ? (
-                  <RotateRightIcon style={{ color: "orange" }} />
-                ) : (
-                  <CancelIcon style={{ color: "red" }} />
-                )
-              }
-            />
+            {data.sponsor1Name.name || data.sponsor2Name.name ? (
+              <div>
+                <p>Sponsored BY</p>
+                {data.sponsor1Name.name && (
+                  <Chip
+                    label={data.sponsor1Name.name}
+                    variant="outlined"
+                    sx={{ padding: "10px" }}
+                    icon={
+                      data.sponsor1App == true ? (
+                        <img className="icon" src={tick} />
+                      ) : data.sponsor1App == false ? (
+                        <img className="icon" src={inprogress} />
+                      ) : (
+                        <CancelIcon style={{ color: "red" }} />
+                      )
+                    }
+                  />
+                )}
+                {data.sponsor2Name.name && (
+                  <Chip
+                    label={data.sponsor2Name.name}
+                    variant="outlined"
+                    sx={{ padding: "10px" }}
+                    icon={
+                      data.sponsor2App == true ? (
+                        <img className="icon" src={tick} />
+                      ) : data.sponsor2App == false ? (
+                        <img className="icon" src={inprogress} />
+                      ) : (
+                        <CancelIcon style={{ color: "red" }} />
+                      )
+                    }
+                  />
+                )}
+              </div>
+            ) : (
+              "Sponsored by No one"
+            )}
           </div>
         </div>
-        <div className="desc">{data.desc}</div>
-        <h5 className="phone">Phone: +{data.number}</h5>
+        <h4>Description</h4>
+        <div className="desc">Description: {data.desc}</div>
+        <h4>Phone</h4>
+        <div className="phone">{data.number}</div>
+        <h4>Email</h4>
+        <div className="phone">{data.email}</div>
+        <h4>Postal Address</h4>
+        <div className="phone"> {data.postalAddress}</div>
       </div>
 
       <div className="right">
-        <Card className="right-card">
-          <h2>Cast Your Vote 👇</h2>
-          <Divider />
-          <Button
-            sx={{ width: "50%" }}
-            className="btn"
-            variant={flag1 ? "contained" : "outlined"}
-            color="success"
-            onClick={handleForButtonClick}
-          >
-            For
-          </Button>
-          <Button
-            sx={{ width: "50%" }}
-            className="btn"
-            variant={flag2 ? "contained" : "outlined"}
-            color="error"
-            onClick={handleAgainstButtonClick}
-          >
-            Against
-          </Button>
-          <Button sx={{ marginBottom: "20px", marginTop: "30px" }} className="btn" variant="contained">
-            Vote
-          </Button>
-        </Card>
-
         {data.chip == "Active" && (
-          <Card className="right-card2">
-            <h2>Current results</h2>
-            <Stack sx={{ width: "70%", fontWeight: "500px" }} spacing={2}>
+          <Card className="right-card">
+            <h2>Cast Your Vote 👇</h2>
+            <Divider />
+            <Button
+              sx={{ width: "50%" }}
+              className="btn"
+              variant={flag1 ? "contained" : "outlined"}
+              color="success"
+              onClick={handleForButtonClick}
+            >
               For
-              <LinearProgressWithLabel
-                sx={{ height: "8px", borderRadius: "5px" }}
-                color="success"
-                value={data.forVotes}
-              />
+            </Button>
+            <Button
+              sx={{ width: "50%" }}
+              className="btn"
+              variant={flag2 ? "contained" : "outlined"}
+              color="error"
+              onClick={handleAgainstButtonClick}
+            >
               Against
-              <LinearProgressWithLabel
-                sx={{ height: "8px", borderRadius: "5px" }}
-                color="primary"
-                value={data.againstVotes}
-              />
-              <div className="date">
-                <h5>Start Date</h5>
-                <h5>{timeSart.toDateString()}</h5>
-              </div>
-              <div style={{ marginTop: "-30px" }} className="date">
-                <h5>End Date</h5>
-                <h5>{timeEnd.toDateString()}</h5>
-              </div>
-            </Stack>
+            </Button>
+            {data.sponsor1 == address && data.sponsor1App == false && (
+              <Button onClick={addSponsor} variant="contained" color="warning">
+                Add Sponsor
+              </Button>
+            )}
+            {data.sponsor2 == address && data.sponsor2App == false && (
+              <Button onClick={addSponsor} variant="contained" color="warning">
+                Add Sponsor
+              </Button>
+            )}
+            <Button
+              sx={{ marginBottom: "20px", marginTop: "30px" }}
+              className="btn"
+              variant="contained"
+              onClick={(e) => {
+                e.preventDefault();
+                handleVote();
+              }}
+            >
+              Vote
+            </Button>
           </Card>
         )}
+
+        <Card className="right-card2">
+          <h2>Current results</h2>
+          <Stack sx={{ width: "70%", fontWeight: "500px" }} spacing={2}>
+            For
+            <LinearProgressWithLabel
+              sx={{ height: "8px", borderRadius: "5px" }}
+              color="success"
+              value={data.forVotes}
+            />
+            Against
+            <LinearProgressWithLabel
+              sx={{ height: "8px", borderRadius: "5px" }}
+              color="primary"
+              value={data.againstVotes}
+            />
+            <div className="date">
+              <h5>Start Date</h5>
+              <h5>{timeSart.toDateString()}</h5>
+            </div>
+            <div style={{ marginTop: "-30px" }} className="date">
+              <h5>End Date</h5>
+              <h5>{timeEnd.toDateString()}</h5>
+            </div>
+          </Stack>
+        </Card>
       </div>
     </div>
   );
