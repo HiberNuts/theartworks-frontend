@@ -291,16 +291,6 @@ const Profile = () => {
                 variant="outlined"
                 onChange={(e) => setformData({ ...formData, email: e.target.value })}
               />
-              <input
-                className="profile-input"
-                required
-                type="text"
-                placeholder="job"
-                label="job"
-                value={formData.job}
-                variant="outlined"
-                onChange={(e) => setformData({ ...formData, job: e.target.value })}
-              />
             </div>
           </div>
           <div className="p-row2">
@@ -335,34 +325,7 @@ const Profile = () => {
               onChange={(e) => setformData({ ...formData, number: e.target.value })}
             />
           </div>
-          <FormControl>
-            <InputLabel id="demo-simple-select-label">Select Job</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={filter}
-              label="Select Job"
-              onChange={handleJobChange}
-            >
-              <MenuItem value={"Artist"}>Artist</MenuItem>
-              <MenuItem value={"Gallery director"}>Gallery director</MenuItem>
-              <MenuItem value={"Curators"}>Curators</MenuItem>
-              <MenuItem value={"Museum director"}>Museum director</MenuItem>
-              <MenuItem value={"Art space director"}>Art space director</MenuItem>
-              <MenuItem value={"Collector"}>Collector</MenuItem>
-              <MenuItem value={"Art dealer"}>Art dealer</MenuItem>
-              <MenuItem value={"Art critic"}>Art critic</MenuItem>
-              <MenuItem value={"Foundation director"}>Foundation director</MenuItem>
-              <MenuItem value={"others"}>others</MenuItem>
-            </Select>
-            {filter == "others" && (
-              <input
-                type="text"
-                onChange={(e) => setformData({ ...formData, job: e.target.value })}
-                placeholder="type job here"
-              />
-            )}
-          </FormControl>
+
           <div className="p-row2">
             <textarea
               className="profile-input"
@@ -408,6 +371,34 @@ const Profile = () => {
               })}
             </Select>
           </div>
+          <FormControl>
+            <InputLabel id="demo-simple-select-label">Select Job</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={filter}
+              label="Select Job"
+              onChange={handleJobChange}
+            >
+              <MenuItem value={"Artist"}>Artist</MenuItem>
+              <MenuItem value={"Gallery director"}>Gallery director</MenuItem>
+              <MenuItem value={"Curators"}>Curators</MenuItem>
+              <MenuItem value={"Museum director"}>Museum director</MenuItem>
+              <MenuItem value={"Art space director"}>Art space director</MenuItem>
+              <MenuItem value={"Collector"}>Collector</MenuItem>
+              <MenuItem value={"Art dealer"}>Art dealer</MenuItem>
+              <MenuItem value={"Art critic"}>Art critic</MenuItem>
+              <MenuItem value={"Foundation director"}>Foundation director</MenuItem>
+              <MenuItem value={"others"}>others</MenuItem>
+            </Select>
+            {filter == "others" && (
+              <input
+                type="text"
+                onChange={(e) => setformData({ ...formData, job: e.target.value })}
+                placeholder="type job here"
+              />
+            )}
+          </FormControl>
 
           <Button
             sx={{
