@@ -89,24 +89,6 @@ const DaoVotes = () => {
   const handleChange = (event) => {
     setfilter(event.target.value);
     console.log(event.target.value == "All");
-    // if (event.target.value == "All") {
-    //   console.log("filetr");
-    //   console.log("here", allCandidacyData);
-    //   setfilterAllData(allCandidacyData);
-    //   console.log("here2sasfasf", filterAllData);
-    // } else if (event.target.value == "Active") {
-    //   let newArray = allCandidacyData.filter((item, index) => {
-    //     return item.chip == event.target.value;
-    //   });
-    //   setfilterAllData(newArray);
-    //   console.log(newArray);
-    // } else if (event.target.value == "Closed") {
-    //   let newArray = allCandidacyData.filter((item, index) => {
-    //     return item.chip == event.target.value;
-    //   });
-    //   setfilterAllData(newArray);
-    //   console.log(newArray);
-    // }
     handleFilterData(event.target.value);
   };
 
@@ -195,15 +177,23 @@ const DaoVotes = () => {
       });
       setfilterAllData(newArray);
       console.log(newArray);
+    } else if (sample == "daomem") {
+      let newArray = allCandidacyData.filter((item, index) => {
+        return item.candidacy == "true";
+      });
+      setfilterAllData(newArray);
+      console.log(newArray);
+    } else if (sample == "refmem") {
+      let newArray = allCandidacyData.filter((item, index) => {
+        return item.candidacy == "false";
+      });
+      setfilterAllData(newArray);
+      console.log(newArray);
     }
     console.log("nice", sample, allCandidacyData, filterAllData);
   };
 
   const search = async (e) => {
-    // console.log("Hello", filter, e.target.value);
-    // // handleChange(filter);
-    // handleFilterData(filter);
-    // console.log("yes", filterAllData)
     let sample = filter;
     let newArray = [];
     if (sample == "All") {
@@ -224,7 +214,20 @@ const DaoVotes = () => {
       });
       // setfilterAllData(newArray);
       console.log(newArray);
+    } else if (sample == "daomen") {
+      newArray = allCandidacyData.filter((item, index) => {
+        return item.candidacy == "true";
+      });
+      // setfilterAllData(newArray);
+      console.log(newArray);
+    } else if (sample == "refmen") {
+      newArray = allCandidacyData.filter((item, index) => {
+        return item.candidacy == "false";
+      });
+      // setfilterAllData(newArray);
+      console.log(newArray);
     }
+
     const blahArray = newArray.filter((item) => {
       return item.name.toString().toLowerCase().includes(e.target.value.toLowerCase());
     });
@@ -351,8 +354,16 @@ const DaoVotes = () => {
             sponsor2: sponsor[1],
             sponsor1Name: sponsor1Name,
             sponsor2Name: sponsor2Name,
-            sponsor1App: sponsor1App,
-            sponsor2App: sponsor2App,
+            sponsor1App: sponsor1App
+              ? sponsor1App
+              : date.getTime() / 1000 <= data[i].Txn.timeEnd.toNumber()
+              ? "inprogress"
+              : false,
+            sponsor2App: sponsor2App
+              ? sponsor2App
+              : date.getTime() / 1000 <= data[i].Txn.timeEnd.toNumber()
+              ? "inprogress"
+              : false,
             blacklisted: blacklisted,
           });
         }
@@ -442,7 +453,7 @@ const DaoVotes = () => {
                         icon={
                           data.sponsor1App == true ? (
                             <img className="icon" src={tick} />
-                          ) : data.sponsor1App == false ? (
+                          ) : data.sponsor1App == "inprogress" ? (
                             <img className="icon" src={inprogress} />
                           ) : (
                             <CancelIcon style={{ color: "red" }} />
@@ -458,7 +469,7 @@ const DaoVotes = () => {
                         icon={
                           data.sponsor2App == true ? (
                             <img className="icon" src={tick} />
-                          ) : data.sponsor2App == false ? (
+                          ) : data.sponsor2App == "inprogress" ? (
                             <img className="icon" src={inprogress} />
                           ) : (
                             <CancelIcon style={{ color: "red" }} />

@@ -151,11 +151,11 @@ const PersonalData = () => {
                   <Chip
                     label={data.sponsor1Name.name}
                     variant="outlined"
-                    sx={{ padding: "10px" }}
+                    sx={{ padding: "10px", margin: "10px" }}
                     icon={
                       data.sponsor1App == true ? (
                         <img className="icon" src={tick} />
-                      ) : data.sponsor1App == false ? (
+                      ) : data.sponsor1App == "inprogress" ? (
                         <img className="icon" src={inprogress} />
                       ) : (
                         <CancelIcon style={{ color: "red" }} />
@@ -167,11 +167,11 @@ const PersonalData = () => {
                   <Chip
                     label={data.sponsor2Name.name}
                     variant="outlined"
-                    sx={{ padding: "10px" }}
+                    sx={{ padding: "10px", margin: "10px" }}
                     icon={
                       data.sponsor2App == true ? (
                         <img className="icon" src={tick} />
-                      ) : data.sponsor2App == false ? (
+                      ) : data.sponsor2App == "inprogress" ? (
                         <img className="icon" src={inprogress} />
                       ) : (
                         <CancelIcon style={{ color: "red" }} />

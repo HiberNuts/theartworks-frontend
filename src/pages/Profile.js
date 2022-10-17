@@ -1,4 +1,4 @@
-import { Button, MenuItem, Select } from "@mui/material";
+import { Button, FormControl, MenuItem, Select } from "@mui/material";
 import React, { useState } from "react";
 
 import "./Profile.css";
@@ -14,7 +14,6 @@ import { usePrepareContractWrite, useContractWrite, useWaitForTransaction, useCo
 import abi from "../utils/abi.json";
 import { ethers } from "ethers";
 import toast, { Toaster } from "react-hot-toast";
-import { Sanityclient } from "../client";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -56,6 +55,8 @@ const Profile = () => {
   const [daoMembersAddress, setdaoMembersAddress] = React.useState([]);
   const [daoMembersData, setdaoMembersData] = React.useState([]);
   const [sponsorAddress, setsponsorAddress] = useState([{}]);
+  const [filter, setfilter] = useState("Artist");
+  const [others, setothers] = useState(false);
 
   const file = new File(["foo"], "foo.txt", { type: "text/plain" });
 
@@ -91,6 +92,7 @@ const Profile = () => {
           // download url
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             console.log(url);
+            toast.success("image uploaded successfully");
           });
         }
       );
@@ -208,6 +210,11 @@ const Profile = () => {
     gettingImage();
   }, []);
 
+  const handleJobChange = (e) => {
+    setfilter(e.target.value);
+    setformData({ ...formData, job: e.target.value });
+  };
+  console.log(formData);
   return (
     <div className="profile-container">
       <Toaster position="top-center" />
@@ -328,7 +335,34 @@ const Profile = () => {
               onChange={(e) => setformData({ ...formData, number: e.target.value })}
             />
           </div>
-
+          <FormControl>
+            <InputLabel id="demo-simple-select-label">Select Job</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={filter}
+              label="Select Job"
+              onChange={handleJobChange}
+            >
+              <MenuItem value={"Artist"}>Artist</MenuItem>
+              <MenuItem value={"Gallery director"}>Gallery director</MenuItem>
+              <MenuItem value={"Curators"}>Curators</MenuItem>
+              <MenuItem value={"Museum director"}>Museum director</MenuItem>
+              <MenuItem value={"Art space director"}>Art space director</MenuItem>
+              <MenuItem value={"Collector"}>Collector</MenuItem>
+              <MenuItem value={"Art dealer"}>Art dealer</MenuItem>
+              <MenuItem value={"Art critic"}>Art critic</MenuItem>
+              <MenuItem value={"Foundation director"}>Foundation director</MenuItem>
+              <MenuItem value={"others"}>others</MenuItem>
+            </Select>
+            {filter == "others" && (
+              <input
+                type="text"
+                onChange={(e) => setformData({ ...formData, job: e.target.value })}
+                placeholder="type job here"
+              />
+            )}
+          </FormControl>
           <div className="p-row2">
             <textarea
               className="profile-input"

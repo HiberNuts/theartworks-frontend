@@ -29,6 +29,7 @@ export default function Navbar() {
   const [dropdown, setdropdown] = React.useState("account");
   const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
   const { disconnect } = useDisconnect();
+  const [dao, setdao] = React.useState(false);
 
   const handleDropChange = (e) => {
     setdropdown(e.target.value);
@@ -57,26 +58,35 @@ export default function Navbar() {
   }, [address]);
 
   return (
-    <Box sx={{ flexGrow: 1, color: "black" }}>
+    <Box elevation={0} sx={{ flexGrow: 1, color: "black" }}>
       <AppBar
+        elevation={0}
         className="AppBar"
-        sx={{ backgroundColor: "white", color: "black", display: "flex", justifyContent: "space-between" }}
+        sx={{
+          backgroundColor: "white",
+          color: "black",
+          display: "flex",
+          justifyContent: "space-between",
+          borderBottom: "1px solid black",
+        }}
         position="static"
       >
         <Toolbar className="toolbar" sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Link style={{ textDecoration: "none" }} to="/">
-            <img style={{ width: "200px" }} src={logo} onClick={() => setDao(false)} />
+            <img style={{ width: "200px" }} src={logo} onClick={() => setdao(false)} />
           </Link>
 
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
             <Link style={{ textDecoration: "none" }} to="/dao">
               <Button
                 sx={{
-                  backgroundColor: "black",
-                  color: "white",
+                  color: "black",
                   marginRight: "40px",
+
+                  borderBottom: dao ? "4px solid black" : "",
                 }}
                 className="button"
+                onClick={() => setdao(true)}
               >
                 DAO votes
               </Button>
@@ -109,7 +119,7 @@ export default function Navbar() {
                         marginRight: "40px",
                       }}
                       className="button"
-                      // onClick={}
+                      onClick={() => setdao(true)}
                     >
                       Dao Votes
                     </Button>
@@ -123,6 +133,7 @@ export default function Navbar() {
                         marginRight: "40px",
                       }}
                       className="button"
+                      onClick={() => setdao(false)}
                     >
                       My Profile
                     </Button>
@@ -141,7 +152,24 @@ export default function Navbar() {
               </Select>
             ) : (
               // <Login />
-              <ConnectKitButton />
+              <ConnectKitButton.Custom>
+                {({ isConnected, show, truncatedAddress, ensName }) => {
+                  return (
+                    <Button
+                      sx={{
+                        backgroundColor: "black",
+                        color: "white",
+                        borderRadius: "20px",
+                        "&:hover": { backgroundColor: "black" },
+                        padding: "10px",
+                      }}
+                      onClick={show}
+                    >
+                      {isConnected ? ensName ?? truncatedAddress : "Join Dao"}
+                    </Button>
+                  );
+                }}
+              </ConnectKitButton.Custom>
             )}
           </div>
         </Toolbar>

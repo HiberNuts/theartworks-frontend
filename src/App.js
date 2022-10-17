@@ -22,7 +22,7 @@ import {
   useConnect,
   useAccount,
 } from "wagmi";
-import { Sanityclient } from "./client.js";
+
 
 import { ConnectKitProvider, getDefaultClient } from "connectkit";
 import storage from "./utils/firebaseConfig";
