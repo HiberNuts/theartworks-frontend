@@ -160,35 +160,28 @@ const DaoVotes = () => {
 
   const handleFilterData = (sample) => {
     if (sample == "All") {
-      console.log("filetr");
-      console.log("here", allCandidacyData);
       let samplearray = allCandidacyData;
       return setfilterAllData(samplearray);
-      console.log("here2sasfasf", filterAllData);
     } else if (sample == "Active") {
       let newArray = allCandidacyData.filter((item, index) => {
         return item.chip == sample;
       });
       setfilterAllData(newArray);
-      console.log(newArray);
     } else if (sample == "Closed") {
       let newArray = allCandidacyData.filter((item, index) => {
         return item.chip == sample;
       });
       setfilterAllData(newArray);
-      console.log(newArray);
     } else if (sample == "daomem") {
       let newArray = allCandidacyData.filter((item, index) => {
         return item.candidacy == "true";
       });
       setfilterAllData(newArray);
-      console.log(newArray);
     } else if (sample == "refmem") {
       let newArray = allCandidacyData.filter((item, index) => {
         return item.candidacy == "false";
       });
       setfilterAllData(newArray);
-      console.log(newArray);
     }
     console.log("nice", sample, allCandidacyData, filterAllData);
   };
@@ -197,8 +190,6 @@ const DaoVotes = () => {
     let sample = filter;
     let newArray = [];
     if (sample == "All") {
-      console.log("filetr");
-      console.log("here", allCandidacyData);
       newArray = allCandidacyData;
       // setfilterAllData(samplearray);
       console.log("here2sasfasf", filterAllData);
@@ -206,26 +197,18 @@ const DaoVotes = () => {
       newArray = allCandidacyData.filter((item, index) => {
         return item.chip == sample;
       });
-      // setfilterAllData(newArray);
-      console.log(newArray);
     } else if (sample == "Closed") {
       newArray = allCandidacyData.filter((item, index) => {
         return item.chip == sample;
       });
-      // setfilterAllData(newArray);
-      console.log(newArray);
     } else if (sample == "daomen") {
       newArray = allCandidacyData.filter((item, index) => {
         return item.candidacy == "true";
       });
-      // setfilterAllData(newArray);
-      console.log(newArray);
     } else if (sample == "refmen") {
       newArray = allCandidacyData.filter((item, index) => {
         return item.candidacy == "false";
       });
-      // setfilterAllData(newArray);
-      console.log(newArray);
     }
 
     const blahArray = newArray.filter((item) => {
@@ -281,7 +264,7 @@ const DaoVotes = () => {
       }
       return "";
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -299,7 +282,6 @@ const DaoVotes = () => {
         let canidacyData = [];
         var i = 0;
         for (i = 0; i < allAddress.length; i++) {
-          console.log("asasf");
           let Txn = await connectedContract.candidacyAllData(allAddress[i]);
           data.push({ Txn });
         }
@@ -319,7 +301,6 @@ const DaoVotes = () => {
           const sponsor2App = await getSponsorsApproved(sponsor[1], data[i].Txn.candidate);
           const blacklisted = await getBlackListed(data[i].Txn.candidate);
           const dataimage = await getImage(data[i].Txn.candidate);
-          console.log("data Image", dataimage);
 
           canidacyData.push({
             // candidacy:
@@ -371,7 +352,7 @@ const DaoVotes = () => {
         setallCandidacyData(canidacyData);
         setfilterAllData(canidacyData);
 
-        console.log(allCandidacyData);
+        // console.log(allCandidacyData);
         setloading(false);
       }
     } catch (error) {
