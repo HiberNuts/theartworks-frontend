@@ -346,10 +346,14 @@ const Profile = () => {
                 marginBottom: "10px",
                 color: "black",
                 minWidth: "200px",
+                border: "none",
+
+                fontWeight: "bold",
               }}
               labelId="demo-multiple-chip-label"
               id="demo-multiple-chip"
               multiple
+              placeholder="Select sponsor"
               value={personName}
               onChange={handleRoleChange}
               input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
@@ -379,6 +383,7 @@ const Profile = () => {
               value={filter}
               label="Select Job"
               onChange={handleJobChange}
+              sx={{ border: "none", fontWeight: "bold", "& fieldset": { border: "none" } }}
             >
               <MenuItem value={"Artist"}>Artist</MenuItem>
               <MenuItem value={"Gallery director"}>Gallery director</MenuItem>

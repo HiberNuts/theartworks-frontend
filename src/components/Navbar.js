@@ -10,7 +10,7 @@ import { PagesContext } from "../context/Context";
 import { Link, useNavigate } from "react-router-dom";
 import Login from "../pages/Login";
 import { shortenAddress } from "../utils/shortenAddress";
-import { MenuItem, Select } from "@mui/material";
+import { Avatar, MenuItem, Select } from "@mui/material";
 import MyWallet from "../pages/MyWallet";
 import abi from "../utils/abi";
 import { useAccount, useConnect, useDisconnect, useContractRead } from "wagmi";
@@ -58,7 +58,7 @@ export default function Navbar() {
   }, [address]);
 
   return (
-    <Box elevation={0} sx={{ flexGrow: 1, color: "black" }}>
+    <Box elevation={0} sx={{ flexGrow: 1, color: "black", fontWeight: "bold" }}>
       <AppBar
         elevation={0}
         className="AppBar"
@@ -67,13 +67,24 @@ export default function Navbar() {
           color: "black",
           display: "flex",
           justifyContent: "space-between",
+
           borderBottom: "1px solid black",
+          height: "80px",
         }}
         position="static"
       >
-        <Toolbar className="toolbar" sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Toolbar
+          className="toolbar"
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginLeft: "100px",
+            marginRight: "100px",
+          }}
+        >
           <Link style={{ textDecoration: "none" }} to="/">
-            <img style={{ width: "200px" }} src={logo} onClick={() => setdao(false)} />
+            <img style={{ width: "250px" }} src={logo} onClick={() => setdao(false)} />
           </Link>
 
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -81,14 +92,20 @@ export default function Navbar() {
               <Button
                 sx={{
                   color: "black",
-                  marginRight: "40px",
-
+                  marginRight: "60px",
+                  " &:hover": {
+                    background: "none",
+                  },
+                  "&:focus": {
+                    background: "none",
+                  },
+                  textTransform: "none",
+                  fontWeight: "bold",
                   borderBottom: dao ? "4px solid black" : "",
                 }}
-                className="button"
                 onClick={() => setdao(true)}
               >
-                DAO votes
+                DAO Votes
               </Button>
             </Link>
             {isConnected ? (
@@ -97,15 +114,60 @@ export default function Navbar() {
                   color: "white",
                   height: "70px",
                   m: "10px",
+                  border: "none",
+                  fontWeight: "bold",
+                  "& fieldset": { border: "none" },
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={dropdown}
                 onChange={(e) => handleChange(e)}
               >
-                <MenuItem sx={{ color: "black" }} value={"account"}>
-                  {" "}
-                  <ConnectKitButton />
+                <MenuItem
+                  sx={{
+                    color: "black",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    
+                    borderWidth: "90%",
+                  }}
+                  value={"account"}
+                >
+                  <ConnectKitButton.Custom>
+                    {({ isConnected, show, truncatedAddress, ensName }) => {
+                      return (
+                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                          <Avatar
+                            style={{ bgcolor: "black", backgroundColor: "black", width: "25px", height: "25px" }}
+                          />
+                          <Button
+                            sx={{
+                              color: "black",
+                              fontSize: "10px",
+                             
+                              " &:hover": {
+                                background: "none",
+                              },
+                              "&:focus": {
+                                background: "none",
+                              },
+                              textTransform: "none",
+                              fontWeight: "bold",
+                              fontSize: "20px",
+                            }}
+                            onClick={show}
+                          >
+                            {"Account"}
+                          </Button>
+                        </div>
+                      );
+                    }}
+                  </ConnectKitButton.Custom>
+                  {/* Account */}
                 </MenuItem>
                 <MenuItem sx={{ color: "black" }}>
                   <MyWallet />
@@ -117,6 +179,13 @@ export default function Navbar() {
                       sx={{
                         color: "black",
                         marginRight: "40px",
+
+                        " &:hover": {
+                          background: "none",
+                        },
+                        "&:focus": {
+                          background: "none",
+                        },
                       }}
                       className="button"
                       onClick={() => setdao(true)}
@@ -131,6 +200,12 @@ export default function Navbar() {
                       sx={{
                         color: "black",
                         marginRight: "40px",
+                        " &:hover": {
+                          background: "none",
+                        },
+                        "&:focus": {
+                          background: "none",
+                        },
                       }}
                       className="button"
                       onClick={() => setdao(false)}
@@ -145,7 +220,19 @@ export default function Navbar() {
                   }}
                   value={"logout"}
                 >
-                  <Button sx={{ color: "black" }} className="button" onClick={disconnect}>
+                  <Button
+                    sx={{
+                      color: "black",
+                      " &:hover": {
+                        background: "none",
+                      },
+                      "&:focus": {
+                        background: "none",
+                      },
+                    }}
+                    className="button"
+                    onClick={disconnect}
+                  >
                     logout
                   </Button>
                 </MenuItem>
@@ -160,6 +247,8 @@ export default function Navbar() {
                         backgroundColor: "black",
                         color: "white",
                         borderRadius: "20px",
+                        fontSize: "10px",
+                        width: "120px",
                         "&:hover": { backgroundColor: "black" },
                         padding: "10px",
                       }}

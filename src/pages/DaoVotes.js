@@ -366,11 +366,20 @@ const DaoVotes = () => {
   }, [allAddress]);
 
   return (
-    <div>
-      <Box sx={{ width: "60%", margin: "20px", display: "flex", justifyContent: "space-evenly", alignItems: "center" }}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+    <div style={{ width: "100%" }}>
+      <Box
+        sx={{
+          width: "96%",
+          margin: "20px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          margin: "0px 50px 0px 50px",
+        }}
+      >
+        <FormControl sx={{ border: "none", "& fieldset": { border: "none" }, fontWeight: "bold" }}>
           <Select
+            sx={{ border: "none", "& fieldset": { border: "none" }, fontWeight: "bold" }}
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={filter}
