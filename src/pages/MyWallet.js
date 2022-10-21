@@ -12,7 +12,7 @@ import { useAccount, useContractRead } from "wagmi";
 import abi from "../utils/abi.json";
 
 export default function MyWallet() {
-  const ADDRESS = "0xB38f8183Ad0110b40F054046B322E04da200E0B2";
+  const ADDRESS = "0x92c67df198E17bae61B6A92576a8ec9d52516690";
   const { address, isConnecting, isDisconnected } = useAccount();
 
   const { checkIfWalletConnected, account, connectWallet } = useContext(PagesContext);

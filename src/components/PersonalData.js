@@ -42,7 +42,7 @@ const PersonalData = () => {
   const [flag2, setFlag2] = React.useState();
   const [voteValue, setvoteValue] = React.useState();
 
-  const ADDRESS = "0xB38f8183Ad0110b40F054046B322E04da200E0B2";
+  const ADDRESS = "0x92c67df198E17bae61B6A92576a8ec9d52516690";
   const { address, isConnecting, isDisconnected } = useAccount();
 
   var timeSart = new Date(data.timeStart * 1000);
@@ -82,6 +82,7 @@ const PersonalData = () => {
       }
     } catch (error) {
       console.log(error);
+      toast.error("Error occured");
     }
   };
 
@@ -104,10 +105,16 @@ const PersonalData = () => {
         console.log("Mining...please wait.");
         await Txn.wait();
         console.log(Txn);
+        setFlag1(false);
+        setFlag2(false);
+
         toast.success("Sponsor has been approved");
       }
     } catch (error) {
       console.log(error);
+      toast.success("Looks like you already voted");
+      setFlag1(false);
+      setFlag2(false);
     }
   };
 
@@ -218,14 +225,14 @@ const PersonalData = () => {
             >
               Against
             </Button>
-            {data.sponsor1 == address && data.sponsor1App == false && (
+            {data.sponsor1 == address && data.sponsor1App == "inprogress" && (
               <Button onClick={addSponsor} variant="contained" color="warning">
                 Add Sponsor
               </Button>
             )}
-            {data.sponsor2 == address && data.sponsor2App == false && (
+            {data.sponsor2 == address && data.sponsor2App == "inprogress" && (
               <Button onClick={addSponsor} variant="contained" color="warning">
-                Add Sponsor
+                Sign Sponsorship
               </Button>
             )}
             <Button

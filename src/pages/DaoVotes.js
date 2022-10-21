@@ -1,7 +1,7 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
 
-import { Avatar, Button, CircularProgress } from "@mui/material";
+import { Avatar, Button, CircularProgress, Input, InputAdornment } from "@mui/material";
 import Chip from "@mui/material/Chip";
 import "./DaoVotes.css";
 import RotateRightIcon from "@mui/icons-material/RotateRight";
@@ -14,7 +14,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { Navigate, Link } from "react-router-dom";
+import { Navigate, Link, useNavigate } from "react-router-dom";
 import {
   paginatedIndexesConfig,
   useAccount,
@@ -26,13 +26,14 @@ import {
 import abi from "../utils/abi.json";
 
 import { ethers } from "ethers";
-import { CalendarViewDayOutlined } from "@mui/icons-material";
+import { AccountCircle, CalendarViewDayOutlined, Search } from "@mui/icons-material";
 import accepted from "../assets/accepted.png";
 import refused from "../assets/refused.png";
 import tick from "../assets/tick.png";
 import inprogress from "../assets/inprogress.png";
 import { getDownloadURL, ref } from "firebase/storage";
 import storage from "../utils/firebaseConfig";
+import { purple } from "@mui/material/colors";
 const DUMMY = [
   {
     image:
@@ -72,7 +73,7 @@ const DUMMY = [
   },
 ];
 
-const ADDRESS = "0xB38f8183Ad0110b40F054046B322E04da200E0B2";
+const ADDRESS = "0x92c67df198E17bae61B6A92576a8ec9d52516690";
 
 const DaoVotes = () => {
   const [dummy, setdummy] = React.useState(DUMMY);
@@ -85,6 +86,8 @@ const DaoVotes = () => {
   const [loading, setloading] = React.useState(false);
 
   const { address } = useAccount();
+  const navigate = useNavigate();
+  const color = purple[500];
 
   const handleChange = (event) => {
     setfilter(event.target.value);
@@ -248,6 +251,7 @@ const DaoVotes = () => {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
       let Txn = await connectedContract.blacklisted(userAddress);
+      console.log(Txn);
       return Txn;
     } catch (err) {
       console.log(err);
@@ -274,7 +278,6 @@ const DaoVotes = () => {
       setloading(true);
 
       if (ethereum) {
-        console.log(ethereum);
         const provider = new ethers.providers.Web3Provider(ethereum);
         const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
 
@@ -313,7 +316,15 @@ const DaoVotes = () => {
               ? "true"
               : blacklisted
               ? "false"
-              : ` ${Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600)} Hours Left`,
+              : Math.floor((date.getTime() / 1000 - data[i].Txn.timeEnd.toNumber()) / 3600) <= 0
+              ? `${Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600)} Hours Left`
+              : data[i].Txn.forVotes.toNumber() > data[i].Txn.againstVotes.toNumber()
+              ? "false"
+              : Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600) == 0
+              ? "48 Hours left"
+              : Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600) <= 0
+              ? "false"
+              : `${Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600)} Hours Left`,
 
             address: data[i].Txn.candidate,
             image: dataimage,
@@ -330,7 +341,7 @@ const DaoVotes = () => {
             forVotes: data[i].Txn.forVotes.toNumber(),
             againstVotes: data[i].Txn.againstVotes.toNumber(),
             // chip: date.getTime() / 1000 <= data[i].Txn.timeEnd.toNumber() ? "Active" : "Closed",
-            chip: daoMemberAddress.includes(data[i].Txn.candidate) || blacklisted ? "Closed" : "Active",
+            chip: date.getTime() / 1000 <= data[i].Txn.timeEnd.toNumber() ? "Active" : "Closed",
             sponsor1: sponsor[0],
             sponsor2: sponsor[1],
             sponsor1Name: sponsor1Name,
@@ -352,7 +363,7 @@ const DaoVotes = () => {
         setallCandidacyData(canidacyData);
         setfilterAllData(canidacyData);
 
-        // console.log(allCandidacyData);
+        console.log(allCandidacyData);
         setloading(false);
       }
     } catch (error) {
@@ -366,18 +377,17 @@ const DaoVotes = () => {
   }, [allAddress]);
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{  marginTop: "20px", marginLeft: "120px", marginRight: "120px" }}>
       <Box
         sx={{
-          width: "96%",
-          margin: "20px",
+     
+
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          margin: "0px 50px 0px 50px",
         }}
       >
-        <FormControl sx={{ border: "none", "& fieldset": { border: "none" }, fontWeight: "bold" }}>
+        <FormControl sx={{ border: "none", "& fieldset": { border: "none" }, fontWeight: "bold", mb: "10px" }}>
           <Select
             sx={{ border: "none", "& fieldset": { border: "none" }, fontWeight: "bold" }}
             labelId="demo-simple-select-label"
@@ -393,7 +403,51 @@ const DaoVotes = () => {
             <MenuItem value={"refmem"}>Refused Members</MenuItem>
           </Select>
         </FormControl>
-        <input style={{ width: "400px" }} placeholder="Search Members" type="text" onChange={search} />
+
+        <Input
+          sx={{
+            width: "400px",
+            border: "1px solid grey",
+            borderRadius: "30px",
+            padding: "5px",
+            "&:before": {
+              borderBottom: "0px",
+            },
+            padding: "5px",
+            "&:after": {
+              borderBottom: "0px",
+            },
+            " &:hover": {
+              borderBottom: "0px",
+            },
+            "&:focus": {
+              borderBottom: "0px",
+            },
+          }}
+          startAdornment={
+            <InputAdornment position="start">
+              <Search />
+            </InputAdornment>
+          }
+          inputProps={{
+            underline: {
+              "&&&:before": {
+                borderBottom: "none",
+              },
+              "&&:after": {
+                borderBottom: "none",
+              },
+            },
+            disableUnderline: true,
+          }}
+        />
+
+        {/* <input
+          style={{ width: "400px", border: "1px solid grey" }}
+          placeholder="Search Members"
+          type="text"
+          onChange={search}
+        /> */}
       </Box>
 
       {loading && (
@@ -403,7 +457,7 @@ const DaoVotes = () => {
       )}
       {filterAllData.map((data, index) => (
         <Link key={index} style={{ textDecoration: "none" }} to="/personalData" state={{ data }}>
-          <Card className="card" sx={{ padding: "30px", margin: "30px", borderRadius: "20px" }}>
+          <Card className="card" sx={{ padding: "30px", marginBottom: "20px", borderRadius: "20px" }}>
             <Avatar sx={{ width: "150px", height: "150px" }} alt="Remy Sharp" src={data.image} />
             <div className="details">
               <div className="row1 row">

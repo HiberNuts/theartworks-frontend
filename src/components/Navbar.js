@@ -21,7 +21,7 @@ import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from
 export default function Navbar() {
   //wagmi connecting contract
 
-  const ADDRESS = "0xB38f8183Ad0110b40F054046B322E04da200E0B2";
+  const ADDRESS = "0x92c67df198E17bae61B6A92576a8ec9d52516690";
 
   const { address, isConnected } = useAccount();
   const { Dao, setDao, account } = React.useContext(PagesContext);
@@ -58,29 +58,44 @@ export default function Navbar() {
   }, [address]);
 
   return (
-    <Box elevation={0} sx={{ flexGrow: 1, color: "black", fontWeight: "bold" }}>
+    <Box
+      elevation={0}
+      sx={{
+        flexGrow: 1,
+        color: "black",
+        fontWeight: "bold",
+        margin: "0",
+        padding: "0",
+
+        borderBottom: "1px solid black",
+      }}
+    >
       <AppBar
         elevation={0}
         className="AppBar"
         sx={{
           backgroundColor: "white",
           color: "black",
-          display: "flex",
-          justifyContent: "space-between",
 
-          borderBottom: "1px solid black",
-          height: "80px",
+          // height: "80px",
+          // marginLeft: "120px",
+          // marginRight: "120px",
+          // width: "100%",
         }}
-        position="static"
+        position="inherit"
       >
         <Toolbar
           className="toolbar"
           sx={{
             display: "flex",
+            height: "100%",
             justifyContent: "space-between",
             alignItems: "center",
             marginLeft: "100px",
             marginRight: "100px",
+            padding: "0px",
+            paddingLeft: "0px",
+            paddingRight: "0px",
           }}
         >
           <Link style={{ textDecoration: "none" }} to="/">
@@ -113,7 +128,7 @@ export default function Navbar() {
                 sx={{
                   color: "white",
                   height: "70px",
-                  m: "10px",
+
                   border: "none",
                   fontWeight: "bold",
                   "& fieldset": { border: "none" },
@@ -132,7 +147,7 @@ export default function Navbar() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    
+
                     borderWidth: "90%",
                   }}
                   value={"account"}
@@ -148,7 +163,7 @@ export default function Navbar() {
                             sx={{
                               color: "black",
                               fontSize: "10px",
-                             
+
                               " &:hover": {
                                 background: "none",
                               },
@@ -199,7 +214,7 @@ export default function Navbar() {
                     <Button
                       sx={{
                         color: "black",
-                        marginRight: "40px",
+
                         " &:hover": {
                           background: "none",
                         },
@@ -249,12 +264,13 @@ export default function Navbar() {
                         borderRadius: "20px",
                         fontSize: "10px",
                         width: "120px",
+                        textTransform: "none",
                         "&:hover": { backgroundColor: "black" },
                         padding: "10px",
                       }}
                       onClick={show}
                     >
-                      {isConnected ? ensName ?? truncatedAddress : "Join Dao"}
+                      {isConnected ? ensName ?? truncatedAddress : "Join DAO"}
                     </Button>
                   );
                 }}

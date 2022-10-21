@@ -3,6 +3,8 @@
     flex-direction: column;
     margin-bottom: 50px;
     padding: 10px;
+    margin-left: 120px;
+        margin-right: 120px;
 }
 .upload-button{
     cursor: pointer;

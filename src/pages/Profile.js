@@ -26,7 +26,7 @@ const MenuProps = {
   },
 };
 
-const ADDRESS = "0xB38f8183Ad0110b40F054046B322E04da200E0B2";
+const ADDRESS = "0x92c67df198E17bae61B6A92576a8ec9d52516690";
 
 const Profile = () => {
   const { address, isConnecting, isDisconnected } = useAccount();
@@ -128,12 +128,42 @@ const Profile = () => {
 
         console.log("Mining...please wait.");
         await nftTxn.wait();
-        toast.success("Profile Updted");
+        toast.success("Profile Updated");
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  const readDaoMemberAddress = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+
+        const connectedContract = new ethers.Contract(ADDRESS, abi, provider);
+        let nftTxn = await connectedContract.getDaoMembersAddress();
+        console.log(nftTxn);
+        setdaoMembersAddress(nftTxn);
+        await getDaoMembersData();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // useContractRead({
+  //   addressOrName: ADDRESS,
+  //   contractInterface: abi,
+  //   functionName: "getDaoMembersAddress",
+  //   onSuccess(data) {
+  //     console.log("data", data);
+  //     setdaoMembersAddress(data);
+  //     console.log(daoMembersAddress);
+  //     getDaoMembersData();
+  //   },
+  // });
 
   const { data, isError, isLoading } = useContractRead({
     addressOrName: ADDRESS,
@@ -141,6 +171,8 @@ const Profile = () => {
     functionName: "candidacyAllData",
     args: [address],
     onSuccess(data) {
+      const date = new Date();
+      console.log(data);
       setformData({
         ...formData,
         name: data.name,
@@ -151,17 +183,8 @@ const Profile = () => {
         companyName: data.companyName,
         postalAddress: data.postaladdress,
         number: data.number,
+        time: data.timeEnd.toNumber() == 0 ? true : date.getTime() / 1000 <= data.timeEnd.toNumber() ? true : false,
       });
-    },
-  });
-
-  const { data: daoMembers } = useContractRead({
-    addressOrName: ADDRESS,
-    contractInterface: abi,
-    functionName: "getDaoMembersAddress",
-    onSuccess(data) {
-      setdaoMembersAddress(data);
-      getDaoMembersData();
     },
   });
 
@@ -173,27 +196,47 @@ const Profile = () => {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const connectedContract = new ethers.Contract(ADDRESS, abi, provider);
 
-        let data = [];
-        let canidacyData = [];
+        // let canidacyData = [];
         var i = 0;
-        for (i = 0; i < daoMembersAddress.length; i++) {
-          let Txn = await connectedContract.candidacyAllData(daoMembersAddress[i]);
-          data.push({ Txn });
-        }
-
-        data.forEach((d) => {
-          if (d.Txn.candidate == "0x0000000000000000000000000000000000000000") {
-            return;
-          } else if (d.Txn.candidate == address) {
-            return;
-          } else {
-            canidacyData.push({
-              address: d.Txn.candidate,
-              name: d.Txn.name,
-            });
+        daoMembersAddress.map(async (dma) => {
+          let Txn = await connectedContract.candidacyAllData(dma);
+          console.log(Txn);
+          if (Txn.candidate != "0x0000000000000000000000000000000000000000" && Txn.candidate !== address) {
+            setdaoMembersData([
+              ...daoMembersData,
+              {
+                address: Txn.candidate,
+                name: Txn.name,
+              },
+            ]);
+            // canidacyData.push({
+            //   address: Txn.candidate,
+            //   name: Txn.name,
+            // });
           }
+          console.log(daoMembersData);
         });
-        setdaoMembersData(canidacyData);
+
+        // daoMembersAddress.map(async (dma) => {
+        //   let Txn = await connectedContract.candidacyAllData(dma);
+        //   data.push({ Txn });
+        //   console.log(Txn);
+        // });
+
+        // data.forEach((d) => {
+        //   if (d.Txn.candidate == "0x0000000000000000000000000000000000000000") {
+        //     return;
+        //   } else if (d.Txn.candidate == address) {
+        //     return;
+        //   } else {
+        //     canidacyData.push({
+        //       address: d.Txn.candidate,
+        //       name: d.Txn.name,
+        //     });
+        //   }
+        // });
+        // console.log(await canidacyData);
+        // await setdaoMembersData(canidacyData);
         // console.log(daoMembersData);
       }
     } catch (error) {
@@ -202,11 +245,11 @@ const Profile = () => {
   };
 
   React.useEffect(() => {
-    // getDaoMembersData();
     const gettingImage = async () => {
       let mage = await getImage(address);
       setImage({ ...image, preview: mage });
     };
+    readDaoMemberAddress();
     gettingImage();
   }, []);
 
@@ -214,7 +257,7 @@ const Profile = () => {
     setfilter(e.target.value);
     setformData({ ...formData, job: e.target.value });
   };
-  console.log(formData);
+  // console.log(formData);
   return (
     <div className="profile-container">
       <Toaster position="top-center" />
@@ -350,10 +393,7 @@ const Profile = () => {
 
                 fontWeight: "bold",
               }}
-              labelId="demo-multiple-chip-label"
-              id="demo-multiple-chip"
               multiple
-              placeholder="Select sponsor"
               value={personName}
               onChange={handleRoleChange}
               input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
@@ -404,23 +444,24 @@ const Profile = () => {
               />
             )}
           </FormControl>
-
-          <Button
-            sx={{
-              backgroundColor: "black",
-              color: "white",
-              marginTop: "30px",
-              "&:hover": { backgroundColor: "black" },
-            }}
-            className="button"
-            type="submit"
-            onClick={(e) => {
-              e.preventDefault();
-              askContractToMintNft();
-            }}
-          >
-            Submit to Dao
-          </Button>
+          {formData.time && (
+            <Button
+              sx={{
+                backgroundColor: "black",
+                color: "white",
+                marginTop: "30px",
+                "&:hover": { backgroundColor: "black" },
+              }}
+              className="button"
+              type="submit"
+              onClick={(e) => {
+                e.preventDefault();
+                askContractToMintNft();
+              }}
+            >
+              Submit to Dao
+            </Button>
+          )}
         </form>
       </div>
     </div>
