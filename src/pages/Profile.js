@@ -188,6 +188,23 @@ const Profile = () => {
     },
   });
 
+  const helperGetDaoData = async (add) => {
+    try {
+      const { ethereum } = window;
+      let canidacyData = [];
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
+      let Txn = await connectedContract.candidacyAllData(add);
+      console.log(Txn);
+      return Txn;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // canidacyData.push({
+  //   address: Txn.candidate,
+  //   name: Txn.name,
+
   const getDaoMembersData = async () => {
     try {
       const { ethereum } = window;
@@ -196,23 +213,20 @@ const Profile = () => {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const connectedContract = new ethers.Contract(ADDRESS, abi, provider);
 
-        // let canidacyData = [];
+        let canidacyData = [];
         var i = 0;
         daoMembersAddress.map(async (dma) => {
-          let Txn = await connectedContract.candidacyAllData(dma);
-          console.log(Txn);
-          if (Txn.candidate != "0x0000000000000000000000000000000000000000" && Txn.candidate !== address) {
-            setdaoMembersData([
-              ...daoMembersData,
-              {
-                address: Txn.candidate,
-                name: Txn.name,
-              },
-            ]);
-            // canidacyData.push({
-            //   address: Txn.candidate,
-            //   name: Txn.name,
+          const data = await helperGetDaoData(dma);
+          if (data.candidate != "0x0000000000000000000000000000000000000000" && data.candidate !== address) {
+            canidacyData.push({
+              address: data.candidate,
+              name: data.name,
+            });
+            // setdaoMembersData(...daoMembersData, {
+            //   address: data.candidate,
+            //   name: data.name,
             // });
+            setdaoMembersData(canidacyData);
           }
           console.log(daoMembersData);
         });
@@ -250,8 +264,12 @@ const Profile = () => {
       setImage({ ...image, preview: mage });
     };
     readDaoMemberAddress();
+    getDaoMembersData();
     gettingImage();
   }, []);
+  React.useEffect(() => {
+    getDaoMembersData();
+  }, [daoMembersAddress + 1]);
 
   const handleJobChange = (e) => {
     setfilter(e.target.value);

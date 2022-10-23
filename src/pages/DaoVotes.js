@@ -1,7 +1,8 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
-import { Avatar, Button, CircularProgress, Input, InputAdornment } from "@mui/material";
+import { Avatar, Button, CircularProgress, Input, InputAdornment, TextField } from "@mui/material";
 import Chip from "@mui/material/Chip";
 import "./DaoVotes.css";
 import RotateRightIcon from "@mui/icons-material/RotateRight";
@@ -268,7 +269,8 @@ const DaoVotes = () => {
       }
       return "";
     } catch (error) {
-      // console.log(error);
+      console.log(error);
+      return "";
     }
   };
 
@@ -361,6 +363,7 @@ const DaoVotes = () => {
         }
 
         setallCandidacyData(canidacyData);
+        localStorage.setItem("items", JSON.stringify(filterAllData));
         setfilterAllData(canidacyData);
 
         console.log(allCandidacyData);
@@ -371,64 +374,161 @@ const DaoVotes = () => {
     }
   };
 
+  // React.useEffect(() => {
+  //   askContractToMintNft();
+  //   setfilterAllData(allCandidacyData);
+  // }, [allAddress]);
+
   React.useEffect(() => {
     askContractToMintNft();
-    setfilterAllData(allCandidacyData);
+    // setfilterAllData(allCandidacyData);
+    // localStorage.setItem("items", JSON.stringify(filterAllData));
   }, [allAddress]);
 
+  // React.useEffect(() => {
+  //   const items = JSON.parse(localStorage.getItem("items"));
+  //   if (items) {
+  //     setfilterAllData(items);
+  //   }
+  // }, []);
+
   return (
-    <div style={{  marginTop: "20px", marginLeft: "120px", marginRight: "120px" }}>
+    <div style={{ marginTop: "20px", marginLeft: "120px", marginRight: "120px" }}>
       <Box
         sx={{
-     
-
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          marginBottom: "20px",
         }}
       >
         <FormControl sx={{ border: "none", "& fieldset": { border: "none" }, fontWeight: "bold", mb: "10px" }}>
           <Select
-            sx={{ border: "none", "& fieldset": { border: "none" }, fontWeight: "bold" }}
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            sx={{
+              border: "none",
+              "& fieldset": { border: "none" },
+              fontWeight: "bold",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              "&.MuiOutlinedInput-input:hover": {
+                backgroundColor: "white",
+              },
+              width: "100%",
+            }}
+            MenuProps={{
+              sx: {
+                "&& .Mui-selected": {
+                  backgroundColor: "white",
+                },
+                "&& .Mui-hover": {
+                  backgroundColor: "white",
+                },
+              },
+            }}
             value={filter}
             label="All Votes"
             onChange={handleChange}
           >
-            <MenuItem value={"All"}>All votes</MenuItem>
-            <MenuItem value={"Active"}>Active Votes</MenuItem>
-            <MenuItem value={"Closed"}>Closed Votes</MenuItem>
-            <MenuItem value={"daomem"}>DAO Members</MenuItem>
-            <MenuItem value={"refmem"}>Refused Members</MenuItem>
+            <MenuItem
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                "&:hover": { backgroundColor: "white" },
+                "&:focus": { backgroundColor: "white" },
+                "&&:selected": { backgroundColor: "white" },
+                borderBottom: "2px solid black",
+
+                fontWeight: "bold",
+                margin: "20px 20px 20px 20px",
+              }}
+              value={"All"}
+            >
+              All votes
+            </MenuItem>
+            <MenuItem
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                "&:hover": { backgroundColor: "white" },
+                "&:focus": { backgroundColor: "white" },
+                "&&:selected": { backgroundColor: "white" },
+                borderBottom: "2px solid black",
+
+                fontWeight: "bold",
+                margin: "20px 20px 20px 20px",
+              }}
+              value={"Active"}
+            >
+              Active Votes
+            </MenuItem>
+            <MenuItem
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                "&:hover": { backgroundColor: "white" },
+                "&:focus": { backgroundColor: "white" },
+                "&&:selected": { backgroundColor: "white" },
+                borderBottom: "2px solid black",
+
+                fontWeight: "bold",
+                margin: "20px 20px 20px 20px",
+              }}
+              value={"Closed"}
+            >
+              Closed Votes
+            </MenuItem>
+            <MenuItem
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                "&:hover": { backgroundColor: "white" },
+                "&:focus": { backgroundColor: "white" },
+                "&&:selected": { backgroundColor: "white" },
+                borderBottom: "2px solid black",
+
+                fontWeight: "bold",
+                margin: "20px 20px 20px 20px",
+              }}
+              value={"daomem"}
+            >
+              DAO Members
+            </MenuItem>
+            <MenuItem
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                "&:hover": { backgroundColor: "white" },
+                "&:focus": { backgroundColor: "white" },
+                "&&:selected": { backgroundColor: "white" },
+                borderBottom: "2px solid black",
+
+                fontWeight: "bold",
+                margin: "20px 20px 20px 20px",
+              }}
+              value={"refmem"}
+            >
+              Refused Members
+            </MenuItem>
           </Select>
         </FormControl>
 
-        <Input
+        {/* <TextField
           sx={{
             width: "400px",
+            zIndex: "100",
+
             border: "1px solid grey",
             borderRadius: "30px",
             padding: "5px",
-            "&:before": {
-              borderBottom: "0px",
-            },
-            padding: "5px",
-            "&:after": {
-              borderBottom: "0px",
-            },
-            " &:hover": {
-              borderBottom: "0px",
-            },
-            "&:focus": {
-              borderBottom: "0px",
-            },
+          
           }}
-          startAdornment={
-            <InputAdornment position="start">
-              <Search />
-            </InputAdornment>
-          }
+          onChange={search}
           inputProps={{
             underline: {
               "&&&:before": {
@@ -439,15 +539,24 @@ const DaoVotes = () => {
               },
             },
             disableUnderline: true,
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            ),
           }}
-        />
-
-        {/* <input
-          style={{ width: "400px", border: "1px solid grey" }}
-          placeholder="Search Members"
-          type="text"
-          onChange={search}
         /> */}
+        <div className="i-wrapper">
+          <Search className="i-icon" sx={{ color: "black", paddingLeft: "20px" }} />
+
+          <input
+            className="search"
+            style={{ width: "400px", paddingLeft: "50px", border: "1px solid grey" }}
+           
+            type="text"
+            onChange={search}
+          />
+        </div>
       </Box>
 
       {loading && (
@@ -459,6 +568,7 @@ const DaoVotes = () => {
         <Link key={index} style={{ textDecoration: "none" }} to="/personalData" state={{ data }}>
           <Card className="card" sx={{ padding: "30px", marginBottom: "20px", borderRadius: "20px" }}>
             <Avatar sx={{ width: "150px", height: "150px" }} alt="Remy Sharp" src={data.image} />
+
             <div className="details">
               <div className="row1 row">
                 <h4>

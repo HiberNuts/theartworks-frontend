@@ -106,6 +106,9 @@ export default function Navbar() {
             <Link style={{ textDecoration: "none" }} to="/dao">
               <Button
                 sx={{
+                  padding: 0,
+                  minHeight: 0,
+                  minWidth: 0,
                   color: "black",
                   marginRight: "60px",
                   " &:hover": {
@@ -114,6 +117,8 @@ export default function Navbar() {
                   "&:focus": {
                     background: "none",
                   },
+                  minWidth: "0px",
+                  padding: "0px",
                   textTransform: "none",
                   fontWeight: "bold",
                   borderBottom: dao ? "4px solid black" : "",
@@ -136,6 +141,16 @@ export default function Navbar() {
                   justifyContent: "center",
                   alignItems: "center",
                 }}
+                MenuProps={{
+                  sx: {
+                    "&& .Mui-selected": {
+                      backgroundColor: "white",
+                    },
+                    "&& .Mui-hover": {
+                      backgroundColor: "white",
+                    },
+                  },
+                }}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={dropdown}
@@ -144,11 +159,17 @@ export default function Navbar() {
                 <MenuItem
                   sx={{
                     color: "black",
+                    borderWidth: "90%",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
+                    "&:hover": { backgroundColor: "white" },
+                    "&:focus": { backgroundColor: "white" },
+                    "&&:selected": { backgroundColor: "white" },
+                    borderBottom: "2px solid black",
+                    fontWeight: "bold",
+                    margin: "20px 20px 20px 20px",
 
-                    borderWidth: "90%",
                   }}
                   value={"account"}
                 >
@@ -184,16 +205,45 @@ export default function Navbar() {
                   </ConnectKitButton.Custom>
                   {/* Account */}
                 </MenuItem>
-                <MenuItem sx={{ color: "black" }}>
+                <MenuItem
+                  sx={{
+                    color: "black",
+                    borderWidth: "90%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    "&:hover": { backgroundColor: "white" },
+                    "&:focus": { backgroundColor: "white" },
+                    "&&:selected": { backgroundColor: "white" },
+                    borderBottom: "2px solid black",
+                    fontWeight: "bold",
+                    margin: "20px 20px 20px 20px",
+                  }}
+                >
                   <MyWallet />
                 </MenuItem>
-                <MenuItem sx={{ color: "black" }} value={"Dao Votes"}>
+                <MenuItem
+                  sx={{
+                    color: "black",
+                    borderWidth: "90%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    "&:hover": { backgroundColor: "white" },
+                    "&:focus": { backgroundColor: "white" },
+                    "&&:selected": { backgroundColor: "white" },
+                    borderBottom: "2px solid black",
+                    fontWeight: "bold",
+                    margin: "20px 20px 20px 20px",
+                  }}
+                  value={"Dao Votes"}
+                >
                   <Link style={{ textDecoration: "none", color: "black" }} to="/dao">
                     {" "}
                     <Button
                       sx={{
                         color: "black",
-                        marginRight: "40px",
+                        
 
                         " &:hover": {
                           background: "none",
@@ -209,7 +259,22 @@ export default function Navbar() {
                     </Button>
                   </Link>
                 </MenuItem>
-                <MenuItem sx={{}} value={"My Profile"}>
+                <MenuItem
+                  sx={{
+                    color: "black",
+                    borderWidth: "90%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    "&:hover": { backgroundColor: "white" },
+                    "&:focus": { backgroundColor: "white" },
+                    "&&:selected": { backgroundColor: "white" },
+                    borderBottom: "2px solid black",
+                    fontWeight: "bold",
+                    margin: "20px 20px 20px 20px",
+                  }}
+                  value={"My Profile"}
+                >
                   <Link style={{ textDecoration: "none" }} to="/profile">
                     <Button
                       sx={{
@@ -232,6 +297,16 @@ export default function Navbar() {
                 <MenuItem
                   sx={{
                     color: "black",
+                    borderWidth: "90%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    "&:hover": { backgroundColor: "white" },
+                    "&:focus": { backgroundColor: "white" },
+                    "&&:selected": { backgroundColor: "white" },
+                    borderBottom: "2px solid black",
+                    fontWeight: "bold",
+                    margin: "20px 20px 20px 20px",
                   }}
                   value={"logout"}
                 >

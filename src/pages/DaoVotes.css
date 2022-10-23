@@ -46,3 +46,29 @@
     width: 25px;
     height: 25px;
 }
+
+
+
+.i-wrapper {
+    position:relative;
+  }
+  
+  .i-icon {
+    height: 1.5rem;
+    width: 1.6rem;
+    padding: 4px;
+    position: absolute;
+    /* box-sizing:border-box; */
+    top:50%;
+    left:25px;
+    transform: translateY(-50%);
+  }
+  
+  .i-input {
+    height: 50px;
+    box-sizing:border-box;
+    padding-left: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
