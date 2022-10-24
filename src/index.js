@@ -13,20 +13,19 @@ import {
   useConnect,
   useAccount,
 } from "wagmi";
-
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { ConnectKitProvider, getDefaultClient } from "connectkit";
 const alchemyId = process.env.ALCHEMY_ID;
 const chains = [chain.polygonMumbai];
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-const client = createClient(
-  getDefaultClient({
-    appName: "Your App Name",
-    alchemyId,
-    chains,
-  })
-);
+const client = createClient({
+  autoConnect: true,
+  connectors: [new MetaMaskConnector({ chains })],
+  // provider,
+  // webSocketProvider,
+});
 root.render(
   <PagesProvider>
     <React.StrictMode>

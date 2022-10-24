@@ -23,7 +23,6 @@ import {
   useAccount,
 } from "wagmi";
 
-
 import { ConnectKitProvider, getDefaultClient } from "connectkit";
 import storage from "./utils/firebaseConfig";
 
@@ -39,6 +38,8 @@ function App() {
   const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
   const { disconnect } = useDisconnect();
   const [image, setimage] = React.useState("");
+
+  let currentAddress = "";
 
   const client = createClient(
     getDefaultClient({
@@ -71,8 +72,7 @@ function App() {
       toast.error("Your address is blacklisted you cannot login");
       logout();
     }
-
-    
+   
   }, [address]);
 
   return (
