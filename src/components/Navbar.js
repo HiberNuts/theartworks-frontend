@@ -328,28 +328,28 @@ export default function Navbar() {
                 </MenuItem>
               </Select>
             ) : (
-              // <Login />
-              <ConnectKitButton.Custom>
-                {({ isConnected, show, truncatedAddress, ensName }) => {
-                  return (
-                    <Button
-                      sx={{
-                        backgroundColor: "black",
-                        color: "white",
-                        borderRadius: "20px",
-                        fontSize: "10px",
-                        width: "120px",
-                        textTransform: "none",
-                        "&:hover": { backgroundColor: "black" },
-                        padding: "10px",
-                      }}
-                      onClick={show}
-                    >
-                      {isConnected ? ensName ?? truncatedAddress : "Join DAO"}
-                    </Button>
-                  );
-                }}
-              </ConnectKitButton.Custom>
+              <Login />
+              // <ConnectKitButton.Custom>
+              //   {({ isConnected, show, truncatedAddress, ensName }) => {
+              //     return (
+              //       <Button
+              //         sx={{
+              //           backgroundColor: "black",
+              //           color: "white",
+              //           borderRadius: "20px",
+              //           fontSize: "10px",
+              //           width: "120px",
+              //           textTransform: "none",
+              //           "&:hover": { backgroundColor: "black" },
+              //           padding: "10px",
+              //         }}
+              //         onClick={show}
+              //       >
+              //         {isConnected ? ensName ?? truncatedAddress : "Join DAO"}
+              //       </Button>
+              //     );
+              //   }}
+              // </ConnectKitButton.Custom>
             )}
           </div>
         </Toolbar>

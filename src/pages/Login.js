@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 // import { useNavigate } from "react-router-dom";
 import { PagesContext } from "../context/Context";
+import { ConnectKitButton } from "connectkit";
 
 export default function Login() {
   const { checkIfWalletConnected, account, connectWallet } = useContext(PagesContext);
@@ -38,11 +39,36 @@ export default function Login() {
         }}
       >
         <h3>Connect To Wallet</h3>
-        <img
-          onClick={() => connectWallet()}
-          style={{ width: "250px", cursor: "pointer" }}
-          src="https://seeklogo.com/images/M/metamask-logo-531AE40256-seeklogo.com.png?v=637723254950000000"
-        />
+        <ConnectKitButton.Custom>
+          {({ isConnected, show, truncatedAddress, ensName }) => {
+            return (
+              <Button
+                sx={
+                  {
+                    // backgroundColor: "black",
+                    // color: "white",
+                    // borderRadius: "20px",
+                    // fontSize: "10px",
+                    // width: "120px",
+                    // textTransform: "none",
+                    // "&:hover": { backgroundColor: "black" },
+                    // padding: "10px",
+                  }
+                }
+                onClick={show}
+              >
+                {isConnected ? (
+                  ensName ?? truncatedAddress
+                ) : (
+                  <img
+                    style={{ width: "250px", cursor: "pointer" }}
+                    src="https://seeklogo.com/images/M/metamask-logo-531AE40256-seeklogo.com.png?v=637723254950000000"
+                  />
+                )}
+              </Button>
+            );
+          }}
+        </ConnectKitButton.Custom>
       </List>
     </Box>
   );
