@@ -15,7 +15,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { Navigate, Link, useNavigate } from "react-router-dom";
+import { Navigate, Link, useNavigate, useLocation } from "react-router-dom";
 import {
   paginatedIndexesConfig,
   useAccount,
@@ -89,6 +89,7 @@ const DaoVotes = () => {
   const { address } = useAccount();
   const navigate = useNavigate();
   const color = purple[500];
+ 
 
   const handleChange = (event) => {
     setfilter(event.target.value);
@@ -115,39 +116,6 @@ const DaoVotes = () => {
   };
   const length = allAddress.length;
 
-  // const GetData = () => {
-  //   const { data, fetchNextPage } = useContractInfiniteReads({
-  //     cacheKey: "mlootAttributes",
-  //     ...paginatedIndexesConfig(
-  //       (index) => ({
-  //         ...contractConfig,
-  //         functionName: "candidacyData",
-  //         args: [allAddress[index]],
-  //       }),
-  //       { start: 0, perPage: allAddress.length > 0 ? allAddress.length : 0, direction: "increment" }
-  //     ),
-  //   });
-  //   React.useEffect(() => {
-  //     if (data) {
-  //       data.pages[0].forEach((d) => {
-  //         setallCandidacyData([
-  //           ...allCandidacyData,
-  //           {
-  //             name: d[0],
-  //             companyName: d[1],
-  //             job: d[2],
-  //             address: d[3],
-  //             Number: d[4],
-  //             email: d[5],
-  //             website: d[6],
-  //             desc: d[7],
-  //           },
-  //         ]);
-  //       });
-  //       console.log(allCandidacyData);
-  //     }
-  //   }, []);
-  // };
   const CONTRACT_ADDRESS = ADDRESS;
 
   const getSponsorName = async (address) => {
@@ -381,16 +349,11 @@ const DaoVotes = () => {
 
   React.useEffect(() => {
     askContractToMintNft();
+  
     // setfilterAllData(allCandidacyData);
     // localStorage.setItem("items", JSON.stringify(filterAllData));
   }, [allAddress]);
 
-  // React.useEffect(() => {
-  //   const items = JSON.parse(localStorage.getItem("items"));
-  //   if (items) {
-  //     setfilterAllData(items);
-  //   }
-  // }, []);
 
   return (
     <div style={{ marginTop: "20px", marginLeft: "120px", marginRight: "120px" }}>
@@ -552,7 +515,6 @@ const DaoVotes = () => {
           <input
             className="search"
             style={{ width: "400px", paddingLeft: "50px", border: "1px solid grey" }}
-           
             type="text"
             onChange={search}
           />

@@ -6,10 +6,11 @@ import List from "@mui/material/List";
 // import { useNavigate } from "react-router-dom";
 import { PagesContext } from "../context/Context";
 import { ConnectKitButton } from "connectkit";
-import { useConnect } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 
-export default function Login() {
-  const { checkIfWalletConnected, account, connectWallet } = useContext(PagesContext);
+export default function Login({ setuseless }) {
+  const { address, isConnected } = useAccount();
+  // const { checkIfWalletConnected, account, connectWallet } = useContext(PagesContext);
   // const navigate = useNavigate();
   const [state, setState] = React.useState({
     right: false,
@@ -24,6 +25,15 @@ export default function Login() {
   };
 
   const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
+  console.log("address", address);
+
+  React.useEffect(() => {
+    if (address) {
+      setuseless(true);
+    } else {
+      setuseless(false);
+    }
+  }, [address]);
 
   const list = (anchor) => (
     <Box
@@ -101,11 +111,11 @@ export default function Login() {
             backgroundColor: "black",
             color: "white",
             borderRadius: "20px",
-            fontSize: "12px",
+            fontSize: "11px",
             width: "120px",
             textTransform: "none",
             "&:hover": { backgroundColor: "black" },
-            padding: "10px",
+            padding: "9px",
           }}
           onClick={toggleDrawer("right", true)}
         >

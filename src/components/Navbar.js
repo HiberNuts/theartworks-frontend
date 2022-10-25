@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import logo from "../assets/logo.png";
 import "./Navbar.css";
 import { PagesContext } from "../context/Context";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Login from "../pages/Login";
 import { shortenAddress } from "../utils/shortenAddress";
 import { Avatar, MenuItem, Select } from "@mui/material";
@@ -22,15 +22,17 @@ export default function Navbar() {
   //wagmi connecting contract
 
   const ADDRESS = "0x92c67df198E17bae61B6A92576a8ec9d52516690";
-
+  //
   const { address, isConnected } = useAccount();
-  const { Dao, setDao, account } = React.useContext(PagesContext);
+  // const { Dao, setDao, account } = React.useContext(PagesContext);
   const navigate = useNavigate();
   const [dropdown, setdropdown] = React.useState("account");
   const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
   const { disconnect } = useDisconnect();
   const [dao, setdao] = React.useState(false);
   const [reload, setreload] = React.useState("");
+  const [useless, setuseless] = React.useState(false);
+  const location = useLocation();
 
   const handleDropChange = (e) => {
     setdropdown(e.target.value);
@@ -57,15 +59,19 @@ export default function Navbar() {
       logout();
     }
   }, [address, isConnected]);
-  // React.useEffect(() => {
-  //   setdropdown("account");
-  //   // if (isConnected == true) {
-  //   //   window.location.reload(false);
-  //   // }
-  // }, [isConnected]);
 
-  console.log(account);
-  console.log(isConnected);
+  React.useEffect(() => {
+    if (location.pathname == "/dao") {
+      setdao(true);
+    } else {
+      setdao(false);
+    }
+  }, []);
+  React.useEffect(() => {
+    if (address) {
+      setuseless(true);
+    }
+  }, []);
 
   return (
     <Box
@@ -337,7 +343,7 @@ export default function Navbar() {
                 </MenuItem>
               </Select>
             ) : (
-              <Login  />
+              <Login setuseless={setuseless} />
               // <ConnectKitButton.Custom>
               //   {({ isConnected, show, truncatedAddress, ensName }) => {
               //     return (
