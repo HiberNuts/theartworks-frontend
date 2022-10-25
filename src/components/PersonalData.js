@@ -34,6 +34,7 @@ function LinearProgressWithLabel(props) {
 }
 
 const PersonalData = () => {
+  const { account } = useAccount();
   const navigate = useNavigate();
   const location = useLocation();
   const { data } = location.state;
@@ -117,7 +118,7 @@ const PersonalData = () => {
       setFlag2(false);
     }
   };
-
+  console.log(account);
   return (
     <div className="profileContainer">
       <div className="personalData">
@@ -208,26 +209,47 @@ const PersonalData = () => {
             <h2>Cast Your Vote 👇</h2>
             <Divider />
             <Button
-              sx={{ width: "50%" }}
+              sx={{
+                width: "90%",
+                borderRadius: "13px",
+                height: "50px",
+                backgroundColor: "#ffffff",
+                "&:hover": {
+                  backgroundColor: "#ffffff",
+                },
+                border: flag1 ? "1px solid black" : "1px solid grey",
+                color: "black",
+                textTransform: "none",
+              }}
               className="btn"
-              variant={flag1 ? "contained" : "outlined"}
-              color="success"
+              variant="contained"
+              // color="success"
               onClick={handleForButtonClick}
             >
               For
             </Button>
             <Button
-              sx={{ width: "50%" }}
+              sx={{
+                width: "90%",
+                borderRadius: "13px",
+                height: "50px",
+                backgroundColor: "#ffffff",
+                "&:hover": {
+                  backgroundColor: "#ffffff",
+                },
+                textTransform: "none",
+                border: flag2 ? "1px solid black" : "1px solid grey",
+                color: "black",
+              }}
               className="btn"
-              variant={flag2 ? "contained" : "outlined"}
-              color="error"
+              variant="contained"
               onClick={handleAgainstButtonClick}
             >
               Against
             </Button>
             {data.sponsor1 == address && data.sponsor1App == "inprogress" && (
               <Button onClick={addSponsor} variant="contained" color="warning">
-                Add Sponsor
+                Sign Sponsorship
               </Button>
             )}
             {data.sponsor2 == address && data.sponsor2App == "inprogress" && (
@@ -236,12 +258,23 @@ const PersonalData = () => {
               </Button>
             )}
             <Button
-              sx={{ marginBottom: "20px", marginTop: "30px" }}
+              sx={{
+                marginBottom: "20px",
+                marginTop: "30px",
+                width: "90%",
+                borderRadius: "13px",
+                height: "50px",
+                testDecoration: "none",
+                textTransform: "none",
+              }}
               className="btn"
               variant="contained"
               onClick={(e) => {
-                e.preventDefault();
-                handleVote();
+                if (account) {
+                  e.preventDefault();
+                  handleVote();
+                }
+                
               }}
             >
               Vote
@@ -255,7 +288,7 @@ const PersonalData = () => {
             For
             <LinearProgressWithLabel
               sx={{ height: "8px", borderRadius: "5px" }}
-              color="success"
+              color="primary"
               value={data.forVotes}
             />
             Against

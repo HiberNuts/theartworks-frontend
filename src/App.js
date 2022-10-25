@@ -72,8 +72,19 @@ function App() {
       toast.error("Your address is blacklisted you cannot login");
       logout();
     }
-   
   }, [address]);
+
+  const [state, setState] = React.useState({
+    right: false,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (event && event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
 
   return (
     <div className="App">
@@ -85,9 +96,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/dao" element={<DaoVotes />}></Route>
-            <Route path="/login" element={<Login />}></Route>
+            <Route path="/login" render={(props) => <Login {...props} toggleDrawer={toggleDrawer} />} />
             <Route path="/profile" element={<Profile />}></Route>
-            <Route path="/personalData" element={<PersonalData />}></Route>
+            <Route path="/personalData" element={<PersonalData toggleDrawer={toggleDrawer} state={state} />}></Route>
           </Routes>
         </BrowserRouter>
       </ConnectKitProvider>

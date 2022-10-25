@@ -30,6 +30,7 @@ export default function Navbar() {
   const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
   const { disconnect } = useDisconnect();
   const [dao, setdao] = React.useState(false);
+  const [reload, setreload] = React.useState("");
 
   const handleDropChange = (e) => {
     setdropdown(e.target.value);
@@ -55,7 +56,16 @@ export default function Navbar() {
       toast.error("Your address is blacklisted you cannot login");
       logout();
     }
-  }, [address]);
+  }, [address, isConnected]);
+  // React.useEffect(() => {
+  //   setdropdown("account");
+  //   // if (isConnected == true) {
+  //   //   window.location.reload(false);
+  //   // }
+  // }, [isConnected]);
+
+  console.log(account);
+  console.log(isConnected);
 
   return (
     <Box
@@ -121,6 +131,7 @@ export default function Navbar() {
                   padding: "0px",
                   textTransform: "none",
                   fontWeight: "bold",
+                  fontSize: "12px",
                   borderBottom: dao ? "4px solid black" : "",
                 }}
                 onClick={() => setdao(true)}
@@ -169,7 +180,6 @@ export default function Navbar() {
                     borderBottom: "2px solid black",
                     fontWeight: "bold",
                     margin: "20px 20px 20px 20px",
-
                   }}
                   value={"account"}
                 >
@@ -243,7 +253,6 @@ export default function Navbar() {
                     <Button
                       sx={{
                         color: "black",
-                        
 
                         " &:hover": {
                           background: "none",
@@ -328,7 +337,7 @@ export default function Navbar() {
                 </MenuItem>
               </Select>
             ) : (
-              <Login />
+              <Login  />
               // <ConnectKitButton.Custom>
               //   {({ isConnected, show, truncatedAddress, ensName }) => {
               //     return (

@@ -153,18 +153,6 @@ const Profile = () => {
     }
   };
 
-  // useContractRead({
-  //   addressOrName: ADDRESS,
-  //   contractInterface: abi,
-  //   functionName: "getDaoMembersAddress",
-  //   onSuccess(data) {
-  //     console.log("data", data);
-  //     setdaoMembersAddress(data);
-  //     console.log(daoMembersAddress);
-  //     getDaoMembersData();
-  //   },
-  // });
-
   const { data, isError, isLoading } = useContractRead({
     addressOrName: ADDRESS,
     contractInterface: abi,
@@ -201,9 +189,6 @@ const Profile = () => {
       console.log(err);
     }
   };
-  // canidacyData.push({
-  //   address: Txn.candidate,
-  //   name: Txn.name,
 
   const getDaoMembersData = async () => {
     try {
@@ -222,36 +207,11 @@ const Profile = () => {
               address: data.candidate,
               name: data.name,
             });
-            // setdaoMembersData(...daoMembersData, {
-            //   address: data.candidate,
-            //   name: data.name,
-            // });
+
             setdaoMembersData(canidacyData);
           }
           console.log(daoMembersData);
         });
-
-        // daoMembersAddress.map(async (dma) => {
-        //   let Txn = await connectedContract.candidacyAllData(dma);
-        //   data.push({ Txn });
-        //   console.log(Txn);
-        // });
-
-        // data.forEach((d) => {
-        //   if (d.Txn.candidate == "0x0000000000000000000000000000000000000000") {
-        //     return;
-        //   } else if (d.Txn.candidate == address) {
-        //     return;
-        //   } else {
-        //     canidacyData.push({
-        //       address: d.Txn.candidate,
-        //       name: d.Txn.name,
-        //     });
-        //   }
-        // });
-        // console.log(await canidacyData);
-        // await setdaoMembersData(canidacyData);
-        // console.log(daoMembersData);
       }
     } catch (error) {
       console.log(error);
@@ -284,7 +244,7 @@ const Profile = () => {
       </div>
       <div className="data">
         <label htmlFor="upload-button" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-          {image.preview ? (
+          {image.preview.length > 0 ? (
             <img
               style={{
                 border: "2px solid black",

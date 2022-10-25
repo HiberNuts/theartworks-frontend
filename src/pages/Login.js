@@ -101,7 +101,7 @@ export default function Login() {
             backgroundColor: "black",
             color: "white",
             borderRadius: "20px",
-            fontSize: "14px",
+            fontSize: "12px",
             width: "120px",
             textTransform: "none",
             "&:hover": { backgroundColor: "black" },
