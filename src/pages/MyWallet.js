@@ -43,7 +43,6 @@ export default function MyWallet() {
     args: [address],
     onSuccess(data) {
       setuserName(data.name);
-      
     },
   });
   const { data: Score } = useContractRead({
@@ -60,7 +59,7 @@ export default function MyWallet() {
 
   const lists = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 350 }}
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" :450 }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
