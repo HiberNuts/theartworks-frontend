@@ -98,6 +98,7 @@ function App() {
             <Route path="/dao" element={<DaoVotes />}></Route>
             <Route path="/login" render={(props) => <Login {...props} toggleDrawer={toggleDrawer} />} />
             <Route path="/profile" element={<Profile />}></Route>
+            <Route path="/login" element={<Login />}></Route>
             <Route path="/personalData" element={<PersonalData toggleDrawer={toggleDrawer} state={state} />}></Route>
           </Routes>
         </BrowserRouter>
