@@ -118,8 +118,9 @@ const DaoVotes = () => {
 
   const getSponsorName = async (address) => {
     try {
-      const { ethereum } = window;
-      const provider = new ethers.providers.Web3Provider(ethereum);
+      const alchemyApi = "j7okfDkgOj5cvjTR2ZBadkj7Dr7HDu7M";
+      const network = ethers.providers.getNetwork("maticmum");
+      const provider = new ethers.providers.AlchemyProvider(network, "j7okfDkgOj5cvjTR2ZBadkj7Dr7HDu7M");
       const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
       let Txn = await connectedContract.candidacyAllData(address);
       return Txn;
@@ -190,8 +191,9 @@ const DaoVotes = () => {
 
   const getDaoMembersAddress = async (address) => {
     try {
-      const { ethereum } = window;
-      const provider = new ethers.providers.Web3Provider(ethereum);
+      const alchemyApi = "j7okfDkgOj5cvjTR2ZBadkj7Dr7HDu7M";
+      const network = ethers.providers.getNetwork("maticmum");
+      const provider = new ethers.providers.AlchemyProvider(network, "j7okfDkgOj5cvjTR2ZBadkj7Dr7HDu7M");
       const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
       let Txn = await connectedContract.getDaoMembersAddress();
       return Txn;
@@ -202,8 +204,9 @@ const DaoVotes = () => {
 
   const getSponsorsApproved = async (sponsorAddress, userAddress) => {
     try {
-      const { ethereum } = window;
-      const provider = new ethers.providers.Web3Provider(ethereum);
+      const alchemyApi = "j7okfDkgOj5cvjTR2ZBadkj7Dr7HDu7M";
+      const network = ethers.providers.getNetwork("maticmum");
+      const provider = new ethers.providers.AlchemyProvider(network, "j7okfDkgOj5cvjTR2ZBadkj7Dr7HDu7M");
       const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
       let Txn = await connectedContract.SponsorsApproved(sponsorAddress, userAddress);
       return Txn;
@@ -214,8 +217,9 @@ const DaoVotes = () => {
 
   const getBlackListed = async (userAddress) => {
     try {
-      const { ethereum } = window;
-      const provider = new ethers.providers.Web3Provider(ethereum);
+      const alchemyApi = "j7okfDkgOj5cvjTR2ZBadkj7Dr7HDu7M";
+      const network = ethers.providers.getNetwork("maticmum");
+      const provider = new ethers.providers.AlchemyProvider(network, "j7okfDkgOj5cvjTR2ZBadkj7Dr7HDu7M");
       const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
       let Txn = await connectedContract.blacklisted(userAddress);
       console.log(Txn);
@@ -242,99 +246,106 @@ const DaoVotes = () => {
 
   const askContractToMintNft = async () => {
     try {
-      const { ethereum } = window;
+      // const { ethereum } = window;
       setloading(true);
 
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
+      // if (ethereum) {
+      // const provider = new ethers.providers.Web3Provider(ethereum);
+      // const api = "U7NGCG8H3WXNQVD1VGPFIF6Z7WI4CPSNQ8";
+      const infuraApi = "a1533553e9ad40c4ba194fc973392104";
+      const alchemyApi = "j7okfDkgOj5cvjTR2ZBadkj7Dr7HDu7M";
+      const network = ethers.providers.getNetwork("maticmum");
+      const provider = new ethers.providers.AlchemyProvider(network, "j7okfDkgOj5cvjTR2ZBadkj7Dr7HDu7M");
+      console.log(provider);
+      // const provider = new ethers.providers.CloudflareProvider("maticmum");
+      const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
 
-        let data = [];
-        let canidacyData = [];
-        var i = 0;
-        for (i = 0; i < allAddress.length; i++) {
-          let Txn = await connectedContract.candidacyAllData(allAddress[i]);
-          data.push({ Txn });
-        }
-
-        const date = new Date();
-
-        for (let i = 0; i < data.length; i++) {
-          let sponsor = [];
-          sponsor = await connectedContract.getSponsors(data[i].Txn.candidate);
-
-          const sponsor1Name = await getSponsorName(sponsor[0]);
-          const sponsor2Name = await getSponsorName(sponsor[1]);
-
-          const daoMemberAddress = await getDaoMembersAddress();
-
-          const sponsor1App = await getSponsorsApproved(sponsor[0], data[i].Txn.candidate);
-          const sponsor2App = await getSponsorsApproved(sponsor[1], data[i].Txn.candidate);
-          const blacklisted = await getBlackListed(data[i].Txn.candidate);
-          const dataimage = await getImage(data[i].Txn.candidate);
-
-          canidacyData.push({
-            // candidacy:
-            //   date.getTime() / 1000 <= data[i].Txn.timeEnd.toNumber()
-            //     ? ` ${Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600)} Hours Left`
-            //     : data[i].Txn.forVotes.toNumber() > data[i].Txn.forVotes.toNumber()
-            //     ? "true"
-            //     : "false",
-            candidacy: daoMemberAddress.includes(data[i].Txn.candidate)
-              ? "true"
-              : blacklisted
-              ? "false"
-              : Math.floor((date.getTime() / 1000 - data[i].Txn.timeEnd.toNumber()) / 3600) <= 0
-              ? `${Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600)} Hours Left`
-              : data[i].Txn.forVotes.toNumber() > data[i].Txn.againstVotes.toNumber()
-              ? "false"
-              : Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600) == 0
-              ? "48 Hours left"
-              : Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600) <= 0
-              ? "false"
-              : `${Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600)} Hours Left`,
-
-            address: data[i].Txn.candidate,
-            image: dataimage,
-            name: data[i].Txn.name,
-            companyName: data[i].Txn.companyName,
-            email: data[i].Txn.email,
-            postalAddress: data[i].Txn.postaladdress,
-            website: data[i].Txn.weblink,
-            desc: data[i].Txn.description,
-            job: data[i].Txn.job,
-            number: data[i].Txn.number,
-            timeStart: data[i].Txn.timeStart.toNumber(),
-            timeEnd: data[i].Txn.timeEnd.toNumber(),
-            forVotes: data[i].Txn.forVotes.toNumber(),
-            againstVotes: data[i].Txn.againstVotes.toNumber(),
-            // chip: date.getTime() / 1000 <= data[i].Txn.timeEnd.toNumber() ? "Active" : "Closed",
-            chip: date.getTime() / 1000 <= data[i].Txn.timeEnd.toNumber() ? "Active" : "Closed",
-            sponsor1: sponsor[0],
-            sponsor2: sponsor[1],
-            sponsor1Name: sponsor1Name,
-            sponsor2Name: sponsor2Name,
-            sponsor1App: sponsor1App
-              ? sponsor1App
-              : date.getTime() / 1000 <= data[i].Txn.timeEnd.toNumber()
-              ? "inprogress"
-              : false,
-            sponsor2App: sponsor2App
-              ? sponsor2App
-              : date.getTime() / 1000 <= data[i].Txn.timeEnd.toNumber()
-              ? "inprogress"
-              : false,
-            blacklisted: blacklisted,
-          });
-        }
-
-        setallCandidacyData(canidacyData);
-        localStorage.setItem("items", JSON.stringify(filterAllData));
-        setfilterAllData(canidacyData);
-
-        console.log(allCandidacyData);
-        setloading(false);
+      let data = [];
+      let canidacyData = [];
+      var i = 0;
+      for (i = 0; i < allAddress.length; i++) {
+        let Txn = await connectedContract.candidacyAllData(allAddress[i]);
+        data.push({ Txn });
       }
+
+      const date = new Date();
+
+      for (let i = 0; i < data.length; i++) {
+        let sponsor = [];
+        sponsor = await connectedContract.getSponsors(data[i].Txn.candidate);
+
+        const sponsor1Name = await getSponsorName(sponsor[0]);
+        const sponsor2Name = await getSponsorName(sponsor[1]);
+
+        const daoMemberAddress = await getDaoMembersAddress();
+
+        const sponsor1App = await getSponsorsApproved(sponsor[0], data[i].Txn.candidate);
+        const sponsor2App = await getSponsorsApproved(sponsor[1], data[i].Txn.candidate);
+        const blacklisted = await getBlackListed(data[i].Txn.candidate);
+        const dataimage = await getImage(data[i].Txn.candidate);
+
+        canidacyData.push({
+          // candidacy:
+          //   date.getTime() / 1000 <= data[i].Txn.timeEnd.toNumber()
+          //     ? ` ${Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600)} Hours Left`
+          //     : data[i].Txn.forVotes.toNumber() > data[i].Txn.forVotes.toNumber()
+          //     ? "true"
+          //     : "false",
+          candidacy: daoMemberAddress.includes(data[i].Txn.candidate)
+            ? "true"
+            : blacklisted
+            ? "false"
+            : Math.floor((date.getTime() / 1000 - data[i].Txn.timeEnd.toNumber()) / 3600) <= 0
+            ? `${Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600)} Hours Left`
+            : data[i].Txn.forVotes.toNumber() > data[i].Txn.againstVotes.toNumber()
+            ? "false"
+            : Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600) == 0
+            ? "48 Hours left"
+            : Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600) <= 0
+            ? "false"
+            : `${Math.floor((data[i].Txn.timeEnd.toNumber() - date.getTime() / 1000) / 3600)} Hours Left`,
+
+          address: data[i].Txn.candidate,
+          image: dataimage,
+          name: data[i].Txn.name,
+          companyName: data[i].Txn.companyName,
+          email: data[i].Txn.email,
+          postalAddress: data[i].Txn.postaladdress,
+          website: data[i].Txn.weblink,
+          desc: data[i].Txn.description,
+          job: data[i].Txn.job,
+          number: data[i].Txn.number,
+          timeStart: data[i].Txn.timeStart.toNumber(),
+          timeEnd: data[i].Txn.timeEnd.toNumber(),
+          forVotes: data[i].Txn.forVotes.toNumber(),
+          againstVotes: data[i].Txn.againstVotes.toNumber(),
+          // chip: date.getTime() / 1000 <= data[i].Txn.timeEnd.toNumber() ? "Active" : "Closed",
+          chip: date.getTime() / 1000 <= data[i].Txn.timeEnd.toNumber() ? "Active" : "Closed",
+          sponsor1: sponsor[0],
+          sponsor2: sponsor[1],
+          sponsor1Name: sponsor1Name,
+          sponsor2Name: sponsor2Name,
+          sponsor1App: sponsor1App
+            ? sponsor1App
+            : date.getTime() / 1000 <= data[i].Txn.timeEnd.toNumber()
+            ? "inprogress"
+            : false,
+          sponsor2App: sponsor2App
+            ? sponsor2App
+            : date.getTime() / 1000 <= data[i].Txn.timeEnd.toNumber()
+            ? "inprogress"
+            : false,
+          blacklisted: blacklisted,
+        });
+      }
+
+      setallCandidacyData(canidacyData);
+      localStorage.setItem("items", JSON.stringify(filterAllData));
+      setfilterAllData(canidacyData);
+
+      console.log(allCandidacyData);
+      setloading(false);
+      // }
     } catch (error) {
       console.log(error);
     }
