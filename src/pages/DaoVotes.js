@@ -34,7 +34,7 @@ import tick from "../assets/tick.png";
 import inprogress from "../assets/inprogress.png";
 import { getDownloadURL, ref } from "firebase/storage";
 import storage from "../utils/firebaseConfig";
-import { purple } from "@mui/material/colors";
+import { purple, blue } from "@mui/material/colors";
 const DUMMY = [
   {
     image:
@@ -88,8 +88,6 @@ const DaoVotes = () => {
 
   const { address } = useAccount();
   const navigate = useNavigate();
-  const color = purple[500];
- 
 
   const handleChange = (event) => {
     setfilter(event.target.value);
@@ -349,11 +347,10 @@ const DaoVotes = () => {
 
   React.useEffect(() => {
     askContractToMintNft();
-  
+
     // setfilterAllData(allCandidacyData);
     // localStorage.setItem("items", JSON.stringify(filterAllData));
   }, [allAddress]);
-
 
   return (
     <div style={{ marginTop: "20px", marginLeft: "120px", marginRight: "120px" }}>
@@ -481,34 +478,6 @@ const DaoVotes = () => {
           </Select>
         </FormControl>
 
-        {/* <TextField
-          sx={{
-            width: "400px",
-            zIndex: "100",
-
-            border: "1px solid grey",
-            borderRadius: "30px",
-            padding: "5px",
-          
-          }}
-          onChange={search}
-          inputProps={{
-            underline: {
-              "&&&:before": {
-                borderBottom: "none",
-              },
-              "&&:after": {
-                borderBottom: "none",
-              },
-            },
-            disableUnderline: true,
-            startAdornment: (
-              <InputAdornment position="start">
-                <Search />
-              </InputAdornment>
-            ),
-          }}
-        /> */}
         <div className="i-wrapper">
           <Search className="i-icon" sx={{ color: "black", paddingLeft: "20px" }} />
 
@@ -546,7 +515,7 @@ const DaoVotes = () => {
                 {data.chip == "Active" ? (
                   <Chip label="Active" color="success" sx={{ padding: "10px" }} />
                 ) : (
-                  <Chip label="Closed" color="primary" sx={{ padding: "10px" }} />
+                  <Chip label="Closed" color="primary" sx={{ padding: "10px", backgroundColor: purple[700] }} />
                 )}
               </div>
               <div className="row2 row">

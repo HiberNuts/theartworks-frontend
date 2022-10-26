@@ -7,6 +7,7 @@ import List from "@mui/material/List";
 import { PagesContext } from "../context/Context";
 import { ConnectKitButton } from "connectkit";
 import { useAccount, useConnect } from "wagmi";
+import { Avatar, Divider } from "@mui/material";
 
 export default function Login({ setuseless }) {
   const { address, isConnected } = useAccount();
@@ -37,7 +38,7 @@ export default function Login({ setuseless }) {
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 350 }}
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 450 }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
@@ -46,12 +47,26 @@ export default function Login({ setuseless }) {
         sx={{
           height: "250px",
           display: "flex",
-          alignItems: "center",
-          justifyContent: "space-evenly",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+          px: "40px",
           flexDirection: "column",
         }}
       >
-        <h3>Connect To Wallet</h3>
+        <div style={{ fontSize: "20px", fontWeight: "bold" }} className="avatar">
+          <Avatar sx={{ backgroundColor: "rgb(121, 118, 118)", width: "30px", height: "30px", mr: "10px" }} />
+          <p className="m-text">My wallet</p>
+        </div>
+        <div
+          style={{
+            height: "1px",
+            // paddingLeft: "-140px",
+            marginLeft: "-40px",
+            marginTop: "-100px",
+            width: "450px",
+            backgroundColor: "rgb(183, 181, 181)",
+          }}
+        ></div>
         {/* <ConnectKitButton.Custom>
           {({ isConnected, show, truncatedAddress, ensName }) => {
             return (
@@ -84,19 +99,36 @@ export default function Login({ setuseless }) {
         </ConnectKitButton.Custom> */}
         {connectors.map((connector) => (
           <button
-            style={{ border: "0px", padding: "0px", background: "white" }}
+            style={{
+              border: "1px solid rgb(183, 181, 181)",
+              borderTopLeftRadius: "10px",
+              borderTopRightRadius: "10px",
+              width: "100%",
+              padding: "0px",
+              background: "white",
+            }}
             disabled={!connector.ready}
             key={connector.id}
             onClick={() => connect({ connector })}
           >
             {
-              <img
-                style={{ width: "250px", background: "white", padding: "0px", cursor: "pointer", border: "none" }}
-                src="https://seeklogo.com/images/M/metamask-logo-531AE40256-seeklogo.com.png?v=637723254950000000"
-              />
+              <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", padding: "10px" }}>
+                <img
+                  style={{
+                    width: "33px",
+                    height: "30px",
+                    background: "white",
+                    marginRight: "20px",
+                    cursor: "pointer",
+                    border: "none",
+                  }}
+                  src="https://seeklogo.com/images/M/metamask-logo-09EDE53DBD-seeklogo.com.png"
+                />
+                <h3>MetaMask</h3>
+              </div>
             }
-            {!connector.ready && " (unsupported)"}
-            {isLoading && connector.id === pendingConnector?.id && " (connecting)"}
+            {/* {!connector.ready && " (unsupported)"}
+            {isLoading && connector.id === pendingConnector?.id && " (connecting)"} */}
           </button>
         ))}
       </List>

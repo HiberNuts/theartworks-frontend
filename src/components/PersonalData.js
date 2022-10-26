@@ -129,7 +129,7 @@ const PersonalData = () => {
           </Button>
         </div>
         <div className="profile">
-          <Avatar sx={{ width: "200px", height: "200px" }} alt="Remy Sharp" src={"https://picsum.photos/200/300"} />
+          <Avatar sx={{ width: "200px", height: "200px" }} alt="Remy Sharp" src={data.image} />
           <div className="profile-data">
             <h4>DAO member Candidacy </h4>
             <h5 style={{ marginTop: "-15px" }}>
@@ -274,7 +274,6 @@ const PersonalData = () => {
                   e.preventDefault();
                   handleVote();
                 }
-                
               }}
             >
               Vote
