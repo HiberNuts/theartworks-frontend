@@ -8,7 +8,7 @@ import { PagesContext } from "../context/Context";
 import { ConnectKitButton } from "connectkit";
 import { useAccount, useConnect } from "wagmi";
 import { Avatar, Divider } from "@mui/material";
-import "./Login.css"
+import "./Login.css";
 export default function Login({ setuseless }) {
   const { address, isConnected } = useAccount();
   // const { checkIfWalletConnected, account, connectWallet } = useContext(PagesContext);
@@ -38,7 +38,7 @@ export default function Login({ setuseless }) {
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 450,top: "60px" }}
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 450, top: "60px" }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
@@ -106,6 +106,7 @@ export default function Login({ setuseless }) {
               width: "100%",
               padding: "0px",
               background: "white",
+              cursor: "pointer",
             }}
             disabled={!connector.ready}
             key={connector.id}
