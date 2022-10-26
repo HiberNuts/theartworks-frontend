@@ -515,7 +515,7 @@ const DaoVotes = () => {
                 {data.chip == "Active" ? (
                   <Chip label="Active" color="success" sx={{ padding: "10px" }} />
                 ) : (
-                  <Chip label="Closed" color="primary" sx={{ padding: "10px", backgroundColor: purple[700] }} />
+                  <Chip label="Closed" color="primary" sx={{ padding: "10px", backgroundColor: "rgb(98, 71, 230)" }} />
                 )}
               </div>
               <div className="row2 row">
