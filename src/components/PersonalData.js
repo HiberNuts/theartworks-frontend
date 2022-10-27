@@ -43,8 +43,9 @@ const PersonalData = () => {
   const [flag2, setFlag2] = React.useState();
   const [voteValue, setvoteValue] = React.useState();
 
-  const ADDRESS = "0x92c67df198E17bae61B6A92576a8ec9d52516690";
+  const ADDRESS = "0x4Ee2ef0bd96cff4Fdfe4d182794C82257b60CCD9";
   const { address, isConnecting, isDisconnected } = useAccount();
+  console.log(address);
 
   var timeSart = new Date(data.timeStart * 1000);
   var timeEnd = new Date(data.timeEnd * 1000);
@@ -66,6 +67,7 @@ const PersonalData = () => {
 
   const voteToDao = async () => {
     try {
+      console.log("hii");
       const { ethereum } = window;
 
       if (ethereum) {
@@ -88,6 +90,7 @@ const PersonalData = () => {
   };
 
   const handleVote = () => {
+    console.log("bye");
     voteToDao();
   };
 
@@ -118,7 +121,7 @@ const PersonalData = () => {
       setFlag2(false);
     }
   };
-  console.log(account);
+  // console.log(account);
   return (
     <div className="profileContainer">
       <div className="personalData">
@@ -270,7 +273,7 @@ const PersonalData = () => {
               className="btn"
               variant="contained"
               onClick={(e) => {
-                if (account) {
+                if (address) {
                   e.preventDefault();
                   handleVote();
                 }

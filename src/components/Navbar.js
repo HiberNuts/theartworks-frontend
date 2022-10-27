@@ -21,7 +21,7 @@ import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from
 export default function Navbar() {
   //wagmi connecting contract
 
-  const ADDRESS = "0x92c67df198E17bae61B6A92576a8ec9d52516690";
+  const ADDRESS = "0x4Ee2ef0bd96cff4Fdfe4d182794C82257b60CCD9";
   //
   const { address, isConnected } = useAccount();
   // const { Dao, setDao, account } = React.useContext(PagesContext);
