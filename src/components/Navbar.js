@@ -93,7 +93,7 @@ export default function Navbar() {
           backgroundColor: "white",
           color: "black",
 
-          // height: "80px",
+          height: "70px",
           // marginLeft: "120px",
           // marginRight: "120px",
           // width: "100%",
@@ -188,6 +188,7 @@ export default function Navbar() {
                     "&&:selected": { backgroundColor: "white" },
                     borderBottom: "2px solid black",
                     fontWeight: "bold",
+                    textTransform: "none",
                     margin: "20px 20px 20px 20px",
                   }}
                   value={"account"}
@@ -236,6 +237,7 @@ export default function Navbar() {
                     "&&:selected": { backgroundColor: "white" },
                     borderBottom: "2px solid black",
                     fontWeight: "bold",
+                    textTransform: "none",
                     margin: "20px 20px 20px 20px",
                   }}
                 >
@@ -254,6 +256,8 @@ export default function Navbar() {
                     borderBottom: "2px solid black",
                     fontWeight: "bold",
                     margin: "20px 20px 20px 20px",
+                    textTransform: "none",
+                    fontWeight: "bold",
                   }}
                   value={"Dao Votes"}
                 >
@@ -269,11 +273,13 @@ export default function Navbar() {
                         "&:focus": {
                           background: "none",
                         },
+                        textTransform: "none",
+                        fontWeight: "bold",
                       }}
                       className="button"
                       onClick={() => setdao(true)}
                     >
-                      Dao Votes
+                      DAO votes
                     </Button>
                   </Link>
                 </MenuItem>
@@ -289,9 +295,10 @@ export default function Navbar() {
                     "&&:selected": { backgroundColor: "white" },
                     borderBottom: "2px solid black",
                     fontWeight: "bold",
+                    textTransform: "none",
                     margin: "20px 20px 20px 20px",
                   }}
-                  value={"My Profile"}
+                  value={"My profile"}
                 >
                   <Link style={{ textDecoration: "none" }} to="/profile">
                     <Button
@@ -304,6 +311,8 @@ export default function Navbar() {
                         "&:focus": {
                           background: "none",
                         },
+                        textTransform: "none",
+                        fontWeight: "bold",
                       }}
                       className="button"
                       onClick={() => setdao(false)}
@@ -337,11 +346,13 @@ export default function Navbar() {
                       "&:focus": {
                         background: "none",
                       },
+                      textTransform: "none",
+                      fontWeight: "bold",
                     }}
                     className="button"
                     onClick={disconnect}
                   >
-                    logout
+                    Log Out
                   </Button>
                 </MenuItem>
               </Select>

@@ -123,6 +123,8 @@ export default function MyWallet() {
           sx={{
             color: "black",
             height: "30px",
+            textTransform: "none",
+            fontWeight: "bold",
           }}
           onClick={toggleDrawer("right", true)}
         >
