@@ -422,26 +422,33 @@ const Profile = () => {
               />
             )}
           </FormControl>
-          {formData.time && (
-            <Button
-              sx={{
-                backgroundColor: "black",
-                color: "white",
-                marginTop: "30px",
-                "&:hover": { backgroundColor: "black" },
-              }}
-              className="button"
-              type="submit"
-              onClick={(e) => {
-                e.preventDefault();
-                askContractToMintNft();
-              }}
-            >
-              Submit to Dao
-            </Button>
-          )}
         </form>
       </div>
+      {formData.time && (
+        <Button
+          sx={{
+            backgroundColor: "black",
+            color: "white",
+            width: "180px",
+            marginTop: "30px",
+            fontSize: "18px",
+            fontWeight: "bold",
+            "&:hover": { backgroundColor: "black" },
+            left: "0",
+            height: "70px",
+            borderRadius: "50px",
+            textTransform: "none",
+          }}
+          className="button"
+          type="submit"
+          onClick={(e) => {
+            e.preventDefault();
+            askContractToMintNft();
+          }}
+        >
+          Submit to DAO
+        </Button>
+      )}
     </div>
   );
 };

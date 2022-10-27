@@ -155,15 +155,15 @@ export default function Login({ setuseless }) {
           {"Join DAO"}
         </Button>
         <SwipeableDrawer
-        PaperProps={{
-          sx: {
-            width: 450,
-            marginTop: 8.7,
-            zIndex: 0,
-            boxShadow: "none",
-            borderLeft: "2px solid grey",
-          },
-        }}
+          PaperProps={{
+            sx: {
+              width: 450,
+              marginTop: 8.1,
+              zIndex: 0,
+              boxShadow: "none",
+              borderLeft: "2px solid grey",
+            },
+          }}
           BackdropProps={{ invisible: true }}
           // sx={{ marginTop: "20px", height: "50px" }}
           anchor={"right"}

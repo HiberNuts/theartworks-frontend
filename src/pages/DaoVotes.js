@@ -331,7 +331,7 @@ const DaoVotes = () => {
 
       setallCandidacyData(canidacyData);
       localStorage.setItem("items", JSON.stringify(filterAllData));
-      setfilterAllData(canidacyData);
+      setfilterAllData(canidacyData.reverse());
 
       console.log(allCandidacyData);
       setloading(false);
@@ -498,8 +498,18 @@ const DaoVotes = () => {
       )}
       {filterAllData.map((data, index) => (
         <Link key={index} style={{ textDecoration: "none" }} to="/personalData" state={{ data }}>
-          <Card className="card" sx={{ padding: "30px", marginBottom: "20px", borderRadius: "20px" }}>
-            <Avatar sx={{ width: "150px", height: "150px" }} alt="Remy Sharp" src={data.image} />
+          <Card
+            elevation={1}
+            className="card"
+            sx={{
+              padding: "20px 30px 10px 30px",
+              // paddingBottom: "-10px",
+              marginBottom: "20px",
+              borderRadius: "20px",
+              border: "1px solid black",
+            }}
+          >
+            <Avatar sx={{ width: "170px", height: "170px", marginTop: "-10px" }} alt="Remy Sharp" src={data.image} />
 
             <div className="details">
               <div className="row1 row">
@@ -528,9 +538,9 @@ const DaoVotes = () => {
                 <p>{data.desc}</p>
               </div>
               <div className="row4 row">
-                <h4 style={{ marginRight: "10px" }}>Sponsored By</h4>
                 {data.sponsor1Name.name || data.sponsor2Name.name ? (
                   <div style={{}} className="row4">
+                    <h4 style={{ marginRight: "10px" }}>Sponsored By</h4>
                     {data.sponsor1Name.name && (
                       <Chip
                         label={data.sponsor1Name.name}
@@ -565,7 +575,7 @@ const DaoVotes = () => {
                     )}
                   </div>
                 ) : (
-                  "No one"
+                  "Not sponsored"
                 )}
               </div>
             </div>

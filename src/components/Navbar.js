@@ -119,32 +119,35 @@ export default function Navbar() {
           </Link>
 
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <Link style={{ textDecoration: "none" }} to="/dao">
-              <Button
-                sx={{
-                  padding: 0,
-                  minHeight: 0,
-                  minWidth: 0,
-                  color: "black",
-                  marginRight: "60px",
-                  " &:hover": {
-                    background: "none",
-                  },
-                  "&:focus": {
-                    background: "none",
-                  },
-                  minWidth: "0px",
-                  padding: "0px",
-                  textTransform: "none",
-                  fontWeight: "bold",
-                  fontSize: "12px",
-                  borderBottom: dao ? "4px solid black" : "",
-                }}
-                onClick={() => setdao(true)}
-              >
-                DAO Votes
-              </Button>
-            </Link>
+            {!isConnected && (
+              <Link style={{ textDecoration: "none" }} to="/dao">
+                <Button
+                  sx={{
+                    padding: 0,
+                    minHeight: 0,
+                    minWidth: 0,
+                    color: "black",
+                    marginRight: "60px",
+                    " &:hover": {
+                      background: "none",
+                    },
+                    "&:focus": {
+                      background: "none",
+                    },
+                    minWidth: "0px",
+                    padding: "0px",
+                    textTransform: "none",
+                    fontWeight: "bold",
+                    fontSize: "12px",
+                    borderBottom: dao ? "4px solid black" : "",
+                  }}
+                  onClick={() => setdao(true)}
+                >
+                  DAO Votes
+                </Button>
+              </Link>
+            )}
+
             {isConnected ? (
               <Select
                 sx={{

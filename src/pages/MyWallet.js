@@ -132,7 +132,7 @@ export default function MyWallet() {
           PaperProps={{
             sx: {
               width: 450,
-              marginTop: 8.7,
+              marginTop: 8.8,
               zIndex: 0,
               boxShadow: "none",
               borderLeft: "2px solid grey",
