@@ -123,6 +123,7 @@ const DaoVotes = () => {
       const provider = new ethers.providers.AlchemyProvider(network, "j7okfDkgOj5cvjTR2ZBadkj7Dr7HDu7M");
       const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
       let Txn = await connectedContract.candidacyAllData(address);
+      console.log(Txn);
       return Txn;
     } catch (err) {
       console.log(err);

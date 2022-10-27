@@ -150,7 +150,7 @@ export default function Navbar() {
                 sx={{
                   color: "white",
                   height: "70px",
-
+                  zIndex: "10000",
                   border: "none",
                   fontWeight: "bold",
                   "& fieldset": { border: "none" },

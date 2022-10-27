@@ -59,7 +59,8 @@ export default function MyWallet() {
 
   const lists = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" :450 }}
+      elevation={0}
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 450 }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
@@ -84,9 +85,9 @@ export default function MyWallet() {
         </div>
         <hr
           style={{
-            background: "grey   ",
-            color: "grey    ",
-            borderColor: "grey  ",
+            background: "rgb(173, 169, 169)   ",
+            color: "rgb(173, 169, 169)    ",
+            borderColor: "rgb(173, 169, 169)  ",
             height: "0.5px",
             width: "100%",
           }}
@@ -128,6 +129,16 @@ export default function MyWallet() {
           {"My Wallet"}
         </Button>
         <SwipeableDrawer
+          PaperProps={{
+            sx: {
+              width: 450,
+              marginTop: 8.7,
+              zIndex: 0,
+              boxShadow: "none",
+              borderLeft: "2px solid grey",
+            },
+          }}
+          BackdropProps={{ invisible: true }}
           anchor={"right"}
           open={state["right"]}
           onClose={toggleDrawer("right", false)}

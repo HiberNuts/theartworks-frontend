@@ -38,7 +38,7 @@ export default function Login({ setuseless }) {
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 450, top: "60px" }}
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 450 }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
@@ -155,6 +155,16 @@ export default function Login({ setuseless }) {
           {"Join DAO"}
         </Button>
         <SwipeableDrawer
+        PaperProps={{
+          sx: {
+            width: 450,
+            marginTop: 8.7,
+            zIndex: 0,
+            boxShadow: "none",
+            borderLeft: "2px solid grey",
+          },
+        }}
+          BackdropProps={{ invisible: true }}
           // sx={{ marginTop: "20px", height: "50px" }}
           anchor={"right"}
           open={state["right"]}
