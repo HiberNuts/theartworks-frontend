@@ -170,11 +170,15 @@ export default function Navbar() {
                 }}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
+                label="HIIIII "
                 value={"account"}
                 onChange={(e) => handleChange(e)}
               >
                 <MenuItem
+                  disabled
+                  hidden
                   sx={{
+                    display: "none",
                     color: "black",
                     borderWidth: "90%",
                     display: "flex",
@@ -324,23 +328,25 @@ export default function Navbar() {
                   }}
                   value={"daovote"}
                 >
-                  <Button
-                    sx={{
-                      color: "black",
-                      " &:hover": {
-                        background: "none",
-                      },
-                      "&:focus": {
-                        background: "none",
-                      },
-                      textTransform: "none",
-                      fontWeight: "bold",
-                    }}
-                    className="button"
-                    onClick={disconnect}
-                  >
-                    Log Out
-                  </Button>
+                  <Link style={{ textDecoration: "none" }} to="/dao">
+                    <Button
+                      sx={{
+                        color: "black",
+                        " &:hover": {
+                          background: "none",
+                        },
+                        "&:focus": {
+                          background: "none",
+                        },
+                        textTransform: "none",
+                        fontWeight: "bold",
+                      }}
+                      className="button"
+                      onClick={disconnect}
+                    >
+                      Log Out
+                    </Button>
+                  </Link>
                 </MenuItem>
               </Select>
             ) : (

@@ -19,6 +19,7 @@ import accepted from "../assets/accepted.png";
 import refused from "../assets/refused.png";
 import tick from "../assets/tick.png";
 import inprogress from "../assets/inprogress.png";
+import { ArrowBack } from "@mui/icons-material";
 
 function LinearProgressWithLabel(props) {
   return (
@@ -126,7 +127,7 @@ const PersonalData = () => {
     <div className="profileContainer">
       <div className="personalData">
         <div className="backbtn">
-          <Button variant="outlined" onClick={() => navigate("/dao")}>
+          <Button startIcon={<ArrowBack />} sx={{ color: "black" }} onClick={() => navigate("/dao")}>
             {" "}
             Back
           </Button>
@@ -196,13 +197,13 @@ const PersonalData = () => {
             )}
           </div>
         </div>
-        <h4>Description</h4>
-        <div className="desc">Description: {data.desc}</div>
-        <h4>Phone</h4>
-        <div className="phone">{data.number}</div>
-        <h4>Email</h4>
+
+        <div className="phone">{data.desc}</div>
+        <br />
+        <div className="phone">{data.website}</div>
+
         <div className="phone">{data.email}</div>
-        <h4>Postal Address</h4>
+
         <div className="phone"> {data.postalAddress}</div>
       </div>
 
@@ -285,7 +286,17 @@ const PersonalData = () => {
         )}
 
         <Card className="right-card2">
-          <h2>Current results</h2>
+          {data.chip == "Active" ? <h2>Current results</h2> : <h2>Results</h2>}
+
+          <hr
+            style={{
+              background: "rgb(173, 169, 169)   ",
+              color: "rgb(173, 169, 169)    ",
+              borderColor: "rgb(173, 169, 169)  ",
+              height: "0.5px",
+              width: "100%",
+            }}
+          />
           <Stack sx={{ width: "70%", fontWeight: "500px" }} spacing={2}>
             For
             <LinearProgressWithLabel
@@ -301,11 +312,17 @@ const PersonalData = () => {
             />
             <div className="date">
               <h5>Start Date</h5>
-              <h5>{timeSart.toDateString()}</h5>
+              <h5>
+                {timeSart.toLocaleString("default", { month: "short" })} {timeSart.getDay()},{timeSart.getFullYear()},{" "}
+                {timeSart.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+              </h5>
             </div>
             <div style={{ marginTop: "-30px" }} className="date">
               <h5>End Date</h5>
-              <h5>{timeEnd.toDateString()}</h5>
+              <h5>
+                {timeEnd.toLocaleString("default", { month: "short" })} {timeEnd.getDay()},{timeEnd.getFullYear()},{" "}
+                {timeEnd.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+              </h5>
             </div>
           </Stack>
         </Card>

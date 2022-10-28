@@ -53,6 +53,7 @@
 .i-wrapper {
     position:relative;
     margin-right: -13px;
+   
   }
   
   .i-icon {
@@ -63,6 +64,7 @@
     /* box-sizing:border-box; */
     top:50%;
     left:25px;
+    margin-top: -7px;
     transform: translateY(-50%);
   }
   
