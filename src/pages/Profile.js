@@ -1,4 +1,4 @@
-import { Button, FormControl, MenuItem, Select } from "@mui/material";
+import { Avatar, Button, Card, FormControl, MenuItem, Modal, Select, Typography } from "@mui/material";
 import React, { useState } from "react";
 
 import "./Profile.css";
@@ -14,6 +14,11 @@ import { usePrepareContractWrite, useContractWrite, useWaitForTransaction, useCo
 import abi from "../utils/abi.json";
 import { ethers } from "ethers";
 import toast, { Toaster } from "react-hot-toast";
+import accepted from "../assets/accepted.png";
+import refused from "../assets/refused.png";
+import tick from "../assets/tick.png";
+import inprogress from "../assets/inprogress.png";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -29,6 +34,14 @@ const MenuProps = {
 const ADDRESS = "0x4Ee2ef0bd96cff4Fdfe4d182794C82257b60CCD9";
 
 const Profile = () => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = (e) => {
+    e.preventDefault();
+    setOpen(true);
+  };
+  const handleClose = (e) => {
+    setOpen(false);
+  };
   const { address, isConnecting, isDisconnected } = useAccount();
   const getImage = async (userAddress) => {
     const storageRef = ref(storage, "files/" + `${userAddress}.jpeg`);
@@ -55,7 +68,7 @@ const Profile = () => {
   const [daoMembersAddress, setdaoMembersAddress] = React.useState([]);
   const [daoMembersData, setdaoMembersData] = React.useState([]);
   const [sponsorAddress, setsponsorAddress] = useState([{}]);
-  const [filter, setfilter] = useState("Artist");
+  const [filter, setfilter] = useState("your");
   const [others, setothers] = useState(false);
 
   const file = new File(["foo"], "foo.txt", { type: "text/plain" });
@@ -235,6 +248,19 @@ const Profile = () => {
     setfilter(e.target.value);
     setformData({ ...formData, job: e.target.value });
   };
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "1000px",
+    bgcolor: "white",
+    border: "3px solid grey",
+    boxShadow: 24,
+    p: 4,
+    borderRadius: "20px",
+  };
   // console.log(formData);
   return (
     <div className="profile-container">
@@ -243,185 +269,293 @@ const Profile = () => {
         <h1>My Profile</h1>
       </div>
       <div className="data">
-        <label htmlFor="upload-button" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-          {image.preview.length > 0 ? (
-            <img
-              style={{
-                border: "2px solid black",
-                height: "250px",
-                width: "250px",
-                borderRadius: "50%",
-                objectFit: "cover",
-                cursor: "pointer",
-              }}
-              src={image.preview}
-              alt="dummy"
-              width="300"
-              height="300"
-            />
-          ) : (
-            <h5
-              className="text-center"
-              style={{
-                border: "2px solid black",
-                height: "250px",
-                width: "250px",
-                borderRadius: "50%",
-                objectFit: "cover",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-              }}
-            >
-              Upload your photo
-            </h5>
-          )}
-        </label>
+        <input
+          className="profile-input"
+          placeholder="Name"
+          value={formData.name}
+          type="text"
+          label="Name"
+          variant="outlined"
+          onChange={(e) => setformData({ ...formData, name: e.target.value })}
+        />
+
         <form className="profile-form">
           <div className="p-row1">
             <input type="file" id="upload-button" style={{ display: "none" }} onChange={handleChange} />
-            <input
-              className="profile-input"
-              placeholder="Name"
-              value={formData.name}
-              required
-              type="text"
-              label="Name"
-              variant="outlined"
-              onChange={(e) => setformData({ ...formData, name: e.target.value })}
-            />
-            <input
-              className="profile-input"
-              required
-              type="text"
-              value={formData.companyName}
-              placeholder="Company Name"
-              label="Company Name"
-              variant="outlined"
-              onChange={(e) => setformData({ ...formData, companyName: e.target.value })}
-            />
+
+            <label htmlFor="upload-button" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              {image.preview.length > 0 ? (
+                <img
+                  style={{
+                    border: "2px solid black",
+                    height: "250px",
+                    width: "250px",
+
+                    objectFit: "cover",
+                    cursor: "pointer",
+                  }}
+                  src={image.preview}
+                  alt="dummy"
+                  width="300"
+                  height="300"
+                />
+              ) : (
+                <h5
+                  className="text-center"
+                  style={{
+                    border: "2px solid black",
+                    height: "250px",
+                    width: "250px",
+
+                    objectFit: "cover",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                  }}
+                >
+                  Upload your photo
+                </h5>
+              )}
+            </label>
             <div>
-              <input
-                className="profile-input"
-                required
-                type="email"
-                placeholder="Email"
-                label="Email"
-                value={formData.email}
-                variant="outlined"
-                onChange={(e) => setformData({ ...formData, email: e.target.value })}
-              />
+              <div className="arrange">
+                <input
+                  className="profile-input"
+                  type="text"
+                  value={formData.companyName}
+                  placeholder="Company Name"
+                  label="Company Name"
+                  variant="outlined"
+                  onChange={(e) => setformData({ ...formData, companyName: e.target.value })}
+                />
+                <input
+                  className="profile-input"
+                  type="text"
+                  label="Web Link"
+                  placeholder="Web Link"
+                  variant="outlined"
+                  value={formData.website}
+                  onChange={(e) => setformData({ ...formData, website: e.target.value })}
+                />
+                <textarea
+                  className="profile-input"
+                  style={{
+                    width: "400px",
+                    height: "200px",
+                    position: "absolute",
+                    marginLeft: "600px",
+                    borderRadius: "50px",
+                  }}
+                  type="text"
+                  placeholder="Describe your motivation to become DAO member"
+                  variant="outlined"
+                  value={formData.desc}
+                  onChange={(e) => setformData({ ...formData, desc: e.target.value })}
+                />
+              </div>
+              <div className="arrange">
+                <input
+                  className="profile-input"
+                  type="text"
+                  label="number"
+                  placeholder="Phone"
+                  variant="outlined"
+                  value={formData.number}
+                  onChange={(e) => setformData({ ...formData, number: e.target.value })}
+                />
+                <input
+                  style={{ height: "70px", position: "absolute", marginLeft: "300px" }}
+                  className="profile-input"
+                  type="text"
+                  label="address"
+                  placeholder="Postal Address"
+                  variant="outlined"
+                  value={formData.postalAddress}
+                  onChange={(e) => setformData({ ...formData, postalAddress: e.target.value })}
+                />
+              </div>
+              <div className="arrange">
+                <input
+                  className="profile-input"
+                  type="email"
+                  placeholder="Email"
+                  label="Email"
+                  value={formData.email}
+                  variant="outlined"
+                  onChange={(e) => setformData({ ...formData, email: e.target.value })}
+                />
+              </div>
+              <FormControl>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={filter}
+                  label="Your job"
+                  onChange={handleJobChange}
+                  sx={{
+                    border: "none",
+                    fontSize: "20px",
+                    marginLeft: "10px",
+                    fontWeight: "bold",
+                    "& fieldset": { border: "none" },
+                  }}
+                >
+                  <MenuItem sx={{ fontWeight: "bold" }} value={"your"}>
+                    Your job
+                  </MenuItem>
+                  <MenuItem value={"Artist"}>Artist</MenuItem>
+                  <MenuItem value={"Gallery director"}>Gallery director</MenuItem>
+                  <MenuItem value={"Curators"}>Curators</MenuItem>
+                  <MenuItem value={"Museum director"}>Museum director</MenuItem>
+                  <MenuItem value={"Art space director"}>Art space director</MenuItem>
+                  <MenuItem value={"Collector"}>Collector</MenuItem>
+                  <MenuItem value={"Art dealer"}>Art dealer</MenuItem>
+                  <MenuItem value={"Art critic"}>Art critic</MenuItem>
+                  <MenuItem value={"Foundation director"}>Foundation director</MenuItem>
+                  <MenuItem value={"others"}>others</MenuItem>
+                </Select>
+                {filter == "others" && (
+                  <input
+                    type="text"
+                    onChange={(e) => setformData({ ...formData, job: e.target.value })}
+                    placeholder="type job here"
+                  />
+                )}
+              </FormControl>
             </div>
           </div>
           <div className="p-row2">
-            <input
-              className="profile-input"
-              required
-              type="text"
-              label="Web Link"
-              placeholder="Web Link"
-              variant="outlined"
-              value={formData.website}
-              onChange={(e) => setformData({ ...formData, website: e.target.value })}
-            />
-            <input
-              className="profile-input"
-              required
-              type="text"
-              label="address"
-              placeholder="address"
-              variant="outlined"
-              value={formData.postalAddress}
-              onChange={(e) => setformData({ ...formData, postalAddress: e.target.value })}
-            />
-            <input
-              className="profile-input"
-              required
-              type="text"
-              label="number"
-              placeholder="number"
-              variant="outlined"
-              value={formData.number}
-              onChange={(e) => setformData({ ...formData, number: e.target.value })}
-            />
-          </div>
+            <div>
+              <InputLabel style={{ marginRight: "10px", fontWeight: "bold" }} id="demo-multiple-chip-label">
+                Add a sponsor name
+              </InputLabel>
 
-          <div className="p-row2">
-            <textarea
-              className="profile-input"
-              sx={{ width: "300px", height: "55px" }}
-              required
-              type="text"
-              placeholder="Describe your motivation to become DAO member"
-              variant="outlined"
-              value={formData.desc}
-              onChange={(e) => setformData({ ...formData, desc: e.target.value })}
-            />
-            <InputLabel style={{ marginRight: "10px", fontWeight: "bold" }} id="demo-multiple-chip-label">
-              Select Your Sponsors
-            </InputLabel>
+              <Select
+                sx={{
+                  marginBottom: "10px",
+                  color: "black",
+                  minWidth: "200px",
+                  border: "none",
 
-            <Select
-              sx={{
-                marginBottom: "10px",
-                color: "black",
-                minWidth: "200px",
-                border: "none",
+                  fontWeight: "bold",
+                }}
+                multiple
+                value={personName}
+                onChange={handleRoleChange}
+                input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                renderValue={(selected) => (
+                  <Box limit={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={daoMembersData?.find((e) => e.address === value).name} />
+                    ))}
+                  </Box>
+                )}
+                MenuProps={MenuProps}
+              >
+                {daoMembersData.map((data) => {
+                  return (
+                    <MenuItem key={data.address} value={data.address}>
+                      {data.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </div>
+            <div>
+              <button className="daoview" onClick={handleOpen}>
+                DAO votes view
+              </button>
+            </div>
 
-                fontWeight: "bold",
-              }}
-              multiple
-              value={personName}
-              onChange={handleRoleChange}
-              input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-              renderValue={(selected) => (
-                <Box limit={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((value) => (
-                    <Chip key={value} label={daoMembersData?.find((e) => e.address === value).name} />
-                  ))}
-                </Box>
-              )}
-              MenuProps={MenuProps}
+            <Modal
+              // hideBackdrop={true}
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
             >
-              {daoMembersData.map((data) => {
-                return (
-                  <MenuItem key={data.address} value={data.address}>
-                    {data.name}
-                  </MenuItem>
-                );
-              })}
-            </Select>
+              <Box sx={style}>
+                <Card sx={{ marginTop: "" }} elevation={0} className="card">
+                  <Avatar sx={{ width: "170px", height: "170px" }} alt="Remy Sharp" src={image.preview} />
+
+                  <div className="details">
+                    <div className="row1 ">
+                      <h4>DAO member Candidacy (48 hours left)</h4>
+
+                      <Chip label="Active" color="success" sx={{ padding: "10px" }} />
+                    </div>
+                    <div className="row2 ">
+                      <h4>
+                        {formData.name} - {formData.job}
+                      </h4>
+                    </div>
+                    <div className="row3 row">
+                      <p>{formData.desc}</p>
+                    </div>
+                    <div className="row4 row">
+                      {personName.length > 0 ? (
+                        <div style={{}} className="row4">
+                          <h4 style={{ marginRight: "10px" }}>Sponsored By</h4>
+                          {personName.map((value) => (
+                            <Chip
+                              label={daoMembersData?.find((e) => e.address === value).name}
+                              variant="outlined"
+                              sx={{ padding: "10px", margin: "10px" }}
+                              icon={<img className="icon" src={inprogress} />}
+                            />
+                          ))}
+                        </div>
+                      ) : (
+                        "Not sponsored"
+                      )}
+
+                      {/* // <Chip key={value} label={daoMembersData?.find((e) => e.address === value).name} /> */}
+                      {/* {data.sponsor1Name.name || data.sponsor2Name.name ? (
+                        <div style={{}} className="row4">
+                          <h4 style={{ marginRight: "10px" }}>Sponsored By</h4>
+                          {data.sponsor1Name.name && (
+                            <Chip
+                              label={data.sponsor1Name.name}
+                              variant="outlined"
+                              sx={{ padding: "10px", margin: "10px" }}
+                              icon={
+                                data.sponsor1App == true ? (
+                                  <img className="icon" src={tick} />
+                                ) : data.sponsor1App == "inprogress" ? (
+                                  <img className="icon" src={inprogress} />
+                                ) : (
+                                  <CancelIcon style={{ color: "red" }} />
+                                )
+                              }
+                            />
+                          )}
+                          {data.sponsor2Name.name && (
+                            <Chip
+                              label={data.sponsor2Name.name}
+                              variant="outlined"
+                              sx={{ padding: "10px", margin: "10px" }}
+                              icon={
+                                data.sponsor2App == true ? (
+                                  <img className="icon" src={tick} />
+                                ) : data.sponsor2App == "inprogress" ? (
+                                  <img className="icon" src={inprogress} />
+                                ) : (
+                                  <CancelIcon style={{ color: "red" }} />
+                                )
+                              }
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        "Not sponsored"
+                      )} */}
+                    </div>
+                  </div>
+                </Card>
+              </Box>
+            </Modal>
           </div>
-          <FormControl>
-            <InputLabel id="demo-simple-select-label">Select Job</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={filter}
-              label="Select Job"
-              onChange={handleJobChange}
-              sx={{ border: "none", fontWeight: "bold", "& fieldset": { border: "none" } }}
-            >
-              <MenuItem value={"Artist"}>Artist</MenuItem>
-              <MenuItem value={"Gallery director"}>Gallery director</MenuItem>
-              <MenuItem value={"Curators"}>Curators</MenuItem>
-              <MenuItem value={"Museum director"}>Museum director</MenuItem>
-              <MenuItem value={"Art space director"}>Art space director</MenuItem>
-              <MenuItem value={"Collector"}>Collector</MenuItem>
-              <MenuItem value={"Art dealer"}>Art dealer</MenuItem>
-              <MenuItem value={"Art critic"}>Art critic</MenuItem>
-              <MenuItem value={"Foundation director"}>Foundation director</MenuItem>
-              <MenuItem value={"others"}>others</MenuItem>
-            </Select>
-            {filter == "others" && (
-              <input
-                type="text"
-                onChange={(e) => setformData({ ...formData, job: e.target.value })}
-                placeholder="type job here"
-              />
-            )}
-          </FormControl>
         </form>
       </div>
       {formData.time && (

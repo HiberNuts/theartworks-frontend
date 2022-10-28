@@ -514,15 +514,16 @@ const DaoVotes = () => {
             <div className="details">
               <div className="row1 row">
                 <h4>
-                  DAO member Candidacy --{" "}
+                  DAO member Candidacy
                   {data.candidacy == "true" ? (
-                    <img className="icon" src={accepted} />
+                    <img style={{ marginLeft: "5px" }} className="icon" src={accepted} />
                   ) : data.candidacy == "false" ? (
-                    <img className="icon" src={refused} />
+                    <img style={{ marginLeft: "5px" }} className="icon" src={refused} />
                   ) : (
-                    data.candidacy
+                    `( ${data.candidacy} )`
                   )}
                 </h4>
+
                 {data.chip == "Active" ? (
                   <Chip label="Active" color="success" sx={{ padding: "10px" }} />
                 ) : (

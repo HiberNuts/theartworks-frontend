@@ -94,9 +94,6 @@ export default function Navbar() {
           color: "black",
 
           height: "70px",
-          // marginLeft: "120px",
-          // marginRight: "120px",
-          // width: "100%",
         }}
         position="inherit"
       >
@@ -173,7 +170,7 @@ export default function Navbar() {
                 }}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={dropdown}
+                value={"account"}
                 onChange={(e) => handleChange(e)}
               >
                 <MenuItem
@@ -193,37 +190,27 @@ export default function Navbar() {
                   }}
                   value={"account"}
                 >
-                  <ConnectKitButton.Custom>
-                    {({ isConnected, show, truncatedAddress, ensName }) => {
-                      return (
-                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                          <Avatar
-                            style={{ bgcolor: "black", backgroundColor: "black", width: "25px", height: "25px" }}
-                          />
-                          <Button
-                            sx={{
-                              color: "black",
-                              fontSize: "10px",
+                  <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <Avatar style={{ bgcolor: "black", backgroundColor: "black", width: "25px", height: "25px" }} />
+                    <Button
+                      sx={{
+                        color: "black",
+                        fontSize: "10px",
 
-                              " &:hover": {
-                                background: "none",
-                              },
-                              "&:focus": {
-                                background: "none",
-                              },
-                              textTransform: "none",
-                              fontWeight: "bold",
-                              fontSize: "20px",
-                            }}
-                            onClick={show}
-                          >
-                            {"Account"}
-                          </Button>
-                        </div>
-                      );
-                    }}
-                  </ConnectKitButton.Custom>
-                  {/* Account */}
+                        " &:hover": {
+                          background: "none",
+                        },
+                        "&:focus": {
+                          background: "none",
+                        },
+                        textTransform: "none",
+                        fontWeight: "bold",
+                        fontSize: "20px",
+                      }}
+                    >
+                      {"Account"}
+                    </Button>
+                  </div>
                 </MenuItem>
                 <MenuItem
                   sx={{
@@ -259,7 +246,7 @@ export default function Navbar() {
                     textTransform: "none",
                     fontWeight: "bold",
                   }}
-                  value={"Dao Votes"}
+                  value={"daovote"}
                 >
                   <Link style={{ textDecoration: "none", color: "black" }} to="/dao">
                     {" "}
@@ -298,7 +285,7 @@ export default function Navbar() {
                     textTransform: "none",
                     margin: "20px 20px 20px 20px",
                   }}
-                  value={"My profile"}
+                  value={"daovote"}
                 >
                   <Link style={{ textDecoration: "none" }} to="/profile">
                     <Button
@@ -335,7 +322,7 @@ export default function Navbar() {
                     fontWeight: "bold",
                     margin: "20px 20px 20px 20px",
                   }}
-                  value={"logout"}
+                  value={"daovote"}
                 >
                   <Button
                     sx={{
@@ -358,27 +345,6 @@ export default function Navbar() {
               </Select>
             ) : (
               <Login setuseless={setuseless} />
-              // <ConnectKitButton.Custom>
-              //   {({ isConnected, show, truncatedAddress, ensName }) => {
-              //     return (
-              //       <Button
-              //         sx={{
-              //           backgroundColor: "black",
-              //           color: "white",
-              //           borderRadius: "20px",
-              //           fontSize: "10px",
-              //           width: "120px",
-              //           textTransform: "none",
-              //           "&:hover": { backgroundColor: "black" },
-              //           padding: "10px",
-              //         }}
-              //         onClick={show}
-              //       >
-              //         {isConnected ? ensName ?? truncatedAddress : "Join DAO"}
-              //       </Button>
-              //     );
-              //   }}
-              // </ConnectKitButton.Custom>
             )}
           </div>
         </Toolbar>
