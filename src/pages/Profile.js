@@ -10,7 +10,14 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 
 import Chip from "@mui/material/Chip";
-import { usePrepareContractWrite, useContractWrite, useWaitForTransaction, useContractRead, useAccount } from "wagmi";
+import {
+  usePrepareContractWrite,
+  useContractWrite,
+  useWaitForTransaction,
+  useContractRead,
+  useAccount,
+  useDisconnect,
+} from "wagmi";
 import abi from "../utils/abi.json";
 import { ethers } from "ethers";
 import toast, { Toaster } from "react-hot-toast";
@@ -19,6 +26,7 @@ import refused from "../assets/refused.png";
 import tick from "../assets/tick.png";
 import inprogress from "../assets/inprogress.png";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { useNavigate } from "react-router-dom";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -70,6 +78,9 @@ const Profile = () => {
   const [sponsorAddress, setsponsorAddress] = useState([{}]);
   const [filter, setfilter] = useState("your");
   const [others, setothers] = useState(false);
+  const { disconnect } = useDisconnect();
+
+  const navigate = useNavigate();
 
   const file = new File(["foo"], "foo.txt", { type: "text/plain" });
 
@@ -230,6 +241,23 @@ const Profile = () => {
       console.log(error);
     }
   };
+
+  const { black } = useContractRead({
+    address: ADDRESS,
+    abi: abi,
+    functionName: "blacklisted",
+    args: [address],
+  });
+  const logout = () => {
+    disconnect();
+  };
+
+  React.useEffect(() => {
+    if (data) {
+      logout();
+      navigate("/dao");
+    }
+  }, [address]);
 
   React.useEffect(() => {
     const gettingImage = async () => {

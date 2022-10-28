@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Button from "@mui/material/Button";
@@ -6,11 +6,16 @@ import List from "@mui/material/List";
 // import { useNavigate } from "react-router-dom";
 import { PagesContext } from "../context/Context";
 import { ConnectKitButton } from "connectkit";
-import { useAccount, useConnect } from "wagmi";
+import { useAccount, useConnect, useContractRead, useDisconnect } from "wagmi";
 import { Avatar, Divider } from "@mui/material";
+import abi from "../utils/abi";
 import "./Login.css";
 export default function Login({ setuseless }) {
+  const ADDRESS = "0x4Ee2ef0bd96cff4Fdfe4d182794C82257b60CCD9";
+  //
   const { address, isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
+  const [blacklisted, setblacklisted] = useState(false);
   // const { checkIfWalletConnected, account, connectWallet } = useContext(PagesContext);
   // const navigate = useNavigate();
   const [state, setState] = React.useState({
@@ -24,12 +29,24 @@ export default function Login({ setuseless }) {
 
     setState({ ...state, [anchor]: open });
   };
+  const { data } = useContractRead({
+    address: ADDRESS,
+    abi: abi,
+    functionName: "blacklisted",
+    args: [address],
+  });
 
   const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
   console.log("address", address);
+  const logout = () => {
+    disconnect();
+  };
 
   React.useEffect(() => {
-    if (address) {
+    if (data) {
+      setblacklisted(true);
+      logout();
+    } else if (address) {
       setuseless(true);
     } else {
       setuseless(false);
@@ -45,7 +62,7 @@ export default function Login({ setuseless }) {
     >
       <List
         sx={{
-          height: "250px",
+          height: blacklisted ? "400px" : "250px",
           display: "flex",
           alignItems: "flex-start",
           justifyContent: "space-between",
@@ -132,6 +149,7 @@ export default function Login({ setuseless }) {
             {isLoading && connector.id === pendingConnector?.id && " (connecting)"} */}
           </button>
         ))}
+        {blacklisted && <h2 style={{ color: "red" }}>Your ethereum address is blacklisted. You can't login.</h2>}
       </List>
     </Box>
   );
@@ -158,7 +176,7 @@ export default function Login({ setuseless }) {
           PaperProps={{
             sx: {
               width: 450,
-              marginTop: 8.1,
+              marginTop: 8.7,
               zIndex: 0,
               boxShadow: "none",
               borderLeft: "2px solid grey",
