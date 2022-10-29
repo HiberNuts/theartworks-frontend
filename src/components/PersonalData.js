@@ -135,10 +135,10 @@ const PersonalData = () => {
         <div className="profile">
           <Avatar sx={{ width: "200px", height: "200px" }} alt="Remy Sharp" src={data.image} />
           <div className="profile-data">
-            <h4>DAO member Candidacy </h4>
-            <h5 style={{ marginTop: "-15px" }}>
+            <h2>DAO member Candidacy </h2>
+            <h2 style={{ marginTop: "-15px" }}>
               {data.name} - {data.job}
-            </h5>
+            </h2>
             {data.chip == "Active" ? (
               <Chip
                 style={{ marginTop: "-15px" }}
@@ -193,7 +193,7 @@ const PersonalData = () => {
                 )}
               </div>
             ) : (
-              "Sponsored by No one"
+              "Not sponsored"
             )}
           </div>
         </div>
@@ -252,12 +252,44 @@ const PersonalData = () => {
               Against
             </Button>
             {data.sponsor1 == address && data.sponsor1App == "inprogress" && (
-              <Button onClick={addSponsor} variant="contained" color="warning">
+              <Button
+                sx={{
+                  width: "90%",
+                  borderRadius: "13px",
+                  height: "50px",
+                  backgroundColor: "#ffffff",
+                  "&:hover": {
+                    backgroundColor: "#ffffff",
+                  },
+                  textTransform: "none",
+                  border: "1px solid grey",
+                  color: "black",
+                }}
+                onClick={addSponsor}
+                variant="contained"
+                color="warning"
+              >
                 Sign Sponsorship
               </Button>
             )}
             {data.sponsor2 == address && data.sponsor2App == "inprogress" && (
-              <Button onClick={addSponsor} variant="contained" color="warning">
+              <Button
+                sx={{
+                  width: "90%",
+                  borderRadius: "13px",
+                  height: "50px",
+                  backgroundColor: "#ffffff",
+                  "&:hover": {
+                    backgroundColor: "#ffffff",
+                  },
+                  textTransform: "none",
+                  border: "1px solid grey",
+                  color: "black",
+                }}
+                onClick={addSponsor}
+                variant="contained"
+                color="warning"
+              >
                 Sign Sponsorship
               </Button>
             )}
@@ -290,21 +322,21 @@ const PersonalData = () => {
 
           <hr
             style={{
-              background: "rgb(173, 169, 169)   ",
-              color: "rgb(173, 169, 169)    ",
-              borderColor: "rgb(173, 169, 169)  ",
+              background: "rgb(212, 209, 209)   ",
+              color: "rgb(212, 209, 209)    ",
+              borderColor: "rgb(212, 209, 209)  ",
               height: "0.5px",
               width: "100%",
             }}
           />
           <Stack sx={{ width: "70%", fontWeight: "500px" }} spacing={2}>
-            For
+            <p style={{ marginBottom: "-18px" }}>For</p>
             <LinearProgressWithLabel
               sx={{ height: "8px", borderRadius: "5px" }}
               color="primary"
               value={data.forVotes}
             />
-            Against
+            <p style={{ marginBottom: "-18px" }}>Against</p>
             <LinearProgressWithLabel
               sx={{ height: "8px", borderRadius: "5px" }}
               color="primary"

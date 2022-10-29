@@ -43,8 +43,8 @@
 }
 
 .icon{
-    width: 30px;
-    height: 35px;
+    width: 22px;
+    height: 30px;
     /* color:rgb(98, 71, 230) */
 }
 
@@ -64,7 +64,7 @@
     /* box-sizing:border-box; */
     top:50%;
     left:25px;
-    margin-top: -7px;
+    margin-top: -9px;
     transform: translateY(-50%);
   }
   

@@ -50,7 +50,7 @@ const Profile = () => {
   const handleClose = (e) => {
     setOpen(false);
   };
-  const { address, isConnecting, isDisconnected } = useAccount();
+  const { address, isConnecting, isDisconnected, isConnected } = useAccount();
   const getImage = async (userAddress) => {
     const storageRef = ref(storage, "files/" + `${userAddress}.jpeg`);
 
@@ -177,7 +177,7 @@ const Profile = () => {
     }
   };
 
-  const { data, isError, isLoading } = useContractRead({
+  const { isError, isLoading } = useContractRead({
     addressOrName: ADDRESS,
     contractInterface: abi,
     functionName: "candidacyAllData",
@@ -242,7 +242,7 @@ const Profile = () => {
     }
   };
 
-  const { black } = useContractRead({
+  const { data } = useContractRead({
     address: ADDRESS,
     abi: abi,
     functionName: "blacklisted",
@@ -251,6 +251,8 @@ const Profile = () => {
   const logout = () => {
     disconnect();
   };
+
+  // console.log(data);
 
   React.useEffect(() => {
     if (data) {
@@ -271,6 +273,12 @@ const Profile = () => {
   React.useEffect(() => {
     getDaoMembersData();
   }, [daoMembersAddress + 1]);
+
+  React.useEffect(() => {
+    if (!isConnected) {
+      navigate("/dao");
+    }
+  }, [address]);
 
   const handleJobChange = (e) => {
     setfilter(e.target.value);

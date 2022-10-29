@@ -1,5 +1,7 @@
 .profileContainer{
     display: flex;
+    margin-left: 50px;
+    margin-right: 70px;
 }
 .personalData{
     display: flex;
@@ -13,14 +15,14 @@
     margin-top: 70px;
     display: flex;
     flex-direction: row;
-    height: 250px;
+    margin-bottom: 50px;
     
 }
 
 .profile-data{
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: flex-start;
     margin-left: 30px;
 }
@@ -49,6 +51,7 @@
     height: 60%;
     justify-content: space-evenly;
     align-items: center;
+    border:2px solid rgb(189, 187, 187);
 }
 
 .btn{
@@ -61,11 +64,12 @@
     margin-top: 30px;
     display: flex;
     flex-direction: column;
-   
+   border-radius: 10px;
 
     justify-content: center;
     padding: 10px;
     align-items: center;
+    border:2px solid rgb(212, 209, 209);
 
 }
 
