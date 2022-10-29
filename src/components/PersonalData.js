@@ -332,13 +332,13 @@ const PersonalData = () => {
           <Stack sx={{ width: "70%", fontWeight: "500px" }} spacing={2}>
             <p style={{ marginBottom: "-18px" }}>For</p>
             <LinearProgressWithLabel
-              sx={{ height: "8px", borderRadius: "5px" }}
+              sx={{ height: "8px", borderRadius: "5px", colorPrimary: "blue", backgroundColor: "rgb(189, 187, 187)" }}
               color="primary"
               value={data.forVotes}
             />
             <p style={{ marginBottom: "-18px" }}>Against</p>
             <LinearProgressWithLabel
-              sx={{ height: "8px", borderRadius: "5px" }}
+              sx={{ height: "8px", borderRadius: "5px", backgroundColor: "rgb(189, 187, 187)" }}
               color="primary"
               value={data.againstVotes}
             />
