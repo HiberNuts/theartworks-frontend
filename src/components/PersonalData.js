@@ -210,7 +210,7 @@ const PersonalData = () => {
       <div className="right">
         {data.chip == "Active" && (
           <Card className="right-card">
-            <h2>Cast Your Vote 👇</h2>
+            <h2>Cast Your Vote</h2>
             <Divider />
             <Button
               sx={{
@@ -252,29 +252,11 @@ const PersonalData = () => {
               Against
             </Button>
             {data.sponsor1 == address && data.sponsor1App == "inprogress" && (
-              <Button
-                sx={{
-                  width: "90%",
-                  borderRadius: "15px",
-                  height: "50px",
-                  backgroundColor: "#ffffff",
-                  "&:hover": {
-                    backgroundColor: "#ffffff",
-                  },
-                  textTransform: "none",
-                  border: "1px solid grey",
-                  color: "black",
-                }}
-                onClick={addSponsor}
-                variant="contained"
-                color="warning"
-              >
-                Sign sponsorship
-              </Button>
-            )}
-            {data.sponsor2 == address && data.sponsor2App == "inprogress" && (
               <div
+                onClick={addSponsor}
                 style={{
+                  fontSize: "20px",
+                  display: "flex",
                   width: "90%",
                   borderRadius: "13px",
                   height: "50px",
@@ -285,13 +267,43 @@ const PersonalData = () => {
                   textTransform: "none",
                   border: "1px solid grey",
                   color: "black",
+                  justifyContent: "space-evenly",
+                  alignItems: "center",
+                  cursor: "pointer",
                 }}
               >
-                <Button onClick={addSponsor} variant="contained" color="warning">
-                  Sign Sponsorship
+                <Button sx={{ backgroundColor: "white", textTransform: "none", color: "black",fontSize: "20px", }}>
+                  Sign sponsorship
                 </Button>
                 <img className="sicon" src={inprogress} />
               </div>
+            )}
+            {data.sponsor2 == address && data.sponsor2App == "inprogress" && (
+              <div
+              onClick={addSponsor}
+              style={{
+                fontSize: "20px",
+                display: "flex",
+                width: "90%",
+                borderRadius: "13px",
+                height: "50px",
+                backgroundColor: "#ffffff",
+                "&:hover": {
+                  backgroundColor: "#ffffff",
+                },
+                textTransform: "none",
+                border: "1px solid grey",
+                color: "black",
+                justifyContent: "space-evenly",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+            >
+              <Button sx={{ backgroundColor: "white", textTransform: "none", color: "black",fontSize: "20px", }}>
+                Sign sponsorship
+              </Button>
+              <img className="sicon" src={inprogress} />
+            </div>
             )}
             <Button
               sx={{
