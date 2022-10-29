@@ -21,7 +21,7 @@ import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from
 export default function Navbar() {
   //wagmi connecting contract
 
-  const ADDRESS = "0x4Ee2ef0bd96cff4Fdfe4d182794C82257b60CCD9";
+  const ADDRESS = "0xf9C559b43f91DCDa9b8fc849Aa4b646C158d00Ea";
   //
   const { address, isConnected } = useAccount();
   // const { Dao, setDao, account } = React.useContext(PagesContext);
@@ -50,15 +50,17 @@ export default function Navbar() {
   });
 
   const { data, write } = useContractRead(config);
+  console.log(data);
+
+  console.log("address", address);
   const logout = () => {
     disconnect();
   };
   React.useEffect(() => {
     if (data) {
-      toast.error("Your address is blacklisted you cannot login");
       logout();
     }
-  }, [address, isConnected]);
+  }, [address]);
 
   React.useEffect(() => {
     if (location.pathname == "/dao") {

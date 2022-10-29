@@ -39,7 +39,7 @@ const MenuProps = {
   },
 };
 
-const ADDRESS = "0x4Ee2ef0bd96cff4Fdfe4d182794C82257b60CCD9";
+const ADDRESS = "0xf9C559b43f91DCDa9b8fc849Aa4b646C158d00Ea";
 
 const Profile = () => {
   const [open, setOpen] = React.useState(false);
@@ -195,7 +195,7 @@ const Profile = () => {
         companyName: data.companyName,
         postalAddress: data.postaladdress,
         number: data.number,
-        time: data.timeEnd.toNumber() == 0 ? true : date.getTime() / 1000 <= data.timeEnd.toNumber() ? true : false,
+        time: data.timeEnd.toNumber() == 0 ? true : date.getTime() / 1000 <= data.timeEnd.toNumber() ? false : true,
       });
     },
   });
@@ -242,12 +242,14 @@ const Profile = () => {
     }
   };
 
-  const { data } = useContractRead({
-    address: ADDRESS,
-    abi: abi,
+  const { config } = usePrepareContractWrite({
+    addressOrName: ADDRESS,
+    contractInterface: abi,
     functionName: "blacklisted",
     args: [address],
   });
+
+  const { data, write } = useContractRead(config);
   const logout = () => {
     disconnect();
   };
@@ -297,7 +299,7 @@ const Profile = () => {
     p: 4,
     borderRadius: "20px",
   };
-  // console.log(formData);
+  console.log(formData);
   return (
     <div className="profile-container">
       <Toaster position="top-center" />
@@ -531,61 +533,20 @@ const Profile = () => {
                     </div>
                     <div className="row4 row">
                       {personName.length > 0 ? (
-                        <div style={{}} className="row4">
+                        <div className="row4">
                           <h4 style={{ marginRight: "10px" }}>Sponsored By</h4>
                           {personName.map((value) => (
                             <Chip
                               label={daoMembersData?.find((e) => e.address === value).name}
                               variant="outlined"
                               sx={{ padding: "10px", margin: "10px" }}
-                              icon={<img className="icon" src={inprogress} />}
+                              icon={<img style={{ height: "20px", width: "20px" }} className="icon" src={inprogress} />}
                             />
                           ))}
                         </div>
                       ) : (
                         "Not sponsored"
                       )}
-
-                      {/* // <Chip key={value} label={daoMembersData?.find((e) => e.address === value).name} /> */}
-                      {/* {data.sponsor1Name.name || data.sponsor2Name.name ? (
-                        <div style={{}} className="row4">
-                          <h4 style={{ marginRight: "10px" }}>Sponsored By</h4>
-                          {data.sponsor1Name.name && (
-                            <Chip
-                              label={data.sponsor1Name.name}
-                              variant="outlined"
-                              sx={{ padding: "10px", margin: "10px" }}
-                              icon={
-                                data.sponsor1App == true ? (
-                                  <img className="icon" src={tick} />
-                                ) : data.sponsor1App == "inprogress" ? (
-                                  <img className="icon" src={inprogress} />
-                                ) : (
-                                  <CancelIcon style={{ color: "red" }} />
-                                )
-                              }
-                            />
-                          )}
-                          {data.sponsor2Name.name && (
-                            <Chip
-                              label={data.sponsor2Name.name}
-                              variant="outlined"
-                              sx={{ padding: "10px", margin: "10px" }}
-                              icon={
-                                data.sponsor2App == true ? (
-                                  <img className="icon" src={tick} />
-                                ) : data.sponsor2App == "inprogress" ? (
-                                  <img className="icon" src={inprogress} />
-                                ) : (
-                                  <CancelIcon style={{ color: "red" }} />
-                                )
-                              }
-                            />
-                          )}
-                        </div>
-                      ) : (
-                        "Not sponsored"
-                      )} */}
                     </div>
                   </div>
                 </Card>

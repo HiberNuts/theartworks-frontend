@@ -6,12 +6,12 @@ import List from "@mui/material/List";
 // import { useNavigate } from "react-router-dom";
 import { PagesContext } from "../context/Context";
 import { ConnectKitButton } from "connectkit";
-import { useAccount, useConnect, useContractRead, useDisconnect } from "wagmi";
+import { useAccount, useConnect, useContractRead, useDisconnect, usePrepareContractWrite } from "wagmi";
 import { Avatar, Divider } from "@mui/material";
 import abi from "../utils/abi";
 import "./Login.css";
 export default function Login({ setuseless }) {
-  const ADDRESS = "0x4Ee2ef0bd96cff4Fdfe4d182794C82257b60CCD9";
+  const ADDRESS = "0xf9C559b43f91DCDa9b8fc849Aa4b646C158d00Ea";
   //
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
@@ -29,12 +29,15 @@ export default function Login({ setuseless }) {
 
     setState({ ...state, [anchor]: open });
   };
-  const { data } = useContractRead({
-    address: ADDRESS,
-    abi: abi,
+  const { config, isError } = usePrepareContractWrite({
+    addressOrName: ADDRESS,
+    contractInterface: abi,
     functionName: "blacklisted",
     args: [address],
   });
+
+  const { data, write } = useContractRead(config);
+  console.log(data);
 
   const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
   console.log("address", address);
@@ -47,9 +50,11 @@ export default function Login({ setuseless }) {
       setblacklisted(true);
       logout();
     } else if (address) {
+      // setblacklisted(false);
       setuseless(true);
     } else {
       setuseless(false);
+      // setblacklisted(false);
     }
   }, [address]);
 

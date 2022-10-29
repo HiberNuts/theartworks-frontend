@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { useContext, useEffect } from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -57,22 +57,26 @@ function App() {
   //   args: [address],
   // });
 
-  const { data } = useContractRead({
-    address: ADDRESS,
-    abi: abi,
+  const { config, isError } = usePrepareContractWrite({
+    addressOrName: ADDRESS,
+    contractInterface: abi,
     functionName: "blacklisted",
     args: [address],
   });
 
-  const logout = () => {
-    disconnect();
-  };
-  React.useEffect(() => {
-    if (data) {
-      toast.error("Your address is blacklisted you cannot login");
-      logout();
-    }
-  }, [address]);
+  // const { data, write } = useContractRead(config);
+  // console.log(data);
+
+  // console.log("address", address);
+  // const logout = () => {
+  //   disconnect();
+  // };
+
+  // React.useEffect(() => {
+  //   if (data) {
+  //     logout();
+  //   }
+  // }, [address]);
 
   const [state, setState] = React.useState({
     right: false,

@@ -44,7 +44,7 @@ const PersonalData = () => {
   const [flag2, setFlag2] = React.useState();
   const [voteValue, setvoteValue] = React.useState();
 
-  const ADDRESS = "0x4Ee2ef0bd96cff4Fdfe4d182794C82257b60CCD9";
+  const ADDRESS = "0xf9C559b43f91DCDa9b8fc849Aa4b646C158d00Ea";
   const { address, isConnecting, isDisconnected } = useAccount();
   console.log(address);
 
@@ -157,18 +157,18 @@ const PersonalData = () => {
               />
             )}
             {data.sponsor1Name.name || data.sponsor2Name.name ? (
-              <div>
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                 <p>Sponsored BY</p>
                 {data.sponsor1Name.name && (
                   <Chip
                     label={data.sponsor1Name.name}
                     variant="outlined"
-                    sx={{ padding: "10px", margin: "10px" }}
+                    sx={{ padding: "10px", marginLeft: "10px" }}
                     icon={
                       data.sponsor1App == true ? (
-                        <img className="icon" src={tick} />
+                        <img className="sicon" src={tick} />
                       ) : data.sponsor1App == "inprogress" ? (
-                        <img className="icon" src={inprogress} />
+                        <img className="sicon" src={inprogress} />
                       ) : (
                         <CancelIcon style={{ color: "red" }} />
                       )
@@ -179,12 +179,12 @@ const PersonalData = () => {
                   <Chip
                     label={data.sponsor2Name.name}
                     variant="outlined"
-                    sx={{ padding: "10px", margin: "10px" }}
+                    sx={{ padding: "10px", marginLeft: "10px" }}
                     icon={
                       data.sponsor2App == true ? (
-                        <img className="icon" src={tick} />
+                        <img className="sicon" src={tick} />
                       ) : data.sponsor2App == "inprogress" ? (
-                        <img className="icon" src={inprogress} />
+                        <img className="sicon" src={inprogress} />
                       ) : (
                         <CancelIcon style={{ color: "red" }} />
                       )
@@ -215,7 +215,7 @@ const PersonalData = () => {
             <Button
               sx={{
                 width: "90%",
-                borderRadius: "13px",
+                borderRadius: "15px",
                 height: "50px",
                 backgroundColor: "#ffffff",
                 "&:hover": {
@@ -235,7 +235,7 @@ const PersonalData = () => {
             <Button
               sx={{
                 width: "90%",
-                borderRadius: "13px",
+                borderRadius: "15px",
                 height: "50px",
                 backgroundColor: "#ffffff",
                 "&:hover": {
@@ -255,7 +255,7 @@ const PersonalData = () => {
               <Button
                 sx={{
                   width: "90%",
-                  borderRadius: "13px",
+                  borderRadius: "15px",
                   height: "50px",
                   backgroundColor: "#ffffff",
                   "&:hover": {
@@ -269,12 +269,12 @@ const PersonalData = () => {
                 variant="contained"
                 color="warning"
               >
-                Sign Sponsorship
+                Sign sponsorship
               </Button>
             )}
             {data.sponsor2 == address && data.sponsor2App == "inprogress" && (
-              <Button
-                sx={{
+              <div
+                style={{
                   width: "90%",
                   borderRadius: "13px",
                   height: "50px",
@@ -286,12 +286,12 @@ const PersonalData = () => {
                   border: "1px solid grey",
                   color: "black",
                 }}
-                onClick={addSponsor}
-                variant="contained"
-                color="warning"
               >
-                Sign Sponsorship
-              </Button>
+                <Button onClick={addSponsor} variant="contained" color="warning">
+                  Sign Sponsorship
+                </Button>
+                <img className="sicon" src={inprogress} />
+              </div>
             )}
             <Button
               sx={{

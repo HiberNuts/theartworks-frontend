@@ -74,7 +74,7 @@ const DUMMY = [
   },
 ];
 
-const ADDRESS = "0x4Ee2ef0bd96cff4Fdfe4d182794C82257b60CCD9";
+const ADDRESS = "0xf9C559b43f91DCDa9b8fc849Aa4b646C158d00Ea";
 
 const DaoVotes = () => {
   const [dummy, setdummy] = React.useState(DUMMY);
@@ -549,9 +549,9 @@ const DaoVotes = () => {
                         sx={{ padding: "10px", margin: "10px" }}
                         icon={
                           data.sponsor1App == true ? (
-                            <img className="icon" src={tick} />
+                            <img className="sicon" src={tick} />
                           ) : data.sponsor1App == "inprogress" ? (
-                            <img className="icon" src={inprogress} />
+                            <img className="sicon" src={inprogress} />
                           ) : (
                             <CancelIcon style={{ color: "red" }} />
                           )
@@ -565,9 +565,9 @@ const DaoVotes = () => {
                         sx={{ padding: "10px", margin: "10px" }}
                         icon={
                           data.sponsor2App == true ? (
-                            <img className="icon" src={tick} />
+                            <img className="sicon" src={tick} />
                           ) : data.sponsor2App == "inprogress" ? (
-                            <img className="icon" src={inprogress} />
+                            <img className="sicon" src={inprogress} />
                           ) : (
                             <CancelIcon style={{ color: "red" }} />
                           )
