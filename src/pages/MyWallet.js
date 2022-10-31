@@ -138,6 +138,7 @@ export default function MyWallet() {
               zIndex: 0,
               boxShadow: "none",
               borderLeft: "2px solid grey",
+              borderTop: "1px solid black",
             },
           }}
           BackdropProps={{ invisible: true }}

@@ -196,7 +196,7 @@ export default function Navbar() {
                   }}
                   value={"account"}
                 >
-                  <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  <div style={{ display: "flex",color:"white", justifyContent: "center", alignItems: "center" }}>
                     <Avatar style={{ bgcolor: "black", backgroundColor: "black", width: "25px", height: "25px" }} />
                     <Button
                       sx={{

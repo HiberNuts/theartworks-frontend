@@ -341,16 +341,10 @@ const DaoVotes = () => {
     }
   };
 
-  // React.useEffect(() => {
-  //   askContractToMintNft();
-  //   setfilterAllData(allCandidacyData);
-  // }, [allAddress]);
+  const handleDelete = () => {};
 
   React.useEffect(() => {
     askContractToMintNft();
-
-    // setfilterAllData(allCandidacyData);
-    // localStorage.setItem("items", JSON.stringify(filterAllData));
   }, [allAddress]);
 
   return (
@@ -536,7 +530,7 @@ const DaoVotes = () => {
                 </h4>
               </div>
               <div className="row3 row">
-                <p>{data.desc}</p>
+                <p>{data.desc.substring(0, 250)}</p>
               </div>
               <div className="row4 row">
                 {data.sponsor1Name.name || data.sponsor2Name.name ? (
@@ -544,10 +538,9 @@ const DaoVotes = () => {
                     <h4 style={{ marginRight: "10px" }}>Sponsored By</h4>
                     {data.sponsor1Name.name && (
                       <Chip
-                        label={data.sponsor1Name.name}
                         variant="outlined"
                         sx={{ padding: "10px", margin: "10px" }}
-                        icon={
+                        deleteIcon={
                           data.sponsor1App == true ? (
                             <img className="sicon" src={tick} />
                           ) : data.sponsor1App == "inprogress" ? (
@@ -556,14 +549,16 @@ const DaoVotes = () => {
                             <CancelIcon style={{ color: "red" }} />
                           )
                         }
+                        label={data.sponsor1Name.name}
+                        onDelete={handleDelete}
                       />
                     )}
+
                     {data.sponsor2Name.name && (
                       <Chip
-                        label={data.sponsor2Name.name}
                         variant="outlined"
                         sx={{ padding: "10px", margin: "10px" }}
-                        icon={
+                        deleteIcon={
                           data.sponsor2App == true ? (
                             <img className="sicon" src={tick} />
                           ) : data.sponsor2App == "inprogress" ? (
@@ -572,6 +567,8 @@ const DaoVotes = () => {
                             <CancelIcon style={{ color: "red" }} />
                           )
                         }
+                        label={data.sponsor2Name.name}
+                        onDelete={handleDelete}
                       />
                     )}
                   </div>

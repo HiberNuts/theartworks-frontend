@@ -122,6 +122,7 @@ const PersonalData = () => {
       setFlag2(false);
     }
   };
+  const handleDelete = () => {};
   // console.log(account);
   return (
     <div className="profileContainer">
@@ -135,7 +136,16 @@ const PersonalData = () => {
         <div className="profile">
           <Avatar sx={{ width: "200px", height: "200px" }} alt="Remy Sharp" src={data.image} />
           <div className="profile-data">
-            <h2>DAO member Candidacy </h2>
+            <h4 style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+              DAO member Candidacy
+              {data.candidacy == "true" ? (
+                <img style={{ marginLeft: "5px" }} className="icon" src={accepted} />
+              ) : data.candidacy == "false" ? (
+                <img style={{ marginLeft: "5px" }} className="icon" src={refused} />
+              ) : (
+                `( ${data.candidacy} )`
+              )}
+            </h4>
             <h2 style={{ marginTop: "-15px" }}>
               {data.name} - {data.job}
             </h2>
@@ -152,19 +162,18 @@ const PersonalData = () => {
                 style={{ marginTop: "-15px" }}
                 className="chip"
                 label="Closed"
-                color="primary"
-                sx={{ padding: "10px" }}
+                // color="primary"
+                sx={{ padding: "10px", color: "white", backgroundColor: "rgb(98, 71, 230)" }}
               />
             )}
             {data.sponsor1Name.name || data.sponsor2Name.name ? (
               <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <p>Sponsored BY</p>
+                <p>Sponsored By</p>
                 {data.sponsor1Name.name && (
                   <Chip
-                    label={data.sponsor1Name.name}
                     variant="outlined"
-                    sx={{ padding: "10px", marginLeft: "10px" }}
-                    icon={
+                    sx={{ padding: "10px", margin: "10px" }}
+                    deleteIcon={
                       data.sponsor1App == true ? (
                         <img className="sicon" src={tick} />
                       ) : data.sponsor1App == "inprogress" ? (
@@ -173,14 +182,16 @@ const PersonalData = () => {
                         <CancelIcon style={{ color: "red" }} />
                       )
                     }
+                    label={data.sponsor1Name.name}
+                    onDelete={handleDelete}
                   />
                 )}
+
                 {data.sponsor2Name.name && (
                   <Chip
-                    label={data.sponsor2Name.name}
                     variant="outlined"
-                    sx={{ padding: "10px", marginLeft: "10px" }}
-                    icon={
+                    sx={{ padding: "10px", margin: "10px" }}
+                    deleteIcon={
                       data.sponsor2App == true ? (
                         <img className="sicon" src={tick} />
                       ) : data.sponsor2App == "inprogress" ? (
@@ -189,6 +200,8 @@ const PersonalData = () => {
                         <CancelIcon style={{ color: "red" }} />
                       )
                     }
+                    label={data.sponsor2Name.name}
+                    onDelete={handleDelete}
                   />
                 )}
               </div>
@@ -200,18 +213,29 @@ const PersonalData = () => {
 
         <div className="phone">{data.desc}</div>
         <br />
-        <div className="phone">{data.website}</div>
+        <div className="phone">Phone: {data.website}</div>
 
         <div className="phone">{data.email}</div>
 
         <div className="phone"> {data.postalAddress}</div>
+        <br />
+        <div className="phone"> {data.companyName}</div>
       </div>
 
       <div className="right">
         {data.chip == "Active" && (
           <Card className="right-card">
             <h2>Cast Your Vote</h2>
-            <Divider />
+            <hr
+              style={{
+                background: "rgb(212, 209, 209)   ",
+                color: "rgb(212, 209, 209)    ",
+                borderColor: "rgb(212, 209, 209)  ",
+                height: "0.5px",
+                width: "100%",
+                marginTop: "-20px",
+              }}
+            />
             <Button
               sx={{
                 width: "90%",
@@ -272,7 +296,7 @@ const PersonalData = () => {
                   cursor: "pointer",
                 }}
               >
-                <Button sx={{ backgroundColor: "white", textTransform: "none", color: "black",fontSize: "20px", }}>
+                <Button sx={{ backgroundColor: "white", textTransform: "none", color: "black", fontSize: "20px" }}>
                   Sign sponsorship
                 </Button>
                 <img className="sicon" src={inprogress} />
@@ -280,30 +304,30 @@ const PersonalData = () => {
             )}
             {data.sponsor2 == address && data.sponsor2App == "inprogress" && (
               <div
-              onClick={addSponsor}
-              style={{
-                fontSize: "20px",
-                display: "flex",
-                width: "90%",
-                borderRadius: "13px",
-                height: "50px",
-                backgroundColor: "#ffffff",
-                "&:hover": {
+                onClick={addSponsor}
+                style={{
+                  fontSize: "20px",
+                  display: "flex",
+                  width: "90%",
+                  borderRadius: "13px",
+                  height: "50px",
                   backgroundColor: "#ffffff",
-                },
-                textTransform: "none",
-                border: "1px solid grey",
-                color: "black",
-                justifyContent: "space-evenly",
-                alignItems: "center",
-                cursor: "pointer",
-              }}
-            >
-              <Button sx={{ backgroundColor: "white", textTransform: "none", color: "black",fontSize: "20px", }}>
-                Sign sponsorship
-              </Button>
-              <img className="sicon" src={inprogress} />
-            </div>
+                  "&:hover": {
+                    backgroundColor: "#ffffff",
+                  },
+                  textTransform: "none",
+                  border: "1px solid grey",
+                  color: "black",
+                  justifyContent: "space-evenly",
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
+              >
+                <Button sx={{ backgroundColor: "white", textTransform: "none", color: "black", fontSize: "20px" }}>
+                  Sign sponsorship
+                </Button>
+                <img className="sicon" src={inprogress} />
+              </div>
             )}
             <Button
               sx={{

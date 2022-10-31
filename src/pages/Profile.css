@@ -1,15 +1,16 @@
 .profile-container{
     display: flex;
+    width: 100%;
     flex-direction: column;
-    margin-bottom: 50px;
     padding: 10px;
-    margin-left: 120px;
-        margin-right: 120px;
-        justify-content: flex-start;
-        align-items: flex-start;
+    margin-right: 120px;
+    margin-left: 120px; 
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 .upload-button{
     cursor: pointer;
+    height: 100%;
 }
 input,textarea,select{
     border: 3px solid grey;
@@ -25,24 +26,32 @@ input,textarea,select{
     margin-right: 20px;
     margin-left: 20px;
 }
+
+input,select{
+   
+    width:200px;
+    
+}
+
+
 input::placeholder{
     
     color:black;
     font-weight: bold;
   
     font-size: larger;
- 
 
 }
-
 
 textarea{
    
     border: 3px solid grey;
     color:black;
     font-weight: bold;
+    height: 75%;
     
     font-size: 20px;
+    width:400px;
 }
 textarea::placeholder{
    
@@ -53,25 +62,27 @@ textarea::placeholder{
     font-size: larger;
 }
 .p-row1{
+    width: 100%;
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .p-row2{
-    width:160%;
-display: flex;
-justify-content: space-between;
-    align-items: flex-start;
+    width:100%;
+    display: flex;
+    justify-content: space-between;
     
-    margin-top: 20px;
+    
+    margin-top: 30px;
     font-weight: bold;
     font-size: 15px;
     
 }
 .profile-form{
     display: flex;
-    justify-content: flex-start;
+    width: 100%;
+    justify-content: space-between;
     align-items: flex-start;
     flex-direction: column;
 
@@ -93,6 +104,7 @@ justify-content: space-between;
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
+    width:100%;  
 }
 
 .daoview{
@@ -104,4 +116,14 @@ justify-content: space-between;
     font-size: 18px;
 
     border: 2px solid black;
+    margin-right: 20px;
+}
+.column{
+    margin-top: 40px;
+    display:flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100%;
 }

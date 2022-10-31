@@ -8,27 +8,7 @@ export const PagesProvider = ({ children }) => {
   const [account, setAccount] = useState("");
   const [Dao, setDao] = useState(false);
 
-  //---------CONECTING WALLT
-  // const checkIfWalletConnected = async () => {
-  //   if (!window.ethereum) return console.log("Install MetaMask");
 
-  //   const accounts = await window.ethereum.request({ method: "eth_accounts" });
-  //   setAccount(accounts[0]);
-
-  //   const web3Modal = new Web3Modal();
-  //   const connection = await web3Modal.connect();
-  //   const provider = new ethers.providers.Web3Provider(connection);
-  //   const signer = provider.getSigner();
-  //   console.log(signer);
-  //   // const contract = fetchFunTokenContract(signer);
-
-  //   // const allTokenHolder = await contract.balanceOf(accounts[0]);
-  //   // console.log("owner banalce", allTokenHolder.toNumber());
-  //   // setAccountBallanc(allTokenHolder.toNumber());
-
-  //   // const totalHolder = await contract._userId();
-  //   // setUserId(totalHolder.toNumber());
-  // };
 
   const checkIfWalletIsConnect = async () => {
     try {
