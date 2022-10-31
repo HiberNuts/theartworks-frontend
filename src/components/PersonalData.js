@@ -168,7 +168,7 @@ const PersonalData = () => {
             )}
             {data.sponsor1Name.name || data.sponsor2Name.name ? (
               <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <p>Sponsored By</p>
+                
                 {data.sponsor1Name.name && (
                   <Chip
                     variant="outlined"
