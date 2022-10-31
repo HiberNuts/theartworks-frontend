@@ -248,6 +248,7 @@ const PersonalData = () => {
                 border: flag1 ? "1px solid black" : "1px solid grey",
                 color: "black",
                 textTransform: "none",
+                margin: "5px 0 5px 0",
               }}
               className="btn"
               variant="contained"
@@ -268,6 +269,7 @@ const PersonalData = () => {
                 textTransform: "none",
                 border: flag2 ? "1px solid black" : "1px solid grey",
                 color: "black",
+                margin: "5px 0 5px 0",
               }}
               className="btn"
               variant="contained"
@@ -294,6 +296,7 @@ const PersonalData = () => {
                   justifyContent: "space-evenly",
                   alignItems: "center",
                   cursor: "pointer",
+                  margin: "5px 0 5px 0",
                 }}
               >
                 <Button sx={{ backgroundColor: "white", textTransform: "none", color: "black", fontSize: "20px" }}>
@@ -321,6 +324,7 @@ const PersonalData = () => {
                   justifyContent: "space-evenly",
                   alignItems: "center",
                   cursor: "pointer",
+                  margin: "5px 0 5px 0",
                 }}
               >
                 <Button sx={{ backgroundColor: "white", textTransform: "none", color: "black", fontSize: "20px" }}>
@@ -331,13 +335,14 @@ const PersonalData = () => {
             )}
             <Button
               sx={{
-                marginBottom: "20px",
-                marginTop: "30px",
+                marginBottom: "25px",
+
                 width: "90%",
                 borderRadius: "13px",
                 height: "50px",
                 testDecoration: "none",
                 textTransform: "none",
+                marginTop: "5px",
               }}
               className="btn"
               variant="contained"
