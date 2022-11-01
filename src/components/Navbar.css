@@ -1,0 +1,47 @@
+.dropdown {
+    position: relative;
+  }
+  
+  .menu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center;
+    align-items: center; */
+    right:0px;
+    list-style-type: none;
+    margin: 12px 0;
+    padding: 0;
+    background-color: white;
+    width:150px;
+    border: 1px solid grey;
+   
+    z-index: 10000;
+  }
+  
+  .menu > li {
+    margin: 0;
+   
+    font-weight: bold;
+   
+
+    background-color: white;
+  }
+  
+  .menu > li:hover {
+    background-color: lightgray;
+  }
+  
+  .menu > li > button {
+    width: 100%;
+    height: 100%;
+    text-align: left;
+  
+    background: white;
+    color: inherit;
+    border: none;
+   
+    margin: 0;
+    font: inherit;
+    cursor: pointer;
+  }

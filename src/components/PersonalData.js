@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import "./PersonalData.css";
 import LinearProgress from "@mui/material/LinearProgress";
 import { Stack } from "@mui/system";
-import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
+import { useAccount, useContractRead, useContractWrite, useDisconnect, usePrepareContractWrite } from "wagmi";
 import abi from "../utils/abi.json";
 import { ethers } from "ethers";
 import toast, { Toaster } from "react-hot-toast";
@@ -43,6 +43,7 @@ const PersonalData = () => {
   const [flag1, setFlag1] = React.useState();
   const [flag2, setFlag2] = React.useState();
   const [voteValue, setvoteValue] = React.useState();
+  const [useless, setuseless] = useState(false);
 
   const ADDRESS = "0xf9C559b43f91DCDa9b8fc849Aa4b646C158d00Ea";
   const { address, isConnecting, isDisconnected } = useAccount();
@@ -123,6 +124,31 @@ const PersonalData = () => {
     }
   };
   const handleDelete = () => {};
+
+  const { config, isError } = usePrepareContractWrite({
+    addressOrName: ADDRESS,
+    contractInterface: abi,
+    functionName: "blacklisted",
+    args: [address],
+  });
+  const { disconnect } = useDisconnect();
+
+  const { data: data2, write } = useContractRead(config);
+  console.log(data);
+
+  console.log("address", address);
+  const logout = () => {
+    disconnect();
+  };
+  React.useEffect(() => {
+    if (data2) {
+      setuseless(true);
+      logout();
+      navigate("/dao");
+    } else {
+      setuseless(false);
+    }
+  }, [address]);
   // console.log(account);
   return (
     <div className="profileContainer">
@@ -168,7 +194,8 @@ const PersonalData = () => {
             )}
             {data.sponsor1Name.name || data.sponsor2Name.name ? (
               <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                
+                <h3>Sponsored By</h3>
+
                 {data.sponsor1Name.name && (
                   <Chip
                     variant="outlined"

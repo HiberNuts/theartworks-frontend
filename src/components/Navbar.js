@@ -17,7 +17,8 @@ import { useAccount, useConnect, useDisconnect, useContractRead } from "wagmi";
 import { ConnectKitButton } from "connectkit";
 import toast, { Toaster } from "react-hot-toast";
 import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
-
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { KeyboardArrowDown } from "@mui/icons-material";
 export default function Navbar() {
   //wagmi connecting contract
 
@@ -32,6 +33,7 @@ export default function Navbar() {
   const [dao, setdao] = React.useState(false);
   const [reload, setreload] = React.useState("");
   const [useless, setuseless] = React.useState(false);
+
   const location = useLocation();
 
   const handleDropChange = (e) => {
@@ -40,6 +42,12 @@ export default function Navbar() {
 
   const handleChange = (event) => {
     setdropdown(event.target.value);
+  };
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(!open);
   };
 
   const { config, isError } = usePrepareContractWrite({
@@ -58,7 +66,11 @@ export default function Navbar() {
   };
   React.useEffect(() => {
     if (data) {
+      setuseless(true);
       logout();
+      navigate("/dao");
+    } else {
+      setuseless(false);
     }
   }, [address]);
 
@@ -74,6 +86,16 @@ export default function Navbar() {
       setuseless(true);
     }
   }, []);
+
+  const handleMenuOne = () => {
+    // do something
+    setOpen(false);
+  };
+
+  const handleMenuTwo = () => {
+    // do something
+    setOpen(false);
+  };
 
   return (
     <Box
@@ -148,209 +170,178 @@ export default function Navbar() {
             )}
 
             {isConnected ? (
-              <Select
-                sx={{
-                  color: "white",
-                  height: "70px",
-                  zIndex: "10000",
-                  border: "none",
-                  fontWeight: "bold",
-                  "& fieldset": { border: "none" },
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-                MenuProps={{
-                  sx: {
-                    "&& .Mui-selected": {
-                      backgroundColor: "white",
-                    },
-                    "&& .Mui-hover": {
-                      backgroundColor: "white",
-                    },
-                  },
-                }}
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="HIIIII "
-                value={"account"}
-                onChange={(e) => handleChange(e)}
-              >
-                <MenuItem
-                  disabled
-                  hidden
-                  sx={{
-                    display: "none",
-                    color: "black",
-                    borderWidth: "90%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    "&:hover": { backgroundColor: "white" },
-                    "&:focus": { backgroundColor: "white" },
-                    "&&:selected": { backgroundColor: "white" },
-                    borderBottom: "2px solid black",
-                    fontWeight: "bold",
-                    textTransform: "none",
-                    margin: "20px 20px 20px 20px",
-                  }}
-                  value={"account"}
+              <div className="dropdown">
+                <div
+                  onClick={handleOpen}
+                  style={{ display: "flex", color: "white", justifyContent: "center", alignItems: "center" }}
                 >
-                  <div style={{ display: "flex",color:"white", justifyContent: "center", alignItems: "center" }}>
-                    <Avatar style={{ bgcolor: "black", backgroundColor: "black", width: "25px", height: "25px" }} />
-                    <Button
-                      sx={{
-                        color: "black",
-                        fontSize: "10px",
+                  <Avatar style={{ bgcolor: "black", backgroundColor: "black", width: "25px", height: "25px" }} />
+                  <Button
+                    sx={{
+                      color: "black",
+                      fontSize: "10px",
 
-                        " &:hover": {
-                          background: "none",
-                        },
-                        "&:focus": {
-                          background: "none",
-                        },
-                        textTransform: "none",
-                        fontWeight: "bold",
-                        fontSize: "20px",
-                      }}
-                    >
-                      {"Account"}
-                    </Button>
-                  </div>
-                </MenuItem>
-                <MenuItem
-                  sx={{
-                    color: "black",
-                    borderWidth: "90%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    "&:hover": { backgroundColor: "white" },
-                    "&:focus": { backgroundColor: "white" },
-                    "&&:selected": { backgroundColor: "white" },
-                    borderBottom: "2px solid black",
-                    fontWeight: "bold",
-                    textTransform: "none",
-                    margin: "20px 20px 20px 20px",
-                  }}
-                >
-                  <MyWallet />
-                </MenuItem>
-                <MenuItem
-                  sx={{
-                    color: "black",
-                    borderWidth: "90%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    "&:hover": { backgroundColor: "white" },
-                    "&:focus": { backgroundColor: "white" },
-                    "&&:selected": { backgroundColor: "white" },
-                    borderBottom: "2px solid black",
-                    fontWeight: "bold",
-                    margin: "20px 20px 20px 20px",
-                    textTransform: "none",
-                    fontWeight: "bold",
-                  }}
-                  value={"daovote"}
-                >
-                  <Link style={{ textDecoration: "none", color: "black" }} to="/dao">
-                    {" "}
-                    <Button
-                      sx={{
+                      " &:hover": {
+                        background: "none",
+                      },
+                      "&:focus": {
+                        background: "none",
+                      },
+                      textTransform: "none",
+                      fontWeight: "bold",
+                      fontSize: "20px",
+                    }}
+                  >
+                    {"Account"}
+                  </Button>
+                  <KeyboardArrowDown sx={{ color: "black" }} />
+                </div>
+                {open ? (
+                  <ul className="menu">
+                    <li
+                      style={{
+                        display: "none",
                         color: "black",
+                        borderWidth: "90%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        "&:hover": { backgroundColor: "white" },
+                        "&:focus": { backgroundColor: "white" },
+                        "&&:selected": { backgroundColor: "white" },
+                        borderBottom: "2px solid black",
+                        fontWeight: "bold",
+                        textTransform: "none",
+                        margin: "20px 20px 20px 20px",
+                        fontSize: "18px",
+                      }}
+                      className="menu-item"
+                    >
+                      <MyWallet />
+                    </li>
+                    <li
+                      style={{
+                        display: "none",
+                        color: "black",
+                        borderWidth: "90%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        "&:hover": { backgroundColor: "white" },
+                        "&:focus": { backgroundColor: "white" },
+                        "&&:selected": { backgroundColor: "white" },
+                        borderBottom: "2px solid black",
+                        fontWeight: "bold",
+                        textTransform: "none",
+                        margin: "0px 20px 20px 20px",
+                      }}
+                      className="menu-item"
+                    >
+                      <Link style={{ textDecoration: "none", color: "black" }} to="/dao">
+                        {" "}
+                        <Button
+                          sx={{
+                            color: "black",
 
-                        " &:hover": {
-                          background: "none",
-                        },
-                        "&:focus": {
-                          background: "none",
-                        },
-                        textTransform: "none",
-                        fontWeight: "bold",
-                      }}
-                      className="button"
-                      onClick={() => setdao(true)}
-                    >
-                      DAO votes
-                    </Button>
-                  </Link>
-                </MenuItem>
-                <MenuItem
-                  sx={{
-                    color: "black",
-                    borderWidth: "90%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    "&:hover": { backgroundColor: "white" },
-                    "&:focus": { backgroundColor: "white" },
-                    "&&:selected": { backgroundColor: "white" },
-                    borderBottom: "2px solid black",
-                    fontWeight: "bold",
-                    textTransform: "none",
-                    margin: "20px 20px 20px 20px",
-                  }}
-                  value={"daovote"}
-                >
-                  <Link style={{ textDecoration: "none" }} to="/profile">
-                    <Button
-                      sx={{
+                            " &:hover": {
+                              background: "none",
+                            },
+                            "&:focus": {
+                              background: "none",
+                            },
+                            textTransform: "none",
+                            fontWeight: "bold",
+                            fontSize: "18px",
+                          }}
+                          className="button"
+                          onClick={(() => setdao(true), handleOpen)}
+                        >
+                          DAO votes
+                        </Button>
+                      </Link>
+                    </li>
+                    <li
+                      style={{
+                        display: "none",
                         color: "black",
+                        borderWidth: "90%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        "&:hover": { backgroundColor: "white" },
+                        "&:focus": { backgroundColor: "white" },
+                        "&&:selected": { backgroundColor: "white" },
+                        borderBottom: "2px solid black",
+                        fontWeight: "bold",
+                        textTransform: "none",
+                        margin: "0px 20px 20px 20px",
+                      }}
+                      className="menu-item"
+                    >
+                      <Link style={{ textDecoration: "none" }} to="/profile">
+                        <Button
+                          sx={{
+                            color: "black",
 
-                        " &:hover": {
-                          background: "none",
-                        },
-                        "&:focus": {
-                          background: "none",
-                        },
-                        textTransform: "none",
-                        fontWeight: "bold",
-                      }}
-                      className="button"
-                      onClick={() => setdao(false)}
-                    >
-                      My Profile
-                    </Button>
-                  </Link>
-                </MenuItem>
-                <MenuItem
-                  sx={{
-                    color: "black",
-                    borderWidth: "90%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    "&:hover": { backgroundColor: "white" },
-                    "&:focus": { backgroundColor: "white" },
-                    "&&:selected": { backgroundColor: "white" },
-                    borderBottom: "2px solid black",
-                    fontWeight: "bold",
-                    margin: "20px 20px 20px 20px",
-                  }}
-                  value={"daovote"}
-                >
-                  <Link style={{ textDecoration: "none" }} to="/dao">
-                    <Button
-                      sx={{
+                            " &:hover": {
+                              background: "none",
+                            },
+                            "&:focus": {
+                              background: "none",
+                            },
+                            textTransform: "none",
+                            fontWeight: "bold",
+                            fontSize: "18px",
+                          }}
+                          className="button"
+                          onClick={(() => setdao(false), handleOpen)}
+                        >
+                          My Profile
+                        </Button>
+                      </Link>
+                    </li>
+                    <li
+                      style={{
+                        display: "none",
                         color: "black",
-                        " &:hover": {
-                          background: "none",
-                        },
-                        "&:focus": {
-                          background: "none",
-                        },
-                        textTransform: "none",
+                        borderWidth: "90%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        "&:hover": { backgroundColor: "white" },
+                        "&:focus": { backgroundColor: "white" },
+                        "&&:selected": { backgroundColor: "white" },
+                        borderBottom: "2px solid black",
                         fontWeight: "bold",
+                        textTransform: "none",
+                        margin: "0px 20px 20px 20px",
                       }}
-                      className="button"
-                      onClick={disconnect}
+                      className="menu-item"
                     >
-                      Log Out
-                    </Button>
-                  </Link>
-                </MenuItem>
-              </Select>
+                      <Link style={{ textDecoration: "none" }} to="/dao">
+                        <Button
+                          sx={{
+                            color: "black",
+                            " &:hover": {
+                              background: "none",
+                            },
+                            "&:focus": {
+                              background: "none",
+                            },
+                            textTransform: "none",
+                            fontWeight: "bold",
+                            fontSize: "18px",
+                          }}
+                          className="button"
+                          onClick={disconnect}
+                        >
+                          Log Out
+                        </Button>
+                      </Link>
+                    </li>
+                  </ul>
+                ) : null}
+              </div>
             ) : (
               <Login setuseless={setuseless} />
             )}
@@ -362,6 +353,206 @@ export default function Navbar() {
 }
 
 {
+  //   <Select
+  //   sx={{
+  //     color: "white",
+  //     height: "70px",
+  //     zIndex: "10000",
+  //     border: "none",
+  //     fontWeight: "bold",
+  //     "& fieldset": { border: "none" },
+  //     display: "flex",
+  //     justifyContent: "center",
+  //     alignItems: "center",
+  //   }}
+  //   MenuProps={{
+  //     sx: {
+  //       "&& .Mui-selected": {
+  //         backgroundColor: "white",
+  //       },
+  //       "&& .Mui-hover": {
+  //         backgroundColor: "white",
+  //       },
+  //     },
+  //   }}
+  //   labelId="demo-simple-select-label"
+  //   id="demo-simple-select"
+  //   label="HIIIII "
+  //   value={"account"}
+  //   onChange={(e) => handleChange(e)}
+  // >
+  //   <MenuItem
+  //     disabled
+  //     hidden
+  //     sx={{
+  //       display: "none",
+  //       color: "black",
+  //       borderWidth: "90%",
+  //       display: "flex",
+  //       justifyContent: "center",
+  //       alignItems: "center",
+  //       "&:hover": { backgroundColor: "white" },
+  //       "&:focus": { backgroundColor: "white" },
+  //       "&&:selected": { backgroundColor: "white" },
+  //       borderBottom: "2px solid black",
+  //       fontWeight: "bold",
+  //       textTransform: "none",
+  //       margin: "20px 20px 20px 20px",
+  //     }}
+  //     value={"account"}
+  //   >
+  //     <div style={{ display: "flex", color: "white", justifyContent: "center", alignItems: "center" }}>
+  //       <Avatar style={{ bgcolor: "black", backgroundColor: "black", width: "25px", height: "25px" }} />
+  //       <Button
+  //         sx={{
+  //           color: "black",
+  //           fontSize: "10px",
+  //           " &:hover": {
+  //             background: "none",
+  //           },
+  //           "&:focus": {
+  //             background: "none",
+  //           },
+  //           textTransform: "none",
+  //           fontWeight: "bold",
+  //           fontSize: "20px",
+  //         }}
+  //       >
+  //         {"Account"}
+  //       </Button>
+  //     </div>
+  //   </MenuItem>
+  //   <MenuItem
+  //     sx={{
+  //       color: "black",
+  //       borderWidth: "90%",
+  //       display: "flex",
+  //       justifyContent: "center",
+  //       alignItems: "center",
+  //       "&:hover": { backgroundColor: "white" },
+  //       "&:focus": { backgroundColor: "white" },
+  //       "&&:selected": { backgroundColor: "white" },
+  //       borderBottom: "2px solid black",
+  //       fontWeight: "bold",
+  //       textTransform: "none",
+  //       margin: "20px 20px 20px 20px",
+  //     }}
+  //   >
+  //     <MyWallet />
+  //   </MenuItem>
+  //   <MenuItem
+  //     sx={{
+  //       color: "black",
+  //       borderWidth: "90%",
+  //       display: "flex",
+  //       justifyContent: "center",
+  //       alignItems: "center",
+  //       "&:hover": { backgroundColor: "white" },
+  //       "&:focus": { backgroundColor: "white" },
+  //       "&&:selected": { backgroundColor: "white" },
+  //       borderBottom: "2px solid black",
+  //       fontWeight: "bold",
+  //       margin: "20px 20px 20px 20px",
+  //       textTransform: "none",
+  //       fontWeight: "bold",
+  //     }}
+  //     value={"daovote"}
+  //   >
+  //     <Link style={{ textDecoration: "none", color: "black" }} to="/dao">
+  //       {" "}
+  //       <Button
+  //         sx={{
+  //           color: "black",
+  //           " &:hover": {
+  //             background: "none",
+  //           },
+  //           "&:focus": {
+  //             background: "none",
+  //           },
+  //           textTransform: "none",
+  //           fontWeight: "bold",
+  //         }}
+  //         className="button"
+  //         onClick={() => setdao(true)}
+  //       >
+  //         DAO votes
+  //       </Button>
+  //     </Link>
+  //   </MenuItem>
+  //   <MenuItem
+  //     sx={{
+  //       color: "black",
+  //       borderWidth: "90%",
+  //       display: "flex",
+  //       justifyContent: "center",
+  //       alignItems: "center",
+  //       "&:hover": { backgroundColor: "white" },
+  //       "&:focus": { backgroundColor: "white" },
+  //       "&&:selected": { backgroundColor: "white" },
+  //       borderBottom: "2px solid black",
+  //       fontWeight: "bold",
+  //       textTransform: "none",
+  //       margin: "20px 20px 20px 20px",
+  //     }}
+  //     value={"daovote"}
+  //   >
+  //     <Link style={{ textDecoration: "none" }} to="/profile">
+  //       <Button
+  //         sx={{
+  //           color: "black",
+  //           " &:hover": {
+  //             background: "none",
+  //           },
+  //           "&:focus": {
+  //             background: "none",
+  //           },
+  //           textTransform: "none",
+  //           fontWeight: "bold",
+  //         }}
+  //         className="button"
+  //         onClick={() => setdao(false)}
+  //       >
+  //         My Profile
+  //       </Button>
+  //     </Link>
+  //   </MenuItem>
+  //   <MenuItem
+  //     sx={{
+  //       color: "black",
+  //       borderWidth: "90%",
+  //       display: "flex",
+  //       justifyContent: "center",
+  //       alignItems: "center",
+  //       "&:hover": { backgroundColor: "white" },
+  //       "&:focus": { backgroundColor: "white" },
+  //       "&&:selected": { backgroundColor: "white" },
+  //       borderBottom: "2px solid black",
+  //       fontWeight: "bold",
+  //       margin: "20px 20px 20px 20px",
+  //     }}
+  //     value={"daovote"}
+  //   >
+  //     <Link style={{ textDecoration: "none" }} to="/dao">
+  //       <Button
+  //         sx={{
+  //           color: "black",
+  //           " &:hover": {
+  //             background: "none",
+  //           },
+  //           "&:focus": {
+  //             background: "none",
+  //           },
+  //           textTransform: "none",
+  //           fontWeight: "bold",
+  //         }}
+  //         className="button"
+  //         onClick={disconnect}
+  //       >
+  //         Log Out
+  //       </Button>
+  //     </Link>
+  //   </MenuItem>
+  // </Select>
   /* <Button
               sx={{
                 backgroundColor: "black",

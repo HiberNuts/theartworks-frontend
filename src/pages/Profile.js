@@ -78,6 +78,7 @@ const Profile = () => {
   const [sponsorAddress, setsponsorAddress] = useState([{}]);
   const [filter, setfilter] = useState("your");
   const [others, setothers] = useState(false);
+  const [useless, setuseless] = useState(false);
   const { disconnect } = useDisconnect();
 
   console.log(personName);
@@ -257,12 +258,15 @@ const Profile = () => {
     disconnect();
   };
 
-  // console.log(data);
+  console.log(data);
 
   React.useEffect(() => {
     if (data) {
+      setuseless(true);
       logout();
       navigate("/dao");
+    } else {
+      setuseless(false);
     }
   }, [address]);
 
@@ -395,7 +399,7 @@ const Profile = () => {
                   variant="outlined"
                   onChange={(e) => setformData({ ...formData, email: e.target.value })}
                 />
-                <FormControl>
+                <FormControl sx={{ display: "flex" }}>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -424,13 +428,6 @@ const Profile = () => {
                     <MenuItem value={"Foundation director"}>Foundation director</MenuItem>
                     <MenuItem value={"others"}>others</MenuItem>
                   </Select>
-                  {filter == "others" && (
-                    <input
-                      type="text"
-                      onChange={(e) => setformData({ ...formData, job: e.target.value })}
-                      placeholder="type job here"
-                    />
-                  )}
                 </FormControl>
               </div>
               <div className="column">
@@ -453,6 +450,13 @@ const Profile = () => {
                   value={formData.postalAddress}
                   onChange={(e) => setformData({ ...formData, postalAddress: e.target.value })}
                 />
+                {filter == "others" && (
+                  <input
+                    type="text"
+                    onChange={(e) => setformData({ ...formData, job: e.target.value })}
+                    placeholder="type job here"
+                  />
+                )}
               </div>
 
               <div className="column">
@@ -521,7 +525,7 @@ const Profile = () => {
                 <Box
                   sx={{
                     width: "100%",
-                    
+
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
@@ -542,7 +546,7 @@ const Profile = () => {
                         </h4>
                       </div>
                       <div className="row3 row">
-                        <p>{formData.desc.substring(0, 300)}...</p>
+                        <p>{formData.desc.substring(0, 250)}</p>
                       </div>
                       <div className="row4 row">
                         {personName.length > 0 ? (
