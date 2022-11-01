@@ -203,11 +203,9 @@ const PersonalData = () => {
                     deleteIcon={
                       data.sponsor1App == true ? (
                         <img className="sicon" src={tick} />
-                      ) : data.sponsor1App == "inprogress" ? (
+                      ) :  (
                         <img className="sicon" src={inprogress} />
-                      ) : (
-                        <CancelIcon style={{ color: "red" }} />
-                      )
+                      ) 
                     }
                     label={data.sponsor1Name.name}
                     onDelete={handleDelete}
@@ -221,11 +219,9 @@ const PersonalData = () => {
                     deleteIcon={
                       data.sponsor2App == true ? (
                         <img className="sicon" src={tick} />
-                      ) : data.sponsor2App == "inprogress" ? (
-                        <img className="sicon" src={inprogress} />
                       ) : (
-                        <CancelIcon style={{ color: "red" }} />
-                      )
+                        <img className="sicon" src={inprogress} />
+                      ) 
                     }
                     label={data.sponsor2Name.name}
                     onDelete={handleDelete}
