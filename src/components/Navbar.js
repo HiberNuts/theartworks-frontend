@@ -99,9 +99,9 @@ export default function Navbar() {
   };
 
   const handleDao = (e) => {
-    // handleOpen(e);
     setdao(true);
     navigate("/dao");
+    handleOpen(e);
   };
   const handleProfile = (e) => {
     handleOpen(e);
@@ -225,7 +225,6 @@ export default function Navbar() {
                         fontWeight: "bold",
                         textTransform: "none",
                         margin: "20px 20px 20px 20px",
-                        fontSize: "18px",
                       }}
                       className="menu-item"
                     >
@@ -327,6 +326,7 @@ export default function Navbar() {
                         fontWeight: "bold",
                         textTransform: "none",
                         margin: "-10px 20px 20px 20px",
+                        padding: "-5px",
                       }}
                       className="menu-item"
                     >
@@ -342,9 +342,10 @@ export default function Navbar() {
                             },
                             textTransform: "none",
                             fontWeight: "bold",
-                            fontSize: "18px",
+                            fontSize: "16px",
+                            // marginBottom:"-20px"
                           }}
-                          className="button"
+                          // className="button"
                           onClick={disconnect}
                         >
                           Log Out

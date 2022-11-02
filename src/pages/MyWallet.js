@@ -125,7 +125,7 @@ export default function MyWallet() {
             height: "30px",
             textTransform: "none",
             fontWeight: "bold",
-            fontSize: "18px",
+            fontSize: "17px",
           }}
           onClick={toggleDrawer("right", true)}
         >
