@@ -9,7 +9,7 @@ import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
-
+import makeAnimated from "react-select/animated";
 import Chip from "@mui/material/Chip";
 import {
   usePrepareContractWrite,
@@ -185,11 +185,16 @@ const Profile = () => {
     }
   };
 
+  const animatedComponents = makeAnimated();
   const { isError, isLoading } = useContractRead({
     addressOrName: ADDRESS,
     contractInterface: abi,
     functionName: "candidacyAllData",
     args: [address],
+    cacheOnBlock: true,
+    // watch: true,
+    cacheTime: 100_000,
+
     onSuccess(data) {
       const date = new Date();
       console.log(data);
@@ -283,7 +288,7 @@ const Profile = () => {
     readDaoMemberAddress();
     getDaoMembersData();
     gettingImage();
-  }, []);
+  }, [address]);
   React.useEffect(() => {
     getDaoMembersData();
   }, [daoMembersAddress + 1]);
@@ -327,7 +332,7 @@ const Profile = () => {
       newVal.pop();
     }
     setvalue(newVal);
-    setPersonName([newVal[0]?.value, newVal[1]?.value ? newVal[1]?.value : ""]);
+    setPersonName([newVal[0]?.value ? newVal[0]?.value : "", newVal[1]?.value ? newVal[1]?.value : ""]);
   };
   console.log("dao member ", daoMembersData);
 
@@ -348,6 +353,7 @@ const Profile = () => {
       height: "50px",
       border: "2px solid black",
       margin: "0px",
+      padding: "-80px",
       fontWeight: "bold",
     }),
     option: (base) => ({
@@ -355,6 +361,13 @@ const Profile = () => {
       // backgroundColor: "blue",
       height: "100%",
     }),
+    select: () => ({
+      height: "50px",
+    }),
+    input: () => ({
+      minHeight: "50px",
+    }),
+    placeholder: () => ({ height: "50px", display: "none" }),
 
     singleValue: (provided, state) => {
       const opacity = state.isDisabled ? 0.5 : 1;
@@ -532,6 +545,7 @@ const Profile = () => {
                   Add a sponsor name
                 </InputLabel>
                 <Select
+                  label="Add a spnsor name"
                   styles={customStyles}
                   value={value}
                   onChange={handle1Change}
@@ -598,7 +612,7 @@ const Profile = () => {
                   <Card sx={style} elevation={0} className="card">
                     <Avatar sx={{ width: "170px", height: "170px" }} alt="Remy Sharp" src={image.preview} />
 
-                    <div className="details">
+                    <div style={{ marginTop: "10px" }} className="details">
                       <div className="row1 ">
                         <h4>DAO member Candidacy (48 hours left)</h4>
 
@@ -613,7 +627,7 @@ const Profile = () => {
                         <div id="short">{formData.desc}</div>
                       </div>
                       <div className="row4 row">
-                        {personName.length > 0 ? (
+                        {personName[0]?.length > 0 || personName[1]?.length > 0 ? (
                           <div className="row4">
                             <h4 style={{ marginRight: "10px" }}>Sponsored By</h4>
                             {/* {personName.map((value) => (
@@ -651,7 +665,7 @@ const Profile = () => {
                             )}
                           </div>
                         ) : (
-                          "Not sponsored"
+                          <h4 style={{ marginRight: "10px" }}>Not sponsored</h4>
                         )}
                       </div>
                     </div>

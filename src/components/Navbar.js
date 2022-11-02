@@ -47,9 +47,11 @@ export default function Navbar() {
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = (e) => {
-    setOpen(!open);
     e.preventDefault();
+    setOpen(!open);
   };
+
+  // document.addEventListener("mousedown", () => setOpen(false));
 
   const { config, isError } = usePrepareContractWrite({
     addressOrName: ADDRESS,
@@ -97,7 +99,7 @@ export default function Navbar() {
   };
 
   const handleDao = (e) => {
-    handleOpen(e);
+    // handleOpen(e);
     setdao(true);
     navigate("/dao");
   };
@@ -261,7 +263,7 @@ export default function Navbar() {
                           },
                           textTransform: "none",
                           fontWeight: "bold",
-                          fontSize: "18px",
+                          fontSize: "25px",
                         }}
                         className="button"
                       >
@@ -300,7 +302,7 @@ export default function Navbar() {
                           },
                           textTransform: "none",
                           fontWeight: "bold",
-                          fontSize: "18px",
+                          fontSize: "20px",
                         }}
                         className="button"
                         onClick={handleProfile}
@@ -324,7 +326,7 @@ export default function Navbar() {
                         borderBottom: "2px solid black",
                         fontWeight: "bold",
                         textTransform: "none",
-                        margin: "0px 20px 20px 20px",
+                        margin: "-10px 20px 20px 20px",
                       }}
                       className="menu-item"
                     >

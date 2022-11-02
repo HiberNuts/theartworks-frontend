@@ -534,7 +534,7 @@ const DaoVotes = () => {
               </div>
               <div className="row4 row">
                 {data.sponsor1Name.name || data.sponsor2Name.name ? (
-                  <div style={{}} className="row4">
+                  <div style={{ marginTop: "-20px", width: "600px" }} className="row4">
                     <h4 style={{ marginRight: "10px" }}>Sponsored By</h4>
                     {data.sponsor1Name.name && (
                       <Chip
@@ -561,7 +561,7 @@ const DaoVotes = () => {
                             <img className="sicon" src={tick} />
                           ) : (
                             <img className="sicon" src={inprogress} />
-                          ) 
+                          )
                         }
                         label={data.sponsor2Name.name}
                         onDelete={handleDelete}
@@ -569,7 +569,7 @@ const DaoVotes = () => {
                     )}
                   </div>
                 ) : (
-                  "Not sponsored"
+                  <h4 style={{ marginRight: "10px", marginTop: "-10px" }}>Not sponsored</h4>
                 )}
               </div>
             </div>
