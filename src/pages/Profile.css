@@ -72,8 +72,6 @@ textarea::placeholder{
     width:100%;
     display: flex;
     justify-content: space-between;
-    
-    
     margin-top: 30px;
     font-weight: bold;
     font-size: 15px;
@@ -86,6 +84,15 @@ textarea::placeholder{
     align-items: flex-start;
     flex-direction: column;
 
+}
+.row1{
+    margin-top: -20px;
+}
+.row2{
+    margin-top: -30px;
+}
+.row4{
+    width: 400px;
 }
 
 .arrange{
@@ -126,4 +133,39 @@ textarea::placeholder{
     justify-content: flex-start;
     align-items: flex-start;
     height: 100%;
+}
+
+
+#short{
+    margin-top: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+            line-clamp: 2; 
+    -webkit-box-orient: vertical;
+}
+
+.style{
+    border: 2px solid black;
+    border-radius: 20px;
+}
+.select__control,.css-1s2u09g-control{
+    border:none;
+    background-color: black;
+    border-radius: 0px;
+    border-width: 0px;
+
+}
+.css-1s2u09g-control{
+    border:none;
+    background-color: black;
+    border-radius: 0px;
+    border-width: 0px;
+}
+.select__value-container{
+    border:none;
+    height: 40px;
+    border-radius: 0px;
+    border-width: 0px;
 }

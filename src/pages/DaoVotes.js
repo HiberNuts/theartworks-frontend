@@ -530,7 +530,7 @@ const DaoVotes = () => {
                 </h4>
               </div>
               <div className="row3 row">
-                <p>{data.desc.substring(0, 250)}</p>
+                <p id="short">{data.desc}</p>
               </div>
               <div className="row4 row">
                 {data.sponsor1Name.name || data.sponsor2Name.name ? (

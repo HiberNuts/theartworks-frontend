@@ -46,8 +46,9 @@ export default function Navbar() {
 
   const [open, setOpen] = React.useState(false);
 
-  const handleOpen = () => {
+  const handleOpen = (e) => {
     setOpen(!open);
+    e.preventDefault();
   };
 
   const { config, isError } = usePrepareContractWrite({
@@ -69,8 +70,6 @@ export default function Navbar() {
       setuseless(true);
       logout();
       navigate("/dao");
-    } else {
-      setuseless(false);
     }
   }, [address]);
 
@@ -95,6 +94,17 @@ export default function Navbar() {
   const handleMenuTwo = () => {
     // do something
     setOpen(false);
+  };
+
+  const handleDao = (e) => {
+    handleOpen(e);
+    setdao(true);
+    navigate("/dao");
+  };
+  const handleProfile = (e) => {
+    handleOpen(e);
+    setdao(false);
+    navigate("/profile");
   };
 
   return (
@@ -236,29 +246,28 @@ export default function Navbar() {
                         margin: "0px 20px 20px 20px",
                       }}
                       className="menu-item"
+                      onClick={handleDao}
                     >
-                      <Link style={{ textDecoration: "none", color: "black" }} to="/dao">
-                        {" "}
-                        <Button
-                          sx={{
-                            color: "black",
+                      {/* <Link style={{ textDecoration: "none", color: "black" }} to="/dao"> */}{" "}
+                      <Button
+                        sx={{
+                          color: "black",
 
-                            " &:hover": {
-                              background: "none",
-                            },
-                            "&:focus": {
-                              background: "none",
-                            },
-                            textTransform: "none",
-                            fontWeight: "bold",
-                            fontSize: "18px",
-                          }}
-                          className="button"
-                          onClick={(() => setdao(true), handleOpen)}
-                        >
-                          DAO votes
-                        </Button>
-                      </Link>
+                          " &:hover": {
+                            background: "none",
+                          },
+                          "&:focus": {
+                            background: "none",
+                          },
+                          textTransform: "none",
+                          fontWeight: "bold",
+                          fontSize: "18px",
+                        }}
+                        className="button"
+                      >
+                        DAO votes
+                      </Button>
+                      {/* </Link> */}
                     </li>
                     <li
                       style={{
@@ -278,28 +287,29 @@ export default function Navbar() {
                       }}
                       className="menu-item"
                     >
-                      <Link style={{ textDecoration: "none" }} to="/profile">
-                        <Button
-                          sx={{
-                            color: "black",
+                      {/* <Link style={{ textDecoration: "none", color: "black" }} to="/dao"> */}{" "}
+                      <Button
+                        sx={{
+                          color: "black",
 
-                            " &:hover": {
-                              background: "none",
-                            },
-                            "&:focus": {
-                              background: "none",
-                            },
-                            textTransform: "none",
-                            fontWeight: "bold",
-                            fontSize: "18px",
-                          }}
-                          className="button"
-                          onClick={(() => setdao(false), handleOpen)}
-                        >
-                          My Profile
-                        </Button>
-                      </Link>
+                          " &:hover": {
+                            background: "none",
+                          },
+                          "&:focus": {
+                            background: "none",
+                          },
+                          textTransform: "none",
+                          fontWeight: "bold",
+                          fontSize: "18px",
+                        }}
+                        className="button"
+                        onClick={handleProfile}
+                      >
+                        My Profile
+                      </Button>
+                      {/* </Link> */}
                     </li>
+
                     <li
                       style={{
                         display: "none",

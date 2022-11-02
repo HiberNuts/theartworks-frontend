@@ -1,5 +1,6 @@
-import { Avatar, Button, Card, FormControl, MenuItem, Modal, Select, Typography } from "@mui/material";
+import { Avatar, Button, Card, FormControl, MenuItem, Modal, Select as Sele, Typography } from "@mui/material";
 import React, { useState } from "react";
+import Select from "react-select";
 
 import "./Profile.css";
 import storage from "../utils/firebaseConfig";
@@ -27,6 +28,8 @@ import tick from "../assets/tick.png";
 import inprogress from "../assets/inprogress.png";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useNavigate } from "react-router-dom";
+import SelectSearch from "react-select-search";
+import "react-select-search/style.css";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -48,6 +51,7 @@ const Profile = () => {
     setOpen(true);
   };
   const handleClose = (e) => {
+    e.preventDefault();
     setOpen(false);
   };
   const { address, isConnecting, isDisconnected, isConnected } = useAccount();
@@ -95,6 +99,7 @@ const Profile = () => {
 
     setPersonName(value);
   };
+  console.log("person name", personName);
 
   const handleChange = (e) => {
     if (e.target.files.length) {
@@ -230,8 +235,8 @@ const Profile = () => {
           const data = await helperGetDaoData(daoMembersAddress[i]);
           if (data.candidate != "0x0000000000000000000000000000000000000000" && data.candidate !== address) {
             canidacyData.push({
-              address: data.candidate,
-              name: data.name,
+              value: data.candidate,
+              label: data.name,
             });
 
             // setdaoMembersData(canidacyData);
@@ -309,13 +314,63 @@ const Profile = () => {
     p: 4,
     borderRadius: "20px",
   };
-  console.log(formData);
+
+  const [value, setvalue] = useState();
+  const options = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
+  const handle1Change = (newVal) => {
+    console.log("new val", newVal);
+    if (newVal.length > 2) {
+      newVal.pop();
+    }
+    setvalue(newVal);
+    setPersonName([newVal[0]?.value, newVal[1]?.value ? newVal[1]?.value : ""]);
+  };
+  console.log("dao member ", daoMembersData);
+
+  const customStyles = {
+    menu: (provided, state) => ({
+      ...provided,
+      width: state.selectProps.width,
+      borderBottom: "1px dotted pink",
+      color: state.selectProps.menuColor,
+      padding: 20,
+      fontWeight: "bold",
+      // border: "2px solid black",
+    }),
+
+    control: (_, { selectProps: { width } }) => ({
+      display: "flex",
+      width: "300px",
+      height: "50px",
+      border: "2px solid black",
+      margin: "0px",
+      fontWeight: "bold",
+    }),
+    option: (base) => ({
+      ...base,
+      // backgroundColor: "blue",
+      height: "100%",
+    }),
+
+    singleValue: (provided, state) => {
+      const opacity = state.isDisabled ? 0.5 : 1;
+      const transition = "opacity 300ms";
+
+      return { ...provided, opacity, transition };
+    },
+  };
+
   return (
     <div style={{ display: "flex", width: "100%" }}>
       <div className="profile-container">
         <div className="heading">
           <h1>My Profile</h1>
         </div>
+
         <div className="data">
           <input
             style={{ marginLeft: "-3px" }}
@@ -400,7 +455,7 @@ const Profile = () => {
                   onChange={(e) => setformData({ ...formData, email: e.target.value })}
                 />
                 <FormControl sx={{ display: "flex" }}>
-                  <Select
+                  <Sele
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={filter}
@@ -427,7 +482,7 @@ const Profile = () => {
                     <MenuItem value={"Art critic"}>Art critic</MenuItem>
                     <MenuItem value={"Foundation director"}>Foundation director</MenuItem>
                     <MenuItem value={"others"}>others</MenuItem>
-                  </Select>
+                  </Sele>
                 </FormControl>
               </div>
               <div className="column">
@@ -476,8 +531,16 @@ const Profile = () => {
                 <InputLabel style={{ marginRight: "10px", fontWeight: "bold" }} id="demo-multiple-chip-label">
                   Add a sponsor name
                 </InputLabel>
-
                 <Select
+                  styles={customStyles}
+                  value={value}
+                  onChange={handle1Change}
+                  isMulti
+                  name="colors"
+                  options={daoMembersData}
+                />
+
+                {/* <Sele
                   sx={{
                     marginBottom: "10px",
                     color: "black",
@@ -506,8 +569,9 @@ const Profile = () => {
                       </MenuItem>
                     );
                   })}
-                </Select>
+                </Sele> */}
               </div>
+
               <div>
                 <button className="daoview" onClick={handleOpen}>
                   DAO votes view
@@ -546,15 +610,15 @@ const Profile = () => {
                         </h4>
                       </div>
                       <div className="row3 row">
-                        <p>{formData.desc.substring(0, 250)}</p>
+                        <div id="short">{formData.desc}</div>
                       </div>
                       <div className="row4 row">
                         {personName.length > 0 ? (
                           <div className="row4">
                             <h4 style={{ marginRight: "10px" }}>Sponsored By</h4>
-                            {personName.map((value) => (
+                            {/* {personName.map((value) => (
                               <Chip
-                                label={daoMembersData?.find((e) => e.address === value).name}
+                                label={daoMembersData?.find((e) => e.value == value)?.label}
                                 variant="outlined"
                                 sx={{ padding: "10px", margin: "10px" }}
                                 onDelete={() => {}}
@@ -562,7 +626,29 @@ const Profile = () => {
                                   <img style={{ height: "20px", width: "20px" }} className="icon" src={inprogress} />
                                 }
                               />
-                            ))}
+                            ))} */}
+                            {personName[0] != "" > 1 && (
+                              <Chip
+                                label={daoMembersData?.find((e) => e.value == personName[0])?.label}
+                                variant="outlined"
+                                sx={{ padding: "10px", margin: "10px" }}
+                                onDelete={() => {}}
+                                deleteIcon={
+                                  <img style={{ height: "20px", width: "20px" }} className="icon" src={inprogress} />
+                                }
+                              />
+                            )}
+                            {personName[1] != "" > 1 && (
+                              <Chip
+                                label={daoMembersData?.find((e) => e.value == personName[1])?.label}
+                                variant="outlined"
+                                sx={{ padding: "10px", margin: "10px" }}
+                                onDelete={() => {}}
+                                deleteIcon={
+                                  <img style={{ height: "20px", width: "20px" }} className="icon" src={inprogress} />
+                                }
+                              />
+                            )}
                           </div>
                         ) : (
                           "Not sponsored"
