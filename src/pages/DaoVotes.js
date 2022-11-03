@@ -530,16 +530,18 @@ const DaoVotes = () => {
                 </h4>
               </div>
               <div className="row3 row">
-                <p id="short">{data.desc}</p>
+                <p style={{ marginTop: "5px" }} id="short">
+                  {data.desc}
+                </p>
               </div>
               <div className="row4 row">
                 {data.sponsor1Name.name || data.sponsor2Name.name ? (
-                  <div style={{ marginTop: "-20px", width: "600px" }} className="row4">
-                    <h4 style={{ marginRight: "10px" }}>Sponsored By</h4>
+                  <div style={{ width: "600px" }} className="row4">
+                    <h4 style={{ marginRight: "10px", marginTop: "-10px", marginBottom: "-20px" }}>Sponsored By</h4>
                     {data.sponsor1Name.name && (
                       <Chip
                         variant="outlined"
-                        sx={{ padding: "10px", margin: "10px" }}
+                        sx={{ padding: "10px", marginRight: "5px", marginTop: "10px" }}
                         deleteIcon={
                           data.sponsor1App == true ? (
                             <img className="sicon" src={tick} />
@@ -555,7 +557,7 @@ const DaoVotes = () => {
                     {data.sponsor2Name.name && (
                       <Chip
                         variant="outlined"
-                        sx={{ padding: "10px", margin: "10px" }}
+                        sx={{ padding: "10px", marginTop: "10px" }}
                         deleteIcon={
                           data.sponsor2App == true ? (
                             <img className="sicon" src={tick} />
@@ -569,7 +571,7 @@ const DaoVotes = () => {
                     )}
                   </div>
                 ) : (
-                  <h4 style={{ marginRight: "10px", marginTop: "-10px" }}>Not sponsored</h4>
+                  <h4 style={{ marginRight: "10px" }}>Not sponsored</h4>
                 )}
               </div>
             </div>
