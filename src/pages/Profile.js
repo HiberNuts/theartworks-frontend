@@ -28,8 +28,8 @@ import tick from "../assets/tick.png";
 import inprogress from "../assets/inprogress.png";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useNavigate } from "react-router-dom";
-import SelectSearch from "react-select-search";
-import "react-select-search/style.css";
+
+
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
