@@ -537,11 +537,11 @@ const DaoVotes = () => {
               <div className="row4 row">
                 {data.sponsor1Name.name || data.sponsor2Name.name ? (
                   <div style={{ width: "600px" }} className="row4">
-                    <h4 style={{ marginRight: "10px", marginTop: "-10px", marginBottom: "-20px" }}>Sponsored By</h4>
+                    <h4 style={{ marginRight: "10px", marginTop: "-10px", marginBottom: "-10px" }}>Sponsored By</h4>
                     {data.sponsor1Name.name && (
                       <Chip
                         variant="outlined"
-                        sx={{ padding: "10px", marginRight: "5px", marginTop: "10px" }}
+                        sx={{ padding: "10px", marginRight: "5px", marginTop: "0px" }}
                         deleteIcon={
                           data.sponsor1App == true ? (
                             <img className="sicon" src={tick} />
@@ -557,7 +557,7 @@ const DaoVotes = () => {
                     {data.sponsor2Name.name && (
                       <Chip
                         variant="outlined"
-                        sx={{ padding: "10px", marginTop: "10px" }}
+                        sx={{ padding: "10px", marginTop: "0px" }}
                         deleteIcon={
                           data.sponsor2App == true ? (
                             <img className="sicon" src={tick} />
