@@ -17,9 +17,9 @@ input,textarea,select{
     color:black;
     font-weight: bold;
     border-radius:50px;
-    height: 22px;
+    height: 20px;
     width:200px;
-    padding:10px;
+    padding: 10px;
     font-size: large;
     margin-bottom: 20px;
     margin-right: 20px;
@@ -152,7 +152,7 @@ textarea::placeholder{
     -webkit-box-orient: vertical;
 }
 
-.style{
+/* .style{
     border: 2px solid black;
     border-radius: 20px;
 }
@@ -171,8 +171,8 @@ textarea::placeholder{
 }
 .select__value-container{
     border:none;
-    height: 40px;
+   
     border-radius: 0px;
     border-width: 0px;
-}
+} */
 
