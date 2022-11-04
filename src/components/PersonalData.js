@@ -154,7 +154,11 @@ const PersonalData = () => {
     <div className="profileContainer">
       <div className="personalData">
         <div className="backbtn">
-          <Button startIcon={<ArrowBack />} sx={{ color: "black" }} onClick={() => navigate("/dao")}>
+          <Button
+            startIcon={<ArrowBack />}
+            sx={{ color: "black", textTransform: "none" }}
+            onClick={() => navigate("/dao")}
+          >
             {" "}
             Back
           </Button>
@@ -172,20 +176,14 @@ const PersonalData = () => {
                 `( ${data.candidacy} )`
               )}
             </h4>
-            <h2 style={{ marginTop: "-15px" }}>
+            <h2 style={{}}>
               {data.name} - {data.job}
             </h2>
             {data.chip == "Active" ? (
-              <Chip
-                style={{ marginTop: "-15px" }}
-                className="chip"
-                label="Active"
-                color="success"
-                sx={{ padding: "10px" }}
-              />
+              <Chip style={{}} className="chip" label="Active" color="success" sx={{ padding: "10px" }} />
             ) : (
               <Chip
-                style={{ marginTop: "-15px" }}
+                style={{}}
                 className="chip"
                 label="Closed"
                 // color="primary"
@@ -193,19 +191,19 @@ const PersonalData = () => {
               />
             )}
             {data.sponsor1Name.name || data.sponsor2Name.name ? (
-              <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: "-15px" }}>
                 <h3>Sponsored By</h3>
 
                 {data.sponsor1Name.name && (
                   <Chip
                     variant="outlined"
-                    sx={{ padding: "10px", margin: "10px" }}
+                    sx={{ padding: "10px", marginLeft: "10px" }}
                     deleteIcon={
                       data.sponsor1App == true ? (
                         <img className="sicon" src={tick} />
-                      ) :  (
+                      ) : (
                         <img className="sicon" src={inprogress} />
-                      ) 
+                      )
                     }
                     label={data.sponsor1Name.name}
                     onDelete={handleDelete}
@@ -215,13 +213,13 @@ const PersonalData = () => {
                 {data.sponsor2Name.name && (
                   <Chip
                     variant="outlined"
-                    sx={{ padding: "10px", margin: "10px" }}
+                    sx={{ padding: "10px", marginLeft: "10px" }}
                     deleteIcon={
                       data.sponsor2App == true ? (
                         <img className="sicon" src={tick} />
                       ) : (
                         <img className="sicon" src={inprogress} />
-                      ) 
+                      )
                     }
                     label={data.sponsor2Name.name}
                     onDelete={handleDelete}
@@ -229,20 +227,21 @@ const PersonalData = () => {
                 )}
               </div>
             ) : (
-              "Not sponsored"
+              <h3 style={{ marginBottom: "-2px" }}>Not sponsored</h3>
             )}
           </div>
         </div>
 
         <div className="phone">{data.desc}</div>
         <br />
-        <div className="phone">Phone: {data.website}</div>
+        <div className="phone">Phone: {data.number}</div>
+        <div className="phone">{data.website}</div>
 
         <div className="phone">{data.email}</div>
-
-        <div className="phone"> {data.postalAddress}</div>
         <br />
-        <div className="phone"> {data.companyName}</div>
+        <div className="phone"> {data.postalAddress.split("*")[0]}</div>
+        <div className="phone"> {data.postalAddress.split("*")[1]}</div>
+        <div className="phone"> {data.postalAddress.split("*")[2]}</div>
       </div>
 
       <div className="right">
@@ -256,6 +255,8 @@ const PersonalData = () => {
                 borderColor: "rgb(212, 209, 209)  ",
                 height: "0.5px",
                 width: "100%",
+                marginLeft: "-10px",
+                marginRight: "-10px",
                 marginTop: "-20px",
               }}
             />
@@ -409,14 +410,14 @@ const PersonalData = () => {
             <div className="date">
               <h5>Start Date</h5>
               <h5>
-                {timeSart.toLocaleString("default", { month: "short" })} {timeSart.getDay()},{timeSart.getFullYear()},{" "}
+                {timeSart.toLocaleString("default", { month: "short" })} {timeSart.getDate()},{timeSart.getFullYear()},{" "}
                 {timeSart.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
               </h5>
             </div>
             <div style={{ marginTop: "-30px" }} className="date">
               <h5>End Date</h5>
               <h5>
-                {timeEnd.toLocaleString("default", { month: "short" })} {timeEnd.getDay()},{timeEnd.getFullYear()},{" "}
+                {timeEnd.toLocaleString("default", { month: "short" })} {timeEnd.getDate()},{timeEnd.getFullYear()},{" "}
                 {timeEnd.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
               </h5>
             </div>

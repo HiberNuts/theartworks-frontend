@@ -270,9 +270,8 @@ const DaoVotes = () => {
         // console.log(data[0].Txn[1].name);
       }
 
-      const date = new Date();
-
       for (let i = 0; i < data.length; i++) {
+        const date = new Date();
         console.log("ashfjka");
         // let sponsor = [];
         // sponsor = await connectedContract.getSponsors(data[i].Txn.candidate);
@@ -280,11 +279,6 @@ const DaoVotes = () => {
         const sponsor1Name = await getSponsorName(data[i].Txn[1].sponsors[0]);
         const sponsor2Name = await getSponsorName(data[i].Txn[1].sponsors[1]);
 
-        // const daoMemberAddress = await getDaoMembersAddress();
-
-        // const sponsor1App = await getSponsorsApproved(sponsor[0], data[i].Txn.candidate);
-        // const sponsor2App = await getSponsorsApproved(sponsor[1], data[i].Txn.candidate);
-        // const blacklisted = await getBlackListed(data[i].Txn.candidate);
         const dataimage = await getImage(data[i].Txn[1].candidate);
         console.log(data[i]);
         canidacyData.push({
@@ -369,16 +363,35 @@ const DaoVotes = () => {
               "&.MuiOutlinedInput-input:hover": {
                 backgroundColor: "white",
               },
+              "&:hover": { backgroundColor: "grey" },
+              "&:focus": { backgroundColor: "grey" },
+              "&:selected": { backgroundColor: "grey" },
+              "&:clicked": { backgroundColor: "grey" },
               width: "100%",
+              "&$selected": {
+                backgroundColor: "red",
+                  "&:hover": {
+                    backgroundColor: "green"
+                   }
+                },
             }}
             MenuProps={{
               sx: {
                 "&& .Mui-selected": {
-                  backgroundColor: "white",
+                  backgroundColor: "grey",
                 },
                 "&& .Mui-hover": {
-                  backgroundColor: "white",
+                  backgroundColor: "grey",
                 },
+                "&:hover": { backgroundColor: "grey" },
+                "&:focus": { backgroundColor: "grey" },
+                "&:selected": { backgroundColor: "grey" },
+                "&$selected": {
+                  backgroundColor: "red",
+                    "&:hover": {
+                      backgroundColor: "green"
+                     }
+                  },
               },
             }}
             value={filter}
@@ -390,13 +403,20 @@ const DaoVotes = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                "&:hover": { backgroundColor: "white" },
-                "&:focus": { backgroundColor: "white" },
-                "&&:selected": { backgroundColor: "white" },
+                "&:hover": { backgroundColor: "grey" },
+                "&:focus": { backgroundColor: "grey" },
+                "&&:selected": { backgroundColor: "grey" },
+                "&:selected": { backgroundColor: "grey" },
                 borderBottom: "2px solid black",
 
                 fontWeight: "bold",
                 margin: "20px 20px 20px 20px",
+                "&$selected": {
+                  backgroundColor: "red",
+                    "&:hover": {
+                      backgroundColor: "green"
+                     }
+                  },
               }}
               value={"All"}
             >
@@ -407,9 +427,9 @@ const DaoVotes = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                "&:hover": { backgroundColor: "white" },
-                "&:focus": { backgroundColor: "white" },
-                "&&:selected": { backgroundColor: "white" },
+                "&:hover": { backgroundColor: "grey" },
+                "&:focus": { backgroundColor: "grey" },
+                "&&:selected": { backgroundColor: "grey" },
                 borderBottom: "2px solid black",
 
                 fontWeight: "bold",
@@ -424,9 +444,9 @@ const DaoVotes = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                "&:hover": { backgroundColor: "white" },
-                "&:focus": { backgroundColor: "white" },
-                "&&:selected": { backgroundColor: "white" },
+                "&:hover": { backgroundColor: "grey" },
+                "&:focus": { backgroundColor: "grey" },
+                "&&:selected": { backgroundColor: "grey" },
                 borderBottom: "2px solid black",
 
                 fontWeight: "bold",
@@ -441,9 +461,9 @@ const DaoVotes = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                "&:hover": { backgroundColor: "white" },
-                "&:focus": { backgroundColor: "white" },
-                "&&:selected": { backgroundColor: "white" },
+                "&:hover": { backgroundColor: "grey" },
+                "&:focus": { backgroundColor: "grey" },
+                "&&:selected": { backgroundColor: "grey" },
                 borderBottom: "2px solid black",
 
                 fontWeight: "bold",
@@ -458,9 +478,9 @@ const DaoVotes = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                "&:hover": { backgroundColor: "white" },
-                "&:focus": { backgroundColor: "white" },
-                "&&:selected": { backgroundColor: "white" },
+                "&:hover": { backgroundColor: "grey" },
+                "&:focus": { backgroundColor: "grey" },
+                "&&:selected": { backgroundColor: "grey" },
                 borderBottom: "2px solid black",
 
                 fontWeight: "bold",

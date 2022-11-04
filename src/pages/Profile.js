@@ -1,6 +1,6 @@
 import { Avatar, Button, Card, FormControl, MenuItem, Modal, Select as Sele, Typography } from "@mui/material";
 import React, { useState } from "react";
-import Select from "react-select";
+import Select, { components, PlaceholderProps } from "react-select";
 
 import "./Profile.css";
 import storage from "../utils/firebaseConfig";
@@ -28,8 +28,6 @@ import tick from "../assets/tick.png";
 import inprogress from "../assets/inprogress.png";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useNavigate } from "react-router-dom";
-
-
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -62,6 +60,9 @@ const Profile = () => {
     return image;
   };
 
+  const [add1, setadd1] = useState("");
+  const [add2, setadd2] = useState("");
+  const [add3, setadd3] = useState("");
   const [image, setImage] = useState({ preview: getImage(address), raw: "" });
 
   const [formData, setformData] = useState({
@@ -73,6 +74,9 @@ const Profile = () => {
     job: "",
     postalAddress: "",
     number: "",
+    add1: "",
+    add2: "",
+    add3: "",
   });
 
   const theme = useTheme();
@@ -143,6 +147,7 @@ const Profile = () => {
         const connectedContract = new ethers.Contract(ADDRESS, abi, signer);
 
         console.log("Going to pop wallet now to pay gas...");
+        const postalAddress = ` ${formData.add1} *${formData.add2} *${formData.add3} `;
         let nftTxn = await connectedContract.SubmitToDao(
           formData.name,
           formData.website,
@@ -150,7 +155,7 @@ const Profile = () => {
           formData.desc,
           formData.email,
           formData.companyName,
-          formData.postalAddress,
+          postalAddress,
           formData.number,
           personName[0] ? personName[0] : "0x0000000000000000000000000000000000000000",
           personName[1] ? personName[1] : "0x0000000000000000000000000000000000000000",
@@ -166,6 +171,8 @@ const Profile = () => {
       console.log(error);
     }
   };
+
+  console.log(formData);
 
   const readDaoMemberAddress = async () => {
     try {
@@ -198,6 +205,8 @@ const Profile = () => {
     onSuccess(data) {
       const date = new Date();
       console.log(data);
+      const add = data?.postaladdress?.split("*");
+
       setformData({
         ...formData,
         name: data.name,
@@ -207,6 +216,9 @@ const Profile = () => {
         email: data.email,
         companyName: data.companyName,
         postalAddress: data.postaladdress,
+        add1: add[0],
+        add2: add[1],
+        add3: add[2],
         number: data.number,
         time: data.timeEnd.toNumber() == 0 ? true : date.getTime() / 1000 <= data.timeEnd.toNumber() ? false : true,
       });
@@ -321,11 +333,6 @@ const Profile = () => {
   };
 
   const [value, setvalue] = useState();
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
   const handle1Change = (newVal) => {
     console.log("new val", newVal);
     if (newVal.length > 2) {
@@ -364,10 +371,17 @@ const Profile = () => {
     select: () => ({
       height: "50px",
     }),
+    indicatorsContainer: () => ({
+      display: "none",
+    }),
     input: () => ({
       minHeight: "50px",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
     }),
-    placeholder: () => ({ height: "50px", display: "none" }),
+
+    placeholder: () => ({ height: "50px", display: "flex", justifyContent: "flex-start", alignItems: "center" }),
 
     singleValue: (provided, state) => {
       const opacity = state.isDisabled ? 0.5 : 1;
@@ -375,8 +389,17 @@ const Profile = () => {
 
       return { ...provided, opacity, transition };
     },
+    dropdownIndicator: () => ({
+      display: "none",
+    }),
+    clearIndicator: () => ({
+      display: "none",
+    }),
   };
 
+  const Placeholder = (props) => {
+    return <components.Placeholder {...props} />;
+  };
   return (
     <div style={{ display: "flex", width: "100%" }}>
       <div className="profile-container">
@@ -467,7 +490,7 @@ const Profile = () => {
                   variant="outlined"
                   onChange={(e) => setformData({ ...formData, email: e.target.value })}
                 />
-                <FormControl sx={{ display: "flex" }}>
+                <FormControl sx={{ display: "flex", flexDirection: "row" }}>
                   <Sele
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -496,6 +519,14 @@ const Profile = () => {
                     <MenuItem value={"Foundation director"}>Foundation director</MenuItem>
                     <MenuItem value={"others"}>others</MenuItem>
                   </Sele>
+                  {filter == "others" && (
+                    <input
+                      style={{ width: "170px", marginLeft: "-10px", marginTop: "10px" }}
+                      type="text"
+                      onChange={(e) => setformData({ ...formData, job: e.target.value })}
+                      placeholder="type job here"
+                    />
+                  )}
                 </FormControl>
               </div>
               <div className="column">
@@ -509,22 +540,35 @@ const Profile = () => {
                   onChange={(e) => setformData({ ...formData, website: e.target.value })}
                 />
                 <input
-                  style={{ height: "70px" }}
+                  style={{}}
                   className="profile-input"
                   type="text"
-                  label="address"
-                  placeholder="Postal Address"
+                  label="addres 1"
+                  placeholder="Postal Address 1"
                   variant="outlined"
-                  value={formData.postalAddress}
-                  onChange={(e) => setformData({ ...formData, postalAddress: e.target.value })}
+                  value={formData.add1}
+                  onChange={(e) => setformData({ ...formData, add1: e.target.value })}
                 />
-                {filter == "others" && (
-                  <input
-                    type="text"
-                    onChange={(e) => setformData({ ...formData, job: e.target.value })}
-                    placeholder="type job here"
-                  />
-                )}
+                <input
+                  style={{}}
+                  className="profile-input"
+                  type="text"
+                  label="address 2"
+                  placeholder="Postal Address 2"
+                  variant="outlined"
+                  value={formData.add2}
+                  onChange={(e) => setformData({ ...formData, add2: e.target.value })}
+                />
+                <input
+                  style={{}}
+                  className="profile-input"
+                  type="text"
+                  label="address 3"
+                  placeholder="Postal Address 3"
+                  variant="outlined"
+                  value={formData.add3}
+                  onChange={(e) => setformData({ ...formData, add3: e.target.value })}
+                />
               </div>
 
               <div className="column">
@@ -541,11 +585,13 @@ const Profile = () => {
 
             <div className="p-row2">
               <div>
-                <InputLabel style={{ marginRight: "10px", fontWeight: "bold" }} id="demo-multiple-chip-label">
+                {/* <InputLabel style={{ marginRight: "10px", fontWeight: "bold" }} id="demo-multiple-chip-label">
                   Add a sponsor name
-                </InputLabel>
+                </InputLabel> */}
                 <Select
-                  label="Add a spnsor name"
+                  components={{ Placeholder }}
+                  placeholder={"Add a sponsor name"}
+                  label={"Add a spnsor name"}
                   styles={customStyles}
                   value={value}
                   onChange={handle1Change}
