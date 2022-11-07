@@ -363,17 +363,17 @@ const DaoVotes = () => {
               "&.MuiOutlinedInput-input:hover": {
                 backgroundColor: "white",
               },
-              "&:hover": { backgroundColor: "grey" },
-              "&:focus": { backgroundColor: "grey" },
-              "&:selected": { backgroundColor: "grey" },
-              "&:clicked": { backgroundColor: "grey" },
+              // "&:hover": { backgroundColor: "grey" },
+              // "&:focus": { backgroundColor: "grey" },
+              // "&:selected": { backgroundColor: "grey" },
+              // "&:clicked": { backgroundColor: "grey" },
               width: "100%",
-              "&$selected": {
-                backgroundColor: "red",
-                  "&:hover": {
-                    backgroundColor: "green"
-                   }
-                },
+              // "&$selected": {
+               
+              //   "&:hover": {
+              //     backgroundColor: "green",
+              //   },
+              // },
             }}
             MenuProps={{
               sx: {
@@ -388,10 +388,10 @@ const DaoVotes = () => {
                 "&:selected": { backgroundColor: "grey" },
                 "&$selected": {
                   backgroundColor: "red",
-                    "&:hover": {
-                      backgroundColor: "green"
-                     }
+                  "&:hover": {
+                    backgroundColor: "green",
                   },
+                },
               },
             }}
             value={filter}
@@ -413,10 +413,10 @@ const DaoVotes = () => {
                 margin: "20px 20px 20px 20px",
                 "&$selected": {
                   backgroundColor: "red",
-                    "&:hover": {
-                      backgroundColor: "green"
-                     }
+                  "&:hover": {
+                    backgroundColor: "green",
                   },
+                },
               }}
               value={"All"}
             >

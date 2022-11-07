@@ -155,7 +155,7 @@ const Profile = () => {
           formData.desc,
           formData.email,
           formData.companyName,
-          postalAddress,
+          formData.postalAddress,
           formData.number,
           personName[0] ? personName[0] : "0x0000000000000000000000000000000000000000",
           personName[1] ? personName[1] : "0x0000000000000000000000000000000000000000",
@@ -205,7 +205,7 @@ const Profile = () => {
     onSuccess(data) {
       const date = new Date();
       console.log(data);
-      const add = data?.postaladdress?.split("*");
+      const add = data?.postaladdress?.split("/");
 
       setformData({
         ...formData,
@@ -351,6 +351,7 @@ const Profile = () => {
       color: state.selectProps.menuColor,
       padding: 20,
       fontWeight: "bold",
+
       // border: "2px solid black",
     }),
 
@@ -375,7 +376,7 @@ const Profile = () => {
       display: "none",
     }),
     input: () => ({
-      minHeight: "50px",
+      height: "50px",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -383,17 +384,34 @@ const Profile = () => {
 
     placeholder: () => ({ height: "50px", display: "flex", justifyContent: "flex-start", alignItems: "center" }),
 
-    singleValue: (provided, state) => {
-      const opacity = state.isDisabled ? 0.5 : 1;
-      const transition = "opacity 300ms";
+    singleValue: () => ({
+      // const opacity = state.isDisabled ? 0.5 : 1;
+      // const transition = "opacity 300ms";
 
-      return { ...provided, opacity, transition };
-    },
+      // return { ...provided, opacity, transition };
+      height: "20px",
+    }),
+    multiValue: () => ({
+      height: "50px",
+      width: "100%",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      fontSize: "20px",
+      fontWeight: "bold",
+    }),
     dropdownIndicator: () => ({
       display: "none",
     }),
     clearIndicator: () => ({
       display: "none",
+    }),
+    control: () => ({
+      borderRadius: "50px",
+      border: "2px solid black",
+    }),
+    valueContainer: () => ({
+      display: "flex",
     }),
   };
 
@@ -519,14 +537,6 @@ const Profile = () => {
                     <MenuItem value={"Foundation director"}>Foundation director</MenuItem>
                     <MenuItem value={"others"}>others</MenuItem>
                   </Sele>
-                  {filter == "others" && (
-                    <input
-                      style={{ width: "170px", marginLeft: "-10px", marginTop: "10px" }}
-                      type="text"
-                      onChange={(e) => setformData({ ...formData, job: e.target.value })}
-                      placeholder="type job here"
-                    />
-                  )}
                 </FormControl>
               </div>
               <div className="column">
@@ -539,17 +549,27 @@ const Profile = () => {
                   value={formData.website}
                   onChange={(e) => setformData({ ...formData, website: e.target.value })}
                 />
-                <input
-                  style={{}}
+                <textarea
+                  style={{ width: "auto", maxHeight: "5rem", minHeight: "2rem" }}
                   className="profile-input"
+                  rows="3"
+                  cols="20"
+                  wrap="hard"
                   type="text"
-                  label="addres 1"
-                  placeholder="Postal Address 1"
+                  label="address"
+                  placeholder="Postal Address "
                   variant="outlined"
-                  value={formData.add1}
-                  onChange={(e) => setformData({ ...formData, add1: e.target.value })}
+                  value={formData.postalAddress}
+                  onChange={(e) => setformData({ ...formData, postalAddress: e.target.value })}
                 />
-                <input
+                {filter == "others" && (
+                  <input
+                    type="text"
+                    onChange={(e) => setformData({ ...formData, job: e.target.value })}
+                    placeholder="type job here"
+                  />
+                )}
+                {/* <input
                   style={{}}
                   className="profile-input"
                   type="text"
@@ -568,14 +588,16 @@ const Profile = () => {
                   variant="outlined"
                   value={formData.add3}
                   onChange={(e) => setformData({ ...formData, add3: e.target.value })}
-                />
+                /> */}
               </div>
 
               <div className="column">
                 <textarea
+                  id="textarea"
                   className="profile-input"
                   type="text"
-                  placeholder="Describe your motivation to become DAO member"
+                  maxLength="12000"
+                  placeholder="Describe your motivation to become a DAO member. (12 000 characters max)"
                   variant="outlined"
                   value={formData.desc}
                   onChange={(e) => setformData({ ...formData, desc: e.target.value })}

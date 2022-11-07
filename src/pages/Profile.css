@@ -42,7 +42,7 @@ input::placeholder{
 
 }
 
-textarea{
+#textarea{
    
     border: 3px solid grey;
     color:black;
@@ -52,7 +52,7 @@ textarea{
     font-size: 20px;
     width:400px;
 }
-textarea::placeholder{
+#textarea::placeholder{
    
     
     color:black;
