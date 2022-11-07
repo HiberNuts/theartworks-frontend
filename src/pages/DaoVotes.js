@@ -383,15 +383,15 @@ const DaoVotes = () => {
                 "&& .Mui-hover": {
                   backgroundColor: "grey",
                 },
-                "&:hover": { backgroundColor: "grey" },
-                "&:focus": { backgroundColor: "grey" },
-                "&:selected": { backgroundColor: "grey" },
-                "&$selected": {
-                  backgroundColor: "red",
-                  "&:hover": {
-                    backgroundColor: "green",
-                  },
-                },
+                // "&:hover": { backgroundColor: "grey" },
+                // "&:focus": { backgroundColor: "grey" },
+                // "&:selected": { backgroundColor: "grey" },
+                // "&$selected": {
+                //   backgroundColor: "red",
+                //   "&:hover": {
+                //     backgroundColor: "green",
+                //   },
+                // },
               },
             }}
             value={filter}
@@ -427,9 +427,9 @@ const DaoVotes = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                "&:hover": { backgroundColor: "grey" },
-                "&:focus": { backgroundColor: "grey" },
-                "&&:selected": { backgroundColor: "grey" },
+                // "&:hover": { backgroundColor: "grey" },
+                // "&:focus": { backgroundColor: "grey" },
+                // "&&:selected": { backgroundColor: "grey" },
                 borderBottom: "2px solid black",
 
                 fontWeight: "bold",
