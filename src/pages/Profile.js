@@ -357,7 +357,8 @@ const Profile = () => {
 
     control: (_, { selectProps: { width } }) => ({
       display: "flex",
-      width: "300px",
+      maxWidth: "250px",
+      minWidth: "250px",
       height: "50px",
       border: "2px solid black",
       margin: "0px",
@@ -377,12 +378,20 @@ const Profile = () => {
     }),
     input: () => ({
       height: "50px",
+      marginLeft: "10px",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
     }),
 
-    placeholder: () => ({ height: "50px", display: "flex", justifyContent: "flex-start", alignItems: "center" }),
+    placeholder: () => ({
+      height: "50px",
+      width: "250px",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      position: "absolute",
+    }),
 
     singleValue: () => ({
       // const opacity = state.isDisabled ? 0.5 : 1;
@@ -409,6 +418,8 @@ const Profile = () => {
     control: () => ({
       borderRadius: "50px",
       border: "2px solid black",
+      maxWidth: "250px",
+      minWidth: "250px",
     }),
     valueContainer: () => ({
       display: "flex",
@@ -508,7 +519,16 @@ const Profile = () => {
                   variant="outlined"
                   onChange={(e) => setformData({ ...formData, email: e.target.value })}
                 />
-                <FormControl sx={{ display: "flex", flexDirection: "row" }}>
+                <FormControl
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                    marginTop: "-2px",
+                  }}
+                >
                   <Sele
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -528,7 +548,7 @@ const Profile = () => {
                     </MenuItem>
                     <MenuItem value={"Artist"}>Artist</MenuItem>
                     <MenuItem value={"Gallery director"}>Gallery director</MenuItem>
-                    <MenuItem value={"Curators"}>Curators</MenuItem>
+                    <MenuItem value={"Curators"}>Curator</MenuItem>
                     <MenuItem value={"Museum director"}>Museum director</MenuItem>
                     <MenuItem value={"Art space director"}>Art space director</MenuItem>
                     <MenuItem value={"Collector"}>Collector</MenuItem>
@@ -537,6 +557,14 @@ const Profile = () => {
                     <MenuItem value={"Foundation director"}>Foundation director</MenuItem>
                     <MenuItem value={"others"}>others</MenuItem>
                   </Sele>
+                  {filter == "others" && (
+                    <input
+                      style={{ width: "160px", marginLeft: "-7px" }}
+                      type="text"
+                      onChange={(e) => setformData({ ...formData, job: e.target.value })}
+                      placeholder="type job here"
+                    />
+                  )}
                 </FormControl>
               </div>
               <div className="column">
@@ -550,7 +578,7 @@ const Profile = () => {
                   onChange={(e) => setformData({ ...formData, website: e.target.value })}
                 />
                 <textarea
-                  style={{ width: "auto", maxHeight: "5rem", minHeight: "2rem" }}
+                  style={{ width: "250px", maxHeight: "5rem", minHeight: "2rem" }}
                   className="profile-input"
                   rows="3"
                   cols="20"
@@ -562,13 +590,7 @@ const Profile = () => {
                   value={formData.postalAddress}
                   onChange={(e) => setformData({ ...formData, postalAddress: e.target.value })}
                 />
-                {filter == "others" && (
-                  <input
-                    type="text"
-                    onChange={(e) => setformData({ ...formData, job: e.target.value })}
-                    placeholder="type job here"
-                  />
-                )}
+
                 {/* <input
                   style={{}}
                   className="profile-input"

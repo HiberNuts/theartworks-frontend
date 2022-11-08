@@ -34,12 +34,17 @@ input,select{
 
 
 input::placeholder{
-    
     color:black;
     font-weight: bold;
   
     font-size: larger;
+}
 
+textarea::placeholder{
+    color:black;
+    font-weight: bold;
+  
+    font-size: larger;
 }
 
 #textarea{
