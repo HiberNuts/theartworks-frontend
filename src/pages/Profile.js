@@ -570,8 +570,15 @@ const Profile = () => {
                     onChange={(e) => setformData({ ...formData, website: e.target.value })}
                   />
                   <textarea
-                    style={{ width: "250px", fontSize: "20px" }}
-                    className="profile-input"
+                    style={{
+                      width: "260px",
+                      fontSize: "20px",
+                      height: "28px",
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      alignItems: "flex-start",
+                    }}
+                    className="profile-input postalAddress"
                     rows="3"
                     cols="20"
                     wrap="hard"
