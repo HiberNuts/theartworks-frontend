@@ -43,7 +43,7 @@ textarea::placeholder{
     padding:2px !important;
 }
 textarea{
-    padding:5px !important;
+    padding:20px !important;
 }
 
 #textarea{

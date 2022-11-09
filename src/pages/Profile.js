@@ -571,9 +571,9 @@ const Profile = () => {
                   />
                   <textarea
                     style={{
-                      width: "260px",
+                      width: "230px",
                       fontSize: "20px",
-                      height: "28px",
+                      height: "70px",
                       display: "flex",
                       justifyContent: "flex-start",
                       alignItems: "flex-start",
