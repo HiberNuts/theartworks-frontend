@@ -58,6 +58,9 @@ export default function Navbar() {
     contractInterface: abi,
     functionName: "blacklisted",
     args: [address],
+    cacheOnBlock: true,
+    // watch: true,
+    cacheTime: 100_000,
   });
 
   const { data, write } = useContractRead(config);
@@ -107,6 +110,36 @@ export default function Navbar() {
     handleOpen(e);
     setdao(false);
     navigate("/profile");
+  };
+
+  const AccBut = () => {
+    return (
+      <div
+        onClick={handleOpen}
+        style={{ display: "flex", color: "white", justifyContent: "center", alignItems: "center" }}
+      >
+        <Avatar style={{ bgcolor: "black", backgroundColor: "black", width: "25px", height: "25px" }} />
+        <Button
+          sx={{
+            color: "black",
+            fontSize: "10px",
+
+            " &:hover": {
+              background: "none",
+            },
+            "&:focus": {
+              background: "none",
+            },
+            textTransform: "none",
+            fontWeight: "bold",
+            fontSize: "20px",
+          }}
+        >
+          {"Account"}
+        </Button>
+        <KeyboardArrowDown sx={{ color: "black" }} />
+      </div>
+    );
   };
 
   return (
@@ -183,10 +216,7 @@ export default function Navbar() {
 
             {isConnected ? (
               <div className="dropdown">
-                <div
-                  onClick={handleOpen}
-                  style={{ display: "flex", color: "white", justifyContent: "center", alignItems: "center" }}
-                >
+                {/* <div style={{ display: "flex", color: "white", justifyContent: "center", alignItems: "center" }}>
                   <Avatar style={{ bgcolor: "black", backgroundColor: "black", width: "25px", height: "25px" }} />
                   <Button
                     sx={{
@@ -206,8 +236,15 @@ export default function Navbar() {
                   >
                     {"Account"}
                   </Button>
-                  <KeyboardArrowDown sx={{ color: "black" }} />
-                </div>
+                  <KeyboardArrowDown
+                    onClick={() => {
+                      setOpen(true);
+                    }}
+                    sx={{ color: "black" }}
+                  />
+
+                </div> */}
+                <AccBut />
                 {open ? (
                   <ul className="menu">
                     <li

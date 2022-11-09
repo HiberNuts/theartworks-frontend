@@ -192,7 +192,6 @@ const Profile = () => {
     }
   };
 
-  const animatedComponents = makeAnimated();
   const { isError, isLoading } = useContractRead({
     addressOrName: ADDRESS,
     contractInterface: abi,
@@ -557,40 +556,42 @@ const Profile = () => {
                     <MenuItem value={"Foundation director"}>Foundation director</MenuItem>
                     <MenuItem value={"others"}>others</MenuItem>
                   </Sele>
-                  {filter == "others" && (
-                    <input
-                      style={{ width: "160px", marginLeft: "-7px" }}
-                      type="text"
-                      onChange={(e) => setformData({ ...formData, job: e.target.value })}
-                      placeholder="type job here"
-                    />
-                  )}
                 </FormControl>
               </div>
-              <div className="column">
-                <input
-                  className="profile-input"
-                  type="text"
-                  label="Web Link"
-                  placeholder="Web Link"
-                  variant="outlined"
-                  value={formData.website}
-                  onChange={(e) => setformData({ ...formData, website: e.target.value })}
-                />
-                <textarea
-                  style={{ width: "250px", maxHeight: "5rem", minHeight: "2rem" }}
-                  className="profile-input"
-                  rows="3"
-                  cols="20"
-                  wrap="hard"
-                  type="text"
-                  label="address"
-                  placeholder="Postal Address "
-                  variant="outlined"
-                  value={formData.postalAddress}
-                  onChange={(e) => setformData({ ...formData, postalAddress: e.target.value })}
-                />
+              <div className=" col2">
+                <div>
+                  <input
+                    className="profile-input"
+                    type="text"
+                    label="Web Link"
+                    placeholder="Web Link"
+                    variant="outlined"
+                    value={formData.website}
+                    onChange={(e) => setformData({ ...formData, website: e.target.value })}
+                  />
+                  <textarea
+                    style={{ width: "250px", fontSize: "20px" }}
+                    className="profile-input"
+                    rows="3"
+                    cols="20"
+                    wrap="hard"
+                    type="text"
+                    label="address"
+                    placeholder="Postal Address "
+                    variant="outlined"
+                    value={formData.postalAddress}
+                    onChange={(e) => setformData({ ...formData, postalAddress: e.target.value })}
+                  />
+                </div>
 
+                {filter == "others" && (
+                  <input
+                    style={{ mrginBottom: "100px", marginTop: "-500px" }}
+                    type="text"
+                    onChange={(e) => setformData({ ...formData, job: e.target.value })}
+                    placeholder="type job here"
+                  />
+                )}
                 {/* <input
                   style={{}}
                   className="profile-input"
@@ -677,7 +678,7 @@ const Profile = () => {
               </div>
 
               <div>
-                <button className="daoview" onClick={handleOpen}>
+                <button style={{ cursor: "pointer" }} className="daoview" onClick={handleOpen}>
                   DAO votes view
                 </button>
               </div>

@@ -53,7 +53,7 @@ textarea::placeholder{
     color:black;
     font-weight: bold;
     height: 75%;
-    
+    font-size: larger;
     font-size: 20px;
     width:400px;
 }
@@ -137,6 +137,17 @@ textarea::placeholder{
     justify-content: flex-start;
     align-items: flex-start;
     height: 100%;
+}
+
+.col2{
+    margin-top: 18px;
+    display:flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 92%;
+
 }
 .mdetails{
     height: 100%;
