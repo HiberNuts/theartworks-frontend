@@ -537,7 +537,7 @@ const Profile = () => {
                     sx={{
                       border: "none",
                       fontSize: "20px",
-                      marginLeft: "10px",
+                      marginLeft: "18px",
                       fontWeight: "bold",
                       "& fieldset": { border: "none" },
                     }}
