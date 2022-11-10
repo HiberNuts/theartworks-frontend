@@ -5,14 +5,19 @@ import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 // import { useNavigate } from "react-router-dom";
 import { PagesContext } from "../context/Context";
-import { Avatar, Card, CardContent, CardHeader, Divider, IconButton, Typography } from "@mui/material";
-import CachedIcon from "@mui/icons-material/Cached";
+import { Avatar, Card, CardContent, Divider, IconButton, Typography } from "@mui/material";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import "./MyWallet.css";
 import { useAccount, useContractRead } from "wagmi";
 import abi from "../utils/abi.json";
+import ReplayIcon from "@mui/icons-material/Replay";
+import axios from "axios";
+import { ethers } from "ethers";
+import { shortenAddress } from "../utils/shortenAddress";
 
 export default function MyWallet() {
   const ADDRESS = "0xf9C559b43f91DCDa9b8fc849Aa4b646C158d00Ea";
+
   const { address, isConnecting, isDisconnected } = useAccount();
 
   const { checkIfWalletConnected, account, connectWallet } = useContext(PagesContext);
@@ -23,6 +28,8 @@ export default function MyWallet() {
   });
   const [userName, setuserName] = React.useState("");
   const [score, setscore] = React.useState("");
+  const [matic, setmatic] = React.useState(0);
+  const [maticInUsd, setmaticInUsd] = React.useState(0);
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (event && event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
@@ -55,6 +62,27 @@ export default function MyWallet() {
       // console.log(data.toString());
     },
   });
+
+  React.useEffect(() => {
+    const { ethereum } = window;
+
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    provider.getBalance(address).then((balance) => {
+      const balanceInEth = ethers.utils.formatEther(balance);
+      setmatic(balanceInEth);
+      // convert.MAT.USD(1);
+      console.log(`balance: ${balanceInEth} ETH`);
+    });
+    axios.get(`https://api.coinconvert.net/convert/matic/usd?amount=${parseFloat(matic)}`).then((data) => {
+      setmaticInUsd(data.data.USD);
+      console.log("valeu in usd", data.data.USD);
+    });
+  });
+
+  const handleCopy = (e) => {
+    e.preventDefault();
+    navigator.clipboard.writeText(address);
+  };
   // console.log(userName);
 
   const lists = (anchor) => (
@@ -79,8 +107,9 @@ export default function MyWallet() {
             <Avatar />
             <p className="m-text">{userName}</p>
           </div>
-          <IconButton>
-            <CachedIcon />
+
+          <IconButton onClick={handleCopy}>
+            <ReplayIcon sx={{ width: "40px" }} />
           </IconButton>
         </div>
         <hr
@@ -99,18 +128,53 @@ export default function MyWallet() {
           <h2 className="score-h">Governance Token</h2>
           <p>0</p>
         </div>
+        <hr
+          style={{
+            background: "rgb(173, 169, 169)   ",
+            color: "rgb(173, 169, 169)    ",
+            borderColor: "rgb(173, 169, 169)  ",
+            height: "0.5px",
+            width: "100%",
+          }}
+        />
         <Card sx={{ width: "80%", alignItems: "center", display: "flex", justifyContent: "center" }}>
           <CardContent>
             <Typography sx={{ fontSize: 20 }} gutterBottom>
               Total Balance
             </Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              $ 26,09 USD
+            <Typography sx={{ mb: 1.5, fontWeight: "bold" }} color="text">
+              $ {parseFloat(maticInUsd).toFixed(4)}
             </Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              account
+            <Typography
+              sx={{ mb: 1.5, alignContent: "center", alignItems: "center", display: "flex" }}
+              color="text.secondary"
+            >
+              {shortenAddress(address)}{" "}
+              <ContentCopyIcon onClick={handleCopy} sx={{ marginLeft: "10px", cursor: "pointer" }} />
             </Typography>
           </CardContent>
+        </Card>
+        <Card
+          sx={{
+            width: "80%",
+            height: "80px",
+            alignItems: "center",
+            display: "flex",
+            marginTop: "20px",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ fontWeight: "bold", display: "flex" }} color="text.secondary">
+            <img
+              style={{ height: "20px", width: "20px", marginRight: "20px", marginLeft: "10px", marginTop: "16px" }}
+              src="https://cryptologos.cc/logos/polygon-matic-logo.png?v=023"
+            />
+            <p>Polygon</p>
+          </div>
+          <Typography sx={{ mr: 1, fontWeight: "bold" }} color="text.secondary">
+            {parseFloat(matic).toFixed(4)}
+          </Typography>
         </Card>
       </List>
     </Box>
