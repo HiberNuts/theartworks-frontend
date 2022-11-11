@@ -143,7 +143,7 @@ export default function MyWallet() {
               Total Balance
             </Typography>
             <Typography sx={{ mb: 1.5, fontWeight: "bold" }} color="text">
-              $ {parseFloat(maticInUsd).toFixed(4)}
+              $ {parseFloat(maticInUsd).toFixed(2)}
             </Typography>
             <Typography
               sx={{ mb: 1.5, alignContent: "center", alignItems: "center", display: "flex" }}
@@ -167,13 +167,13 @@ export default function MyWallet() {
         >
           <div style={{ fontWeight: "bold", display: "flex" }} color="text.secondary">
             <img
-              style={{ height: "20px", width: "20px", marginRight: "20px", marginLeft: "10px", marginTop: "16px" }}
+              style={{ height: "20px", width: "20px", marginRight: "20px", marginLeft: "10px", marginTop: "16gi px" }}
               src="https://cryptologos.cc/logos/polygon-matic-logo.png?v=023"
             />
             <p>Polygon</p>
           </div>
           <Typography sx={{ mr: 1, fontWeight: "bold" }} color="text.secondary">
-            {parseFloat(matic).toFixed(4)}
+            {parseFloat(matic).toFixed(2)}
           </Typography>
         </Card>
       </List>
