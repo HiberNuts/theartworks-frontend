@@ -40,7 +40,7 @@ const MenuProps = {
   },
 };
 
-const ADDRESS = "0xf9C559b43f91DCDa9b8fc849Aa4b646C158d00Ea";
+const ADDRESS = "0x93442fb4c28Aaecf2D83c9C847dF46D4A3A81135";
 
 const Profile = () => {
   const [open, setOpen] = React.useState(false);
@@ -74,9 +74,6 @@ const Profile = () => {
     job: "",
     postalAddress: "",
     number: "",
-    add1: "",
-    add2: "",
-    add3: "",
   });
 
   const theme = useTheme();
@@ -147,7 +144,7 @@ const Profile = () => {
         const connectedContract = new ethers.Contract(ADDRESS, abi, signer);
 
         console.log("Going to pop wallet now to pay gas...");
-        const postalAddress = ` ${formData.add1} *${formData.add2} *${formData.add3} `;
+        console.log(personName);
         let nftTxn = await connectedContract.SubmitToDao(
           formData.name,
           formData.website,

@@ -16,7 +16,7 @@ import { ethers } from "ethers";
 import { shortenAddress } from "../utils/shortenAddress";
 
 export default function MyWallet() {
-  const ADDRESS = "0xf9C559b43f91DCDa9b8fc849Aa4b646C158d00Ea";
+  const ADDRESS = "0x93442fb4c28Aaecf2D83c9C847dF46D4A3A81135";
 
   const { address, isConnecting, isDisconnected } = useAccount();
 
@@ -28,6 +28,7 @@ export default function MyWallet() {
   });
   const [userName, setuserName] = React.useState("");
   const [score, setscore] = React.useState("");
+  const [token, settoken] = React.useState("");
   const [matic, setmatic] = React.useState(0);
   const [maticInUsd, setmaticInUsd] = React.useState(0);
 
@@ -60,6 +61,16 @@ export default function MyWallet() {
     onSuccess(data) {
       setscore(data.toString());
       // console.log(data.toString());
+    },
+  });
+
+  const { data: govToken } = useContractRead({
+    addressOrName: ADDRESS,
+    contractInterface: abi,
+    functionName: "getTokenBalance",
+    onSuccess(data) {
+      settoken(data.toString());
+      console.log("Token balance", data.toString());
     },
   });
 
@@ -126,7 +137,7 @@ export default function MyWallet() {
           <h2 className="score-h">Score</h2>
           <p> {score.toString()}</p>
           <h2 className="score-h">Governance Token</h2>
-          <p>0</p>
+          <p>{token}</p>
         </div>
         <hr
           style={{

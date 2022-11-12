@@ -22,7 +22,7 @@ import { KeyboardArrowDown } from "@mui/icons-material";
 export default function Navbar() {
   //wagmi connecting contract
 
-  const ADDRESS = "0xf9C559b43f91DCDa9b8fc849Aa4b646C158d00Ea";
+  const ADDRESS = "0x93442fb4c28Aaecf2D83c9C847dF46D4A3A81135";
   //
   const { address, isConnected } = useAccount();
   // const { Dao, setDao, account } = React.useContext(PagesContext);

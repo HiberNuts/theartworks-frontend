@@ -74,7 +74,7 @@ const DUMMY = [
   },
 ];
 
-const ADDRESS = "0xf9C559b43f91DCDa9b8fc849Aa4b646C158d00Ea";
+const ADDRESS = "0x93442fb4c28Aaecf2D83c9C847dF46D4A3A81135";
 
 const DaoVotes = () => {
   const [dummy, setdummy] = React.useState(DUMMY);
