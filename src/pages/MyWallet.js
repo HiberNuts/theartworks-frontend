@@ -26,7 +26,7 @@ export default function MyWallet() {
   const [state, setState] = React.useState({
     right: false,
   });
-  const [userName, setuserName] = React.useState("");
+  const [userName, setuserName] = React.useState("Name");
   const [score, setscore] = React.useState("");
   const [token, settoken] = React.useState("");
   const [matic, setmatic] = React.useState(0);
@@ -120,7 +120,7 @@ export default function MyWallet() {
           </div>
 
           <IconButton onClick={handleCopy}>
-            <ReplayIcon sx={{ width: "40px" }} />
+            <ReplayIcon sx={{ width: "40px", transform: "scale(-1, 1)", "&:hover": { background: "none" } }} />
           </IconButton>
         </div>
         <hr
@@ -148,16 +148,16 @@ export default function MyWallet() {
             width: "100%",
           }}
         />
-        <Card sx={{ width: "80%", alignItems: "center", display: "flex", justifyContent: "center" }}>
+        <Card sx={{ mt: 5, width: "80%", alignItems: "center", display: "flex", justifyContent: "center" }}>
           <CardContent>
-            <Typography sx={{ fontSize: 20 }} gutterBottom>
+            <Typography sx={{ mt: -1, fontSize: 20 }} gutterBottom>
               Total Balance
             </Typography>
             <Typography sx={{ mb: 1.5, fontWeight: "bold" }} color="text">
-              $ {parseFloat(maticInUsd).toFixed(2)}
+              $ {parseFloat(maticInUsd).toFixed(2)} USD
             </Typography>
             <Typography
-              sx={{ mb: 1.5, alignContent: "center", alignItems: "center", display: "flex" }}
+              sx={{ mb: -1, alignContent: "center", alignItems: "center", display: "flex" }}
               color="text.secondary"
             >
               {shortenAddress(address)}{" "}
@@ -169,23 +169,54 @@ export default function MyWallet() {
           sx={{
             width: "80%",
             height: "80px",
-            alignItems: "center",
             display: "flex",
-            marginTop: "20px",
-            justifyContent: "space-between",
+            justifyContent: "center",
             alignItems: "center",
+            flexDirection: "column",
+            marginTop: "20px",
           }}
         >
-          <div style={{ fontWeight: "bold", display: "flex" }} color="text.secondary">
-            <img
-              style={{ height: "20px", width: "20px", marginRight: "20px", marginLeft: "10px", marginTop: "16gi px" }}
-              src="https://cryptologos.cc/logos/polygon-matic-logo.png?v=023"
-            />
-            <p>Polygon</p>
+          <div
+            style={{
+              fontWeight: "bold",
+              display: "flex",
+              width: "90%",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+            color="text.secondary"
+          >
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <img
+                style={{ height: "20px", width: "20px", marginRight: "10px" }}
+                src="https://cryptologos.cc/logos/polygon-matic-logo.png?v=023"
+              />
+              <p>Matic</p>
+            </div>
+            <Typography sx={{ fontWeight: "bold" }} color="text.primary">
+              {parseFloat(matic).toFixed(2)}
+            </Typography>
           </div>
-          <Typography sx={{ mr: 1, fontWeight: "bold" }} color="text.secondary">
-            {parseFloat(matic).toFixed(2)}
-          </Typography>
+
+          <div
+            style={{
+              fontWeight: "bold",
+              display: "flex",
+              width: "90%",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginTop: "-20px",
+            }}
+            px
+            color="text.secondary"
+          >
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <p style={{ marginLeft: "30px", fontSize: "15px", color: "grey" }}>Polygon</p>
+            </div>
+            <Typography sx={{ fontWeight: "bold" }} color="text.secondary">
+              $ {parseFloat(maticInUsd).toFixed(2)} USD
+            </Typography>
+          </div>
         </Card>
       </List>
     </Box>

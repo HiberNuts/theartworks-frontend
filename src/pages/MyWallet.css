@@ -1,5 +1,5 @@
 .m-row1{
-    width: 80%;
+    width: 98%;
     display: flex;
     justify-content: space-between;
 }
@@ -10,7 +10,7 @@
     align-items: center;
 }
 .m-text{
-    margin-left: 5px;
+    margin-left: 15px;
 }
 
 .score{

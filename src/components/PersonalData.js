@@ -238,10 +238,9 @@ const PersonalData = () => {
         <div className="phone">{data.website}</div>
 
         <div className="phone">{data.email}</div>
+        <br />
         <div className="phone">{data.companyName}</div>
 
-        <br />
-       
         {/* <div className="phone"> {data.postalAddress}</div> */}
         <div className="phone"> {data.postalAddress.split("\n")[0]}</div>
         <div className="phone"> {data.postalAddress.split("\n")[1]}</div>
